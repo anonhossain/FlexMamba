@@ -1,0 +1,35 @@
+{
+  "step": 2000,
+  "parameter_report": {
+    "total_parameters": 16518656,
+    "trainable_parameters": 16518656,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 3935744
+  },
+  "checkpoint": "checkpoints/mor_16m/final.pt",
+  "model_type": "mor",
+  "inference": {
+    "prefill": {
+      "sequence_length": 128,
+      "batch_size": 1,
+      "mean_forward_time_ms": 8.39612500021758,
+      "tokens_per_second": 15245.12796042019
+    },
+    "decode": {
+      "prompt_length": 64,
+      "generated_tokens": 16,
+      "tokens_per_second": 129.54008025224846,
+      "ms_per_token": 7.719618499947956,
+      "total_generation_time_seconds": 0.12351389599916729,
+      "decode_mode": "naive_full_recompute"
+    },
+    "time_to_first_token_ms": 6.38690840023628,
+    "memory_mb": 63.638671875,
+    "checkpoint_size_mb": 189.08879375457764
+  },
+  "benchmark_environment": {
+    "device": "mps",
+    "torch_version": "2.14.0",
+    "python_platform": "macOS-26.5.1-arm64-arm-64bit"
+  }
+}
