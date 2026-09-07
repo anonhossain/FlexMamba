@@ -1,0 +1,38 @@
+# ============================================================
+# FLEXMAMBA — 16M TRAINING PIPELINE
+# ============================================================
+
+pipeline:
+  name: flexmamba_16m_local
+
+  stop_on_failure: true
+
+  stages:
+
+    # --------------------------------------------------------
+    # Stage 1
+    # --------------------------------------------------------
+
+    - technique: mamba
+
+      config: configs/techniques/mamba.yaml
+
+      # Train base model from scratch.
+      enabled: true
+
+      matched_control: false
+
+
+    # --------------------------------------------------------
+    # Stage 2
+    # --------------------------------------------------------
+
+    - technique: recursive_mamba
+
+      config: configs/techniques/recursive_mamba.yaml
+
+      enabled: true
+
+      # Compare Recursive-Mamba against unchanged Mamba
+      # receiving the same continued-training budget.
+      matched_control: true

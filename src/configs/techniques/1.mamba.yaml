@@ -1,0 +1,51 @@
+# ============================================================
+# STANDARD MAMBA — BASE MODEL
+# ============================================================
+
+technique:
+  name: mamba
+  model_type: mamba
+  experiment_type: training
+
+inherits: null
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
+
+initialization:
+  mode: scratch
+
+  parent_technique: null
+  parent_run: null
+  parent_checkpoint: null
+
+
+# ============================================================
+# MODEL
+# ============================================================
+
+model:
+  vocab_size: 49152
+  d_model: 256
+  n_layers: 8
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 256
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1e-5
+
+
+# ============================================================
+# SEARCH
+# ============================================================
+
+search:
+  enabled: false
+  mode: grid
+  parameters: {}

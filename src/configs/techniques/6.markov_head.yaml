@@ -1,0 +1,91 @@
+# ============================================================
+# MARKOV / SPECULATIVE DRAFT HEAD
+# ============================================================
+
+technique:
+  name: markov_head
+  model_type: markov_head
+
+  # The main model is already trained.
+  # Only the auxiliary speculative head requires training.
+  experiment_type: head_training
+
+inherits: parameterization
+
+
+# ============================================================
+# PARENT
+# ============================================================
+
+parent:
+  technique: parameterization
+  selected_run: auto
+  checkpoint_step: 2000
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
+
+initialization:
+  mode: warm_start
+
+  # Preserve entire parent model.
+  strategy: attach_head
+
+  load_parent_optimizer: false
+  load_parent_scheduler: false
+
+
+# ============================================================
+# TRAINING SCOPE
+# ============================================================
+
+training_scope:
+
+  freeze_parent_model: true
+
+  train_markov_head_only: true
+
+
+# ============================================================
+# MARKOV HEAD
+# ============================================================
+
+model:
+
+  markov_head_enabled: true
+
+  # Small recurrent/speculative drafter.
+  head_hidden_dim: 128
+
+  head_layers: 1
+
+  # Number of future-token candidates proposed at once.
+  draft_tokens: 4
+
+  dropout: 0.0
+
+
+# ============================================================
+# SEARCH
+# ============================================================
+
+search:
+  enabled: false
+  mode: grid
+
+  parameters:
+
+    # Example later:
+    #
+    # draft_tokens:
+    #   - 2
+    #   - 4
+    #   - 8
+    #
+    # head_hidden_dim:
+    #   - 64
+    #   - 128
+    #   - 256
+    {}

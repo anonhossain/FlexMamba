@@ -1,0 +1,75 @@
+# ============================================================
+# STATIC RECURSIVE MAMBA
+# ============================================================
+
+technique:
+  name: recursive_mamba
+  model_type: recursive_mamba
+  experiment_type: training
+
+inherits: mamba
+
+
+# ============================================================
+# PARENT
+# ============================================================
+
+parent:
+  technique: mamba
+  selected_run: auto
+  checkpoint_step: 2000
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
+
+initialization:
+  mode: warm_start
+
+  # Convert standard Mamba layers into shared recursive layers.
+  strategy: cycle_average
+
+  # Architecture changed, therefore begin with a fresh optimizer.
+  load_parent_optimizer: false
+  load_parent_scheduler: false
+
+
+# ============================================================
+# MODEL OVERRIDES
+# ============================================================
+
+model:
+
+  # Remove ordinary fixed-depth interpretation.
+  n_layers: null
+
+  input_layers: 1
+
+  shared_middle_layers: 2
+
+  num_recursions: 3
+
+  output_layers: 1
+
+  # Effective depth:
+  # 1 + (2 × 3) + 1 = 8
+
+
+# ============================================================
+# SEARCH
+# ============================================================
+
+search:
+  enabled: false
+  mode: grid
+
+  parameters:
+
+    # Enable later if required:
+    #
+    # num_recursions:
+    #   - 2
+    #   - 3
+    #   - 4
+    {}

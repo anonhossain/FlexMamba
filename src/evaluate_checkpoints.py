@@ -86,23 +86,14 @@ def load_model(checkpoint_path, device):
 
     if model_type == "mor":
 
-        model_cfg = MoRConfig(
-            **cfg["model"]
-        )
-
-        model = MoRCausalLM(
-            model_cfg
-        )
+        model_cfg = MoRConfig(**cfg["model"])
+        model = MoRCausalLM(model_cfg)
 
     elif model_type == "mamba":
 
-        model_cfg = MambaSmallConfig(
-            **cfg["model"]
-        )
-
-        model = MambaSmallCausalLM(
-            model_cfg
-        )
+        model_cfg = MambaSmallConfig(**cfg["model"])
+        model = MambaSmallCausalLM(model_cfg)
+    
     elif model_type == "recursive_mamba":
         model_cfg = RecursiveMambaConfig(**cfg["model"])
         model = RecursiveMambaCausalLM(model_cfg)

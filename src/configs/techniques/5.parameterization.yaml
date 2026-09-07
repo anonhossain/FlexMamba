@@ -1,0 +1,75 @@
+# ============================================================
+# GROUPED PARAMETERIZATION
+# ============================================================
+
+technique:
+  name: parameterization
+  model_type: parameterization
+  experiment_type: training
+
+inherits: lte
+
+
+# ============================================================
+# PARENT
+# ============================================================
+
+parent:
+  technique: lte
+  selected_run: auto
+  checkpoint_step: 2000
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
+
+initialization:
+  mode: warm_start
+
+  # Convert dense projections into grouped projections.
+  strategy: grouped_projection_init
+
+  load_parent_optimizer: false
+  load_parent_scheduler: false
+
+
+# ============================================================
+# GROUPED PARAMETERIZATION
+# ============================================================
+
+model:
+
+  grouped_parameterization_enabled: true
+
+  # Number of groups used for selected projections.
+  projection_groups: 2
+
+  group_input_projection: true
+  group_output_projection: true
+
+  # Initially leave core SSM state parameters untouched.
+  group_ssm_parameters: false
+
+  interleave_channels: true
+
+  merge_method: sum
+
+
+# ============================================================
+# SEARCH
+# ============================================================
+
+search:
+  enabled: false
+  mode: grid
+
+  parameters:
+
+    # Example later:
+    #
+    # projection_groups:
+    #   - 2
+    #   - 4
+    #   - 8
+    {}
