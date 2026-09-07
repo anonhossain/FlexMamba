@@ -1,3 +1,4 @@
+#src/configs/techniques/1.mamba.yaml
 # ============================================================
 # STANDARD MAMBA — BASE MODEL
 # ============================================================
@@ -38,7 +39,7 @@ model:
   use_bias: false
   use_conv_bias: true
   residual_in_fp32: true
-  layer_norm_eps: 1e-5
+  layer_norm_eps: 1.0e-5
 
 
 # ============================================================

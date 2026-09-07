@@ -7,8 +7,8 @@ from pathlib import Path
 import torch
 
 from models.mor_small import MoRConfig, MoRCausalLM
-from models.mamba_small import MambaSmallConfig, MambaSmallCausalLM
-from models.recursive_mamba import (
+from models.mamba import MambaSmallConfig, MambaSmallCausalLM
+from models.mamba import (
     RecursiveMambaConfig,
     RecursiveMambaCausalLM,
 )

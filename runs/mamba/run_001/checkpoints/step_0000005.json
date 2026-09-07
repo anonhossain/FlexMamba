@@ -1,0 +1,11 @@
+{
+  "step": 5,
+  "parameter_report": {
+    "total_parameters": 16087296,
+    "trainable_parameters": 16087296,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 3504384
+  },
+  "evaluation": null,
+  "checkpoint": "/Users/amrinhossain/Documents/Anon/mor_16m_prototype/runs/mamba/run_001/checkpoints/step_0000005.pt"
+}

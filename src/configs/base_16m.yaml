@@ -1,139 +1,39 @@
-# ============================================================
-# FLEXMAMBA — SHARED 16M LOCAL EXPERIMENT CONFIGURATION
-# ============================================================
-
+#src/configs/base_16m.yaml
 experiment:
   project_name: FlexMamba
   scale: 16m
   seed: 42
-
-  # All generated experiments will be placed here.
   runs_root: runs
-
-  # General pipeline logs.
-  logs_root: logs
-
-
-# ============================================================
-# DATA
-# Keep identical for all 16M model comparisons.
-# ============================================================
 
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
-
   tokenizer_name: HuggingFaceTB/SmolLM-135M
-
   validation_docs: 2000
   shuffle_buffer: 5000
-
-  # Local prototype uses streaming.
   streaming: true
-
-
-# ============================================================
-# TRAINING
-# Keep identical between compared techniques unless a future
-# experiment explicitly requires otherwise.
-# ============================================================
 
 training:
   batch_size: 4
   grad_accum_steps: 8
+
   max_steps: 2000
+
   learning_rate: 0.001
   min_learning_rate: 0.0001
   warmup_ratio: 0.10
+
   weight_decay: 0.10
   beta1: 0.9
   beta2: 0.95
+
   grad_clip: 1.0
+
   log_every: 10
 
-  # Lightweight validation during training.
-  eval_every: 200
-  eval_batches: 20
-
-  # Research checkpoints:
-  # 500, 1000, 1500, 2000
-  save_every: 500
-
-
-# ============================================================
-# CHECKPOINT POLICY
-# ============================================================
-
 checkpoint:
-  save_optimizer_state: true
-  save_scheduler_state: true
-
   save_steps:
     - 500
     - 1000
     - 1500
     - 2000
-
-  # last.pt is useful only for recovering interrupted training.
-  save_last: true
-
-  # Do not create a duplicate final.pt when step_2000 already
-  # represents the final model.
-  save_separate_final: false
-
-# ============================================================
-# RUN MANAGEMENT
-# ============================================================
-
-run:
-  auto_increment: true
-
-  # Example:
-  # runs/mamba/run_001
-  # runs/mamba/run_002
-  create_resolved_config: true
-  create_run_config_json: true
-  create_status_json: true
-  create_run_summary: true
-
-  # Existing completed runs are never overwritten.
-  overwrite_existing_run: false
-
-# ============================================================
-# FAILURE / RESUME POLICY
-# ============================================================
-
-resume:
-  enabled: true
-
-  # Resume SAME run after interruption.
-  # This is different from starting a new experiment.
-  resume_optimizer: true
-  resume_scheduler: true
-
-# ============================================================
-# SEARCH / SWEEP DEFAULTS
-# ============================================================
-
-search:
-  enabled: false
-
-  # Later supported values:
-  # grid
-  # zip
-  mode: grid
-
-
-
-#   Batch size       = 4
-# Grad accumulation = 8
-# Sequence length  = 256
-
-# Tokens/update
-# = 4 × 8 × 256
-# = 8,192
-
-# Step 500  = 4,096,000 tokens
-# Step 1000 = 8,192,000 tokens
-# Step 1500 = 12,288,000 tokens
-# Step 2000 = 16,384,000 tokens

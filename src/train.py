@@ -14,7 +14,7 @@ from transformers import AutoTokenizer
 
 from data.fineweb import PackedFineWebDataset
 from models.mor_small import MoRConfig, MoRCausalLM
-from models.mamba_small import MambaSmallConfig, MambaSmallCausalLM
+from models.mamba import MambaSmallConfig, MambaSmallCausalLM
 from utils.checkpoint import save_checkpoint
 from models.recursive_mamba import (
     RecursiveMambaConfig,

@@ -1,3 +1,4 @@
+#src/models/mamba.py
 from dataclasses import dataclass
 from typing import Dict
 
@@ -10,16 +11,8 @@ from transformers import (
     MambaForCausalLM,
 )
 
-
 @dataclass
 class MambaModelConfig:
-    """
-    Standard Mamba configuration.
-
-    Values are loaded from mamba.yaml.
-    Only values missing from YAML should have defaults here.
-    """
-
     vocab_size: int
     d_model: int
     n_layers: int
@@ -31,8 +24,8 @@ class MambaModelConfig:
     use_bias: bool
     use_conv_bias: bool
     residual_in_fp32: bool
-    layer_norm_eps: float
 
+    layer_norm_eps: float = 1e-5
 
 class MambaCausalLM(nn.Module):
     """
@@ -130,7 +123,6 @@ class MambaCausalLM(nn.Module):
             "logits": logits,
             "loss": lm_loss,
             "lm_loss": lm_loss,
-            "avg_depth": avg_depth,
         }
 
     def parameter_report(
