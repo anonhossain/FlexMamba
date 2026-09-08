@@ -1,4 +1,3 @@
-#src/training/common.py
 import copy
 import json
 import math
@@ -27,7 +26,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 def load_yaml(path):
     path = Path(path)
-
     if not path.is_absolute():
         path = PROJECT_ROOT / path
 
@@ -36,19 +34,11 @@ def load_yaml(path):
 
 
 def merge_config(base, override):
-    """Recursively merge technique config over base config."""
-
     result = copy.deepcopy(base)
 
     for key, value in override.items():
-        if (
-            isinstance(value, dict)
-            and isinstance(result.get(key), dict)
-        ):
-            result[key] = merge_config(
-                result[key],
-                value,
-            )
+        if isinstance(value, dict) and isinstance(result.get(key), dict):
+            result[key] = merge_config(result[key], value)
         else:
             result[key] = copy.deepcopy(value)
 
@@ -56,15 +46,9 @@ def merge_config(base, override):
 
 
 def load_config(base_path, technique_path):
-    """Load base YAML + technique YAML."""
-
     base = load_yaml(base_path)
     technique = load_yaml(technique_path)
-
-    return merge_config(
-        base,
-        technique,
-    )
+    return merge_config(base, technique)
 
 
 # ============================================================
@@ -74,10 +58,8 @@ def load_config(base_path, technique_path):
 def choose_device():
     if torch.cuda.is_available():
         return torch.device("cuda")
-
     if torch.backends.mps.is_available():
         return torch.device("mps")
-
     return torch.device("cpu")
 
 
@@ -96,14 +78,12 @@ def set_seed(seed):
 def build_train_loader(cfg, model_cfg):
     data_cfg = cfg["data"]
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        data_cfg["tokenizer_name"]
-    )
+    tokenizer = AutoTokenizer.from_pretrained(data_cfg["tokenizer_name"])
 
     if len(tokenizer) != model_cfg.vocab_size:
         raise ValueError(
-            f"Tokenizer vocab ({len(tokenizer)}) "
-            f"!= model vocab ({model_cfg.vocab_size})"
+            f"Tokenizer vocab ({len(tokenizer)}) != "
+            f"model vocab ({model_cfg.vocab_size})"
         )
 
     dataset = PackedFineWebDataset(
@@ -132,10 +112,7 @@ def build_optimizer(model, cfg):
     return AdamW(
         model.parameters(),
         lr=cfg["learning_rate"],
-        betas=(
-            cfg["beta1"],
-            cfg["beta2"],
-        ),
+        betas=(cfg["beta1"], cfg["beta2"]),
         weight_decay=cfg["weight_decay"],
     )
 
@@ -144,48 +121,21 @@ def build_optimizer(model, cfg):
 # SCHEDULER
 # ============================================================
 
-def build_scheduler(
-    optimizer,
-    cfg,
-    max_steps,
-):
-    warmup_steps = max(
-        1,
-        int(max_steps * cfg["warmup_ratio"]),
-    )
-
-    min_lr_ratio = (
-        cfg["min_learning_rate"]
-        / cfg["learning_rate"]
-    )
+def build_scheduler(optimizer, cfg, max_steps):
+    warmup_steps = max(1, int(max_steps * cfg["warmup_ratio"]))
+    min_lr_ratio = cfg["min_learning_rate"] / cfg["learning_rate"]
 
     def lr_lambda(step):
         if step < warmup_steps:
             return (step + 1) / warmup_steps
 
-        progress = (
-            step - warmup_steps
-        ) / max(
-            1,
-            max_steps - warmup_steps,
-        )
-
+        progress = (step - warmup_steps) / max(1, max_steps - warmup_steps)
         progress = min(progress, 1.0)
+        cosine = 0.5 * (1.0 + math.cos(math.pi * progress))
 
-        cosine = 0.5 * (
-            1.0
-            + math.cos(math.pi * progress)
-        )
+        return min_lr_ratio + (1.0 - min_lr_ratio) * cosine
 
-        return (
-            min_lr_ratio
-            + (1.0 - min_lr_ratio) * cosine
-        )
-
-    return LambdaLR(
-        optimizer,
-        lr_lambda,
-    )
+    return LambdaLR(optimizer, lr_lambda)
 
 
 # ============================================================
@@ -193,46 +143,25 @@ def build_scheduler(
 # ============================================================
 
 def create_run_dir(cfg, technique_name):
-    runs_root = Path(
-        cfg["experiment"].get(
-            "runs_root",
-            "runs",
-        )
-    )
+    runs_root = Path(cfg["experiment"].get("runs_root", "runs"))
 
     if not runs_root.is_absolute():
         runs_root = PROJECT_ROOT / runs_root
 
-    technique_dir = (
-        runs_root / technique_name
-    )
-
-    technique_dir.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    technique_dir = runs_root / technique_name
+    technique_dir.mkdir(parents=True, exist_ok=True)
 
     run_numbers = []
 
     for path in technique_dir.glob("run_*"):
         try:
-            run_numbers.append(
-                int(path.name.split("_")[-1])
-            )
+            run_numbers.append(int(path.name.split("_")[-1]))
         except ValueError:
             continue
 
-    next_run = (
-        max(run_numbers) + 1
-        if run_numbers
-        else 1
-    )
+    next_run = max(run_numbers) + 1 if run_numbers else 1
 
-    run_dir = (
-        technique_dir
-        / f"run_{next_run:03d}"
-    )
-
+    run_dir = technique_dir / f"run_{next_run:03d}"
     run_dir.mkdir()
 
     (run_dir / "checkpoints").mkdir()
@@ -246,26 +175,12 @@ def create_run_dir(cfg, technique_name):
 
 def save_json(path, data):
     with Path(path).open("w") as file:
-        json.dump(
-            data,
-            file,
-            indent=2,
-        )
+        json.dump(data, file, indent=2)
 
 
-def save_resolved_config(
-    run_dir,
-    cfg,
-):
-    with (
-        Path(run_dir)
-        / "resolved_config.yaml"
-    ).open("w") as file:
-        yaml.safe_dump(
-            cfg,
-            file,
-            sort_keys=False,
-        )
+def save_resolved_config(run_dir, cfg):
+    with (Path(run_dir) / "resolved_config.yaml").open("w") as file:
+        yaml.safe_dump(cfg, file, sort_keys=False)
 
 
 # ============================================================
@@ -283,39 +198,22 @@ def train_model(
     max_steps,
 ):
     train_cfg = cfg["training"]
-
-    grad_accum = train_cfg[
-        "grad_accum_steps"
-    ]
+    grad_accum = train_cfg["grad_accum_steps"]
 
     save_steps = set(
-        cfg.get(
-            "checkpoint",
-            {},
-        ).get(
-            "save_steps",
-            [],
-        )
+        cfg.get("checkpoint", {}).get("save_steps", [])
     )
 
-    # Ensures --steps 5 still produces a checkpoint.
+    # Ensures smoke tests also save their final step.
     save_steps.add(max_steps)
 
-    checkpoint_dir = (
-        Path(run_dir)
-        / "checkpoints"
-    )
-
+    checkpoint_dir = Path(run_dir) / "checkpoints"
     train_iter = iter(train_loader)
 
     model.train()
-
-    optimizer.zero_grad(
-        set_to_none=True
-    )
+    optimizer.zero_grad(set_to_none=True)
 
     start_time = time.perf_counter()
-
     final_loss = None
 
     progress = tqdm(
@@ -329,7 +227,6 @@ def train_model(
         for _ in range(grad_accum):
             try:
                 batch = next(train_iter)
-
             except StopIteration:
                 train_iter = iter(train_loader)
                 batch = next(train_iter)
@@ -339,21 +236,15 @@ def train_model(
             x = batch[:, :-1]
             y = batch[:, 1:]
 
-            output = model(
-                x,
-                labels=y,
-            )
-
+            output = model(x, labels=y)
             loss = output["loss"]
 
-            if not torch.isfinite(loss):
+            if not torch.isfinite(loss).item():
                 raise FloatingPointError(
                     f"Non-finite loss at step {step}"
                 )
 
-            (
-                loss / grad_accum
-            ).backward()
+            (loss / grad_accum).backward()
 
             step_loss += (
                 loss.detach().float().item()
@@ -367,17 +258,11 @@ def train_model(
 
         optimizer.step()
         scheduler.step()
-
-        optimizer.zero_grad(
-            set_to_none=True
-        )
+        optimizer.zero_grad(set_to_none=True)
 
         final_loss = step_loss
 
-        if (
-            step == 1
-            or step % train_cfg["log_every"] == 0
-        ):
+        if step == 1 or step % train_cfg["log_every"] == 0:
             progress.set_postfix(
                 loss=f"{step_loss:.3f}",
                 lr=f"{scheduler.get_last_lr()[0]:.2e}",
@@ -403,10 +288,7 @@ def train_model(
                 f"{checkpoint_path}"
             )
 
-    elapsed = (
-        time.perf_counter()
-        - start_time
-    )
+    elapsed = time.perf_counter() - start_time
 
     final_checkpoint = (
         checkpoint_dir
@@ -419,15 +301,22 @@ def train_model(
         * model.cfg.max_seq_len
     )
 
+    training_tokens = (
+        tokens_per_step
+        * max_steps
+    )
+
     return {
+        "technique": cfg["technique"]["name"],
+        "run": Path(run_dir).name,
         "completed_steps": max_steps,
         "final_training_loss": final_loss,
         "tokens_per_step": tokens_per_step,
-        "training_tokens":
-            tokens_per_step * max_steps,
+        "training_tokens": training_tokens,
         "training_seconds": elapsed,
-        "final_checkpoint":
-            str(final_checkpoint),
-        "parameter_report":
-            model.parameter_report(),
+        "seconds_per_step": elapsed / max_steps,
+        "tokens_per_second": training_tokens / elapsed,
+        "final_checkpoint": str(final_checkpoint),
+        "parameter_report": model.parameter_report(),
+        "architecture_report": model.architecture_report(),
     }

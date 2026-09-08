@@ -1,3 +1,4 @@
+#src/configs/techniques/2.recursive_mamba.yaml
 # ============================================================
 # STATIC RECURSIVE MAMBA
 # ============================================================
@@ -17,7 +18,7 @@ inherits: mamba
 parent:
   technique: mamba
   selected_run: auto
-  checkpoint_step: 2000
+  checkpoint_step: 5
 
 
 # ============================================================

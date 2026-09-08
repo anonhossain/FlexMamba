@@ -1,0 +1,5 @@
+{
+  "status": "completed",
+  "parent_checkpoint": "/Users/amrinhossain/Documents/Anon/mor_16m_prototype/runs/mamba/run_001/checkpoints/step_0000005.pt",
+  "final_checkpoint": "/Users/amrinhossain/Documents/Anon/mor_16m_prototype/runs/recursive_mamba/run_001/checkpoints/step_0000001.pt"
+}
