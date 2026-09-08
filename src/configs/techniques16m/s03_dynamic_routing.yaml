@@ -1,7 +1,4 @@
-# ============================================================
-# DYNAMIC TOKEN-ROUTED RECURSIVE MAMBA
-# ============================================================
-
+#src/configs/techniques16m/s03_dynamic_routing.yaml
 technique:
   name: dynamic_routing
   model_type: dynamic_routing
@@ -9,59 +6,30 @@ technique:
 
 inherits: recursive_mamba
 
-
-# ============================================================
-# PARENT
-# ============================================================
-
 parent:
   technique: recursive_mamba
   selected_run: auto
   checkpoint_step: 2000
 
-
-# ============================================================
-# INITIALIZATION
-# ============================================================
-
 initialization:
   mode: warm_start
-
-  # Existing recursive Mamba weights are preserved.
-  # New router parameters are initialized separately.
   strategy: compatible
-
   load_parent_optimizer: false
   load_parent_scheduler: false
-
-
-# ============================================================
-# ROUTING
-# ============================================================
 
 model:
 
   routing_enabled: true
-
   router_type: token_choice
 
   # Available recursion choices:
   # 1, 2, 3
   num_recursions: 3
-
   router_hidden_mult: 1
-
   router_balance_coeff: 0.01
-
   router_z_loss_coeff: 0.001
-
   # Initially use deterministic hard routing.
   router_temperature: 1.0
-
-
-# ============================================================
-# SEARCH
-# ============================================================
 
 search:
   enabled: false

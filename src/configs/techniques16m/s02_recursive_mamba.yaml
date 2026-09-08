@@ -1,7 +1,4 @@
 #src/configs/techniques/2.recursive_mamba.yaml
-# ============================================================
-# STATIC RECURSIVE MAMBA
-# ============================================================
 
 technique:
   name: recursive_mamba
@@ -10,20 +7,10 @@ technique:
 
 inherits: mamba
 
-
-# ============================================================
-# PARENT
-# ============================================================
-
 parent:
   technique: mamba
   selected_run: auto
   checkpoint_step: 5
-
-
-# ============================================================
-# INITIALIZATION
-# ============================================================
 
 initialization:
   mode: warm_start
@@ -35,31 +22,14 @@ initialization:
   load_parent_optimizer: false
   load_parent_scheduler: false
 
-
-# ============================================================
-# MODEL OVERRIDES
-# ============================================================
-
 model:
-
-  # Remove ordinary fixed-depth interpretation.
   n_layers: null
-
   input_layers: 1
-
   shared_middle_layers: 2
-
   num_recursions: 3
-
   output_layers: 1
-
   # Effective depth:
   # 1 + (2 × 3) + 1 = 8
-
-
-# ============================================================
-# SEARCH
-# ============================================================
 
 search:
   enabled: false

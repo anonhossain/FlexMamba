@@ -10,7 +10,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-from src.training.mamba_train import train_mamba
+from training.mamba_16m_train import train_mamba
 
 
 if __name__ == "__main__":

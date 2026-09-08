@@ -1,7 +1,4 @@
-# ============================================================
-# LTE — DYNAMIC WIDTH / STRUCTURED SPARSITY
-# ============================================================
-
+#src/configs/techniques16m/s04_lte.yaml
 technique:
   name: lte
   model_type: lte
@@ -9,20 +6,10 @@ technique:
 
 inherits: dynamic_routing
 
-
-# ============================================================
-# PARENT
-# ============================================================
-
 parent:
   technique: dynamic_routing
   selected_run: auto
   checkpoint_step: 2000
-
-
-# ============================================================
-# INITIALIZATION
-# ============================================================
 
 initialization:
   mode: warm_start
@@ -32,35 +19,20 @@ initialization:
   load_parent_optimizer: false
   load_parent_scheduler: false
 
-
-# ============================================================
-# LTE
-# ============================================================
-
 model:
 
   lte_enabled: true
-
   # Divide expanded Mamba channels into structured groups.
   num_bins: 8
-
   # Target fraction of channels that should remain inactive.
   target_sparsity: 0.50
-
   # Router/gating threshold.
   routing_threshold: 0.50
-
   # Additional sparsity/efficiency objective.
   efficiency_loss_coeff: 0.01
-
   # Initial implementation:
   # apply LTE to expanded internal channels.
   lte_target: expanded_channels
-
-
-# ============================================================
-# SEARCH
-# ============================================================
 
 search:
   enabled: false

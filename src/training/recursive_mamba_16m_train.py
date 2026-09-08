@@ -2,7 +2,7 @@ from pathlib import Path
 import torch
 
 from src.models.recursive_mamba import RecursiveMambaConfig, RecursiveMambaCausalLM
-from src.training.common import (
+from training.common_16m import (
     PROJECT_ROOT,
     build_optimizer,
     build_scheduler,

@@ -6,7 +6,7 @@ from src.models.mamba import (
     MambaCausalLM,
 )
 
-from src.training.common import (
+from training.common_16m import (
     build_optimizer,
     build_scheduler,
     build_train_loader,
