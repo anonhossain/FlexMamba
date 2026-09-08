@@ -16,6 +16,6 @@ from training.mamba_16m_train import train_mamba
 if __name__ == "__main__":
     train_mamba(
         base_config="src/configs/base_16m.yaml",
-        mamba_config="src/configs/techniques/1.mamba.yaml",
+        mamba_config="src/configs/techniques/s01_mamba.yaml",
         #steps=5,  # smoke test
     )

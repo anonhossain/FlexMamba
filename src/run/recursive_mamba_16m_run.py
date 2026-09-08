@@ -14,7 +14,7 @@ from training.recursive_mamba_16m_train import train_recursive_mamba
 if __name__ == "__main__":
     train_recursive_mamba(
         base_config="src/configs/base_16m.yaml",
-        mamba_config="src/configs/techniques/1.mamba.yaml",
-        recursive_config="src/configs/techniques/2.recursive_mamba.yaml",
+        mamba_config="src/configs/techniques/s01_mamba.yaml",
+        recursive_config="src/configs/techniques/s02_recursive_mamba.yaml",
         steps=1,  # smoke test
     )
