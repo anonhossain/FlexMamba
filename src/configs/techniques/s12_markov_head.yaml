@@ -1,0 +1,96 @@
+technique:
+  stage: 12
+  name: markov_head
+  model_type: flexmamba_markov
+  experiment_type: speculative_generation
+
+inherits: final_joint
+
+parent:
+  technique: final_joint
+  selected_run: auto
+  checkpoint_step: 2442
+
+experiment:
+  project_name: FlexMamba
+  scale: 16m # 30m
+  seed: 42
+  runs_root: runs
+
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  streaming: true
+
+markov_head:
+  enabled: true
+
+  draft_tokens: 4
+  maximum_draft_tokens: 8
+
+  hidden_dim: 256 #384
+
+  share_input_embeddings: true
+  share_output_embeddings: true
+
+  distillation_temperature: 1.0
+  distillation_loss_coeff: 1.0
+
+  acceptance_method: exact_verification
+
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1000
+
+  learning_rate: 0.0005
+  min_learning_rate: 0.00005
+  warmup_ratio: 0.05
+
+  weight_decay: 0.05
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  log_every: 10
+
+budget:
+  type: head_training
+  tokens_per_step: 8192
+  training_tokens: 8192000
+
+validation:
+  enabled: true
+  eval_every: 100
+  eval_batches: 20
+
+checkpoint:
+  save_steps: [250, 500, 750, 1000]
+
+evaluation:
+  enabled: true
+  fixed_data: true
+  cache_path: data/evaluation/fineweb_eval_256.pt
+  batch_size: 1
+  eval_batches: 50
+
+  generation:
+    prompt_length: 256
+    generation_length: 256
+
+  collect:
+    baseline_decode_tokens_per_second: true
+    speculative_decode_tokens_per_second: true
+
+    acceptance_rate: true
+    accepted_tokens_per_draft: true
+    rejected_tokens: true
+
+    draft_latency: true
+    verification_latency: true
+
+    speedup_ratio: true
+    peak_memory: true
+
+    quality_equivalence: true

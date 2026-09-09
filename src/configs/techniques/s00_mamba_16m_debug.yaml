@@ -1,0 +1,90 @@
+technique:
+  stage: 0
+  name: mamba_16m_debug
+  model_type: mamba
+  experiment_type: pipeline_debug
+
+inherits: mor
+
+parent:
+  technique: mor
+  selected_run: null
+  checkpoint_step: null
+
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+  streaming: true
+
+model:
+  vocab_size: 49152
+  d_model: 256
+  n_layers: 8
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 256
+
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-5
+
+initialization:
+  mode: scratch
+
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1
+
+  learning_rate: 0.001
+  min_learning_rate: 0.0001
+  warmup_ratio: 0.10
+
+  weight_decay: 0.10
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+
+  log_every: 1
+
+budget:
+  type: debug
+  tokens_per_step: 8192
+  training_tokens: 163840
+
+validation:
+  enabled: true
+  eval_every: 5
+  eval_batches: 2
+
+checkpoint:
+  save_steps: [5,10, 15, 20]
+
+evaluation:
+  enabled: true
+  fixed_data: true
+  cache_path: data/evaluation/fineweb_eval_256.pt
+  batch_size: 2
+  eval_batches: 5
+
+  collect:
+    quality: true
+    architecture: true
+    parameters: true
+    throughput: true
+    latency: true
+    memory: true
+    storage: true
+    flops: true

@@ -1,134 +1,75 @@
-#src/training/mamba_train.py
-import argparse
+# src/training/mamba_16m_train.py
 
-from src.models.mamba import (
-    MambaModelConfig,
-    MambaCausalLM,
-)
-
-from training.common_16m import (
+from src.models.mamba import MambaModelConfig, MambaCausalLM
+from src.training.common_16m import (
+    load_config,
+    choose_device,
+    set_seed,
+    build_train_loader,
+    build_validation_batches,
     build_optimizer,
     build_scheduler,
-    build_train_loader,
-    choose_device,
     create_run_dir,
-    load_config,
     save_json,
     save_resolved_config,
-    set_seed,
     train_model,
 )
 
 
-BASE_CONFIG = "src/configs/base_16m.yaml"
-MAMBA_CONFIG = "src/configs/techniques/1.mamba.yaml"
+CONFIG_PATH = "src/configs/techniques/s00_mamba_16m.yaml"
 
 
-def train_mamba(
-    base_config=BASE_CONFIG,
-    mamba_config=MAMBA_CONFIG,
-    steps=None,
-):
-    """
-    Train one standard Mamba baseline run.
-
-    Flow:
-        YAML
-          ↓
-        MambaModelConfig
-          ↓
-        MambaCausalLM
-          ↓
-        FineWeb
-          ↓
-        training
-          ↓
-        runs/mamba/run_XXX/
-    """
-
-    # --------------------------------------------------------
-    # CONFIG
-    # --------------------------------------------------------
-
-    cfg = load_config(
-        base_config,
-        mamba_config,
-    )
+def train_mamba(config_path=CONFIG_PATH, steps=None):
+    cfg = load_config(config_path)
 
     if cfg["technique"]["model_type"] != "mamba":
-        raise ValueError(
-            "mamba_train.py requires model_type='mamba'"
-        )
+        raise ValueError("Config model_type must be 'mamba'.")
 
     if cfg["initialization"]["mode"] != "scratch":
-        raise ValueError(
-            "Base Mamba must use initialization.mode='scratch'"
-        )
+        raise ValueError("Mamba baseline must initialize from scratch.")
 
     # --------------------------------------------------------
-    # REPRODUCIBILITY + DEVICE
+    # SETUP
     # --------------------------------------------------------
 
-    set_seed(
-        cfg["experiment"]["seed"]
-    )
-
+    set_seed(cfg["experiment"]["seed"])
     device = choose_device()
 
     print(f"Device: {device}")
+    print(f"Technique: {cfg['technique']['name']}")
+    print(f"Scale: {cfg['experiment']['scale']}")
 
     # --------------------------------------------------------
     # MODEL
     # --------------------------------------------------------
 
-    model_cfg = MambaModelConfig(
-        **cfg["model"]
-    )
+    model_cfg = MambaModelConfig(**cfg["model"])
+    model = MambaCausalLM(model_cfg).to(device)
 
-    model = MambaCausalLM(
-        model_cfg
-    ).to(device)
-
-    print("\nParameter report:")
-
-    for name, count in (
-        model.parameter_report().items()
-    ):
-        print(
-            f"  {name}: "
-            f"{count:,} "
-            f"({count / 1e6:.3f}M)"
-        )
+    print("Parameters:", model.parameter_report())
+    print("Architecture:", model.architecture_report())
 
     # --------------------------------------------------------
     # DATA
     # --------------------------------------------------------
 
-    train_loader = build_train_loader(
-        cfg,
-        model_cfg,
-    )
+    train_loader = build_train_loader(cfg, model_cfg)
+    val_batches = build_validation_batches(cfg, model_cfg)
 
     # --------------------------------------------------------
     # TRAINING SETUP
     # --------------------------------------------------------
 
-    train_cfg = cfg["training"]
-
-    max_steps = (
-        steps
-        if steps is not None
-        else train_cfg["max_steps"]
-    )
+    max_steps = steps if steps is not None else cfg["training"]["max_steps"]
 
     optimizer = build_optimizer(
         model,
-        train_cfg,
+        cfg["training"],
     )
 
     scheduler = build_scheduler(
         optimizer,
-        train_cfg,
+        cfg["training"],
         max_steps,
     )
 
@@ -138,24 +79,17 @@ def train_mamba(
 
     run_dir = create_run_dir(
         cfg,
-        technique_name="mamba",
+        cfg["technique"]["name"],
     )
 
-    cfg["runtime"] = {
-        "run_dir": str(run_dir),
-        "max_steps": max_steps,
-        "parent_checkpoint": None,
-    }
-
-    save_resolved_config(
-        run_dir,
-        cfg,
-    )
+    save_resolved_config(run_dir, cfg)
 
     save_json(
         run_dir / "status.json",
         {
             "status": "running",
+            "technique": cfg["technique"]["name"],
+            "scale": cfg["experiment"]["scale"],
         },
     )
 
@@ -167,6 +101,7 @@ def train_mamba(
         summary = train_model(
             model=model,
             train_loader=train_loader,
+            val_batches=val_batches,
             optimizer=optimizer,
             scheduler=scheduler,
             device=device,
@@ -184,20 +119,15 @@ def train_mamba(
             run_dir / "status.json",
             {
                 "status": "completed",
-                "final_checkpoint":
-                    summary["final_checkpoint"],
+                "technique": cfg["technique"]["name"],
+                "scale": cfg["experiment"]["scale"],
+                "final_checkpoint": summary["final_checkpoint"],
             },
         )
 
-        print("\nMamba training completed.")
-
-        print(
-            "Final checkpoint:"
-        )
-
-        print(
-            summary["final_checkpoint"]
-        )
+        print("\nTraining completed.")
+        print(f"Run: {run_dir}")
+        print(f"Checkpoint: {summary['final_checkpoint']}")
 
         return summary
 
@@ -206,41 +136,9 @@ def train_mamba(
             run_dir / "status.json",
             {
                 "status": "failed",
+                "technique": cfg["technique"]["name"],
                 "error": str(error),
             },
         )
 
         raise
-
-
-def main():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--base",
-        default=BASE_CONFIG,
-    )
-
-    parser.add_argument(
-        "--config",
-        default=MAMBA_CONFIG,
-    )
-
-    parser.add_argument(
-        "--steps",
-        type=int,
-        default=None,
-        help="Override max_steps for smoke testing.",
-    )
-
-    args = parser.parse_args()
-
-    train_mamba(
-        base_config=args.base,
-        mamba_config=args.config,
-        steps=args.steps,
-    )
-
-
-if __name__ == "__main__":
-    main()

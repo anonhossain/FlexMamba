@@ -1,0 +1,104 @@
+technique:
+  stage: 11
+  name: scaling_study
+  model_type: flexmamba
+  experiment_type: scaling
+
+inherits: final_joint
+
+parent:
+  technique: final_joint
+  selected_run: auto
+  checkpoint_step: 2442
+
+experiment:
+  project_name: FlexMamba
+  seed: 42
+  runs_root: runs
+
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+  streaming: true
+
+scaling:
+  parameter_tolerance_percent: 5
+
+  targets:
+    - name: 16m
+      target_parameters: 16000000
+
+    - name: 30m
+      target_parameters: 30000000
+
+    - name: 60m
+      target_parameters: 60000000
+
+    - name: 120m
+      target_parameters: 120000000
+
+    - name: 350m
+      target_parameters: 350000000
+
+  preserve_architecture_ratios: true
+
+model_template:
+  vocab_size: 49152
+
+  d_state: 16
+  expand: 2
+  d_conv: 4
+
+  input_layers: 1
+  shared_middle_layers: 2
+  output_layers: 1
+
+  min_recursions: 1
+  max_recursions: 4
+
+  grouped_projection_groups: 4
+  lte_bins: 8
+
+training:
+  batch_size: auto
+  grad_accum_steps: auto
+
+  token_budget_multiplier: 1.0
+
+  learning_rate: auto
+  warmup_ratio: 0.10
+
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.10
+  grad_clip: 1.0
+
+validation:
+  enabled: true
+  eval_every: auto
+  eval_batches: 50
+
+evaluation:
+  enabled: true
+  fixed_data: true
+
+  sequence_lengths:
+    - 128
+    - 256
+    - 512
+    - 1024
+    - 2048
+
+  collect:
+    quality: true
+    parameters: true
+    active_parameters: true
+    flops: true
+    active_flops: true
+    throughput: true
+    latency: true
+    memory: true
+    scaling_efficiency: true

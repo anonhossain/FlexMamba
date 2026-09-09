@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "technique": "mor",
+    "model_type": "mor",
+    "scale": "16m",
+    "run": "run_001",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_001\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "mor",
+    "physical_layers": 5,
+    "max_effective_layers": 11,
+    "n_shared_layers": 3,
+    "num_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "vocab_size": 49152,
+    "d_model": 256,
+    "n_heads": 4,
+    "n_kv_heads": 2,
+    "d_ff": 768,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 16518656,
+    "trainable_parameters": 16518656,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 3935744
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 8192,
+    "final_training_loss": 10.869787871837616,
+    "training_seconds": 16.229565200395882,
+    "training_tokens_per_second": 504.7578230746549,
+    "validation_history": [
+      {
+        "nll": 10.727991104125977,
+        "perplexity": 45614.96420804016,
+        "tokens": 512,
+        "step": 1
+      }
+    ]
+  },
+  "quality": {
+    "validation_loss": 10.727991104125977,
+    "nll": 10.727991104125977,
+    "perplexity": 45614.96420804016,
+    "bits_per_token": 15.477219564623462,
+    "token_accuracy": 0.00390625,
+    "top_5_token_accuracy": 0.0234375
+  },
+  "efficiency": {
+    "evaluation_tokens": 512,
+    "forward_seconds": 0.08982049999758601,
+    "tokens_per_second": 5700.257736416078,
+    "milliseconds_per_token": 0.17543066405778518,
+    "peak_memory_mb": null
+  },
+  "recursion": {
+    "configured_max_recursions": 3,
+    "average_recursion_depth": 1.8671875,
+    "depth_histogram": {
+      "1": 238,
+      "2": 104,
+      "3": 170
+    },
+    "depth_fraction": {
+      "1": 0.46484375,
+      "2": 0.203125,
+      "3": 0.33203125
+    }
+  },
+  "routing": {
+    "router_type": "token_choice",
+    "average_balance_loss": 1.0009183883666992,
+    "average_z_loss": 1.2191381454467773,
+    "router_hidden_mult": 1,
+    "router_balance_coeff": 0.01,
+    "router_z_loss_coeff": 0.001
+  },
+  "storage": {
+    "model_weight_memory_mb": 63.013671875,
+    "checkpoint_size_mb": 189.09933185577393
+  },
+  "benchmarks": null,
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_length": 256,
+    "same_validation_split": true
+  }
+}

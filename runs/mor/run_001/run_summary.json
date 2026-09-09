@@ -1,0 +1,45 @@
+{
+  "technique": "mor",
+  "scale": "16m",
+  "debug": true,
+  "run": "run_001",
+  "run_dir": "C:\\files\\FlexMamba\\runs\\mor\\run_001",
+  "completed_steps": 1,
+  "final_training_loss": 10.869787871837616,
+  "tokens_per_step": 8192,
+  "training_tokens": 8192,
+  "training_seconds": 16.229565200395882,
+  "seconds_per_step": 16.229565200395882,
+  "tokens_per_second": 504.7578230746549,
+  "validation_history": [
+    {
+      "nll": 10.727991104125977,
+      "perplexity": 45614.96420804016,
+      "tokens": 512,
+      "step": 1
+    }
+  ],
+  "final_validation": {
+    "nll": 10.727991104125977,
+    "perplexity": 45614.96420804016,
+    "tokens": 512,
+    "step": 1
+  },
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_001\\checkpoints\\step_0000001.pt",
+  "parameter_report": {
+    "total_parameters": 16518656,
+    "trainable_parameters": 16518656,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 3935744
+  },
+  "architecture_report": {
+    "architecture": "mor",
+    "physical_layers": 5,
+    "max_effective_layers": 11,
+    "n_shared_layers": 3,
+    "num_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true
+  }
+}

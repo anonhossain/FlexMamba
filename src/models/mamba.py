@@ -30,17 +30,6 @@ class MambaModelConfig:
 class MambaCausalLM(nn.Module):
     """
     Standard Mamba baseline.
-
-    No:
-        - recursion
-        - routing
-        - LTE
-        - grouped parameterization
-        - Markov head
-        - TurboQuant
-
-    This model is trained from scratch and becomes the parent
-    checkpoint for Recursive-Mamba.
     """
 
     def __init__(

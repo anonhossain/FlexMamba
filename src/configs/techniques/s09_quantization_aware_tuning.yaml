@@ -1,0 +1,88 @@
+technique:
+  stage: 9
+  name: quantization_aware_tuning
+  model_type: qat_joint_mamba
+  experiment_type: training
+
+inherits: turboquant_state
+
+parent:
+  technique: turboquant_state
+  selected_run: auto
+  checkpoint_step: final
+
+experiment:
+  project_name: FlexMamba
+  scale: 16m # 30m
+  seed: 42
+  runs_root: runs
+
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+  streaming: true
+
+model:
+  vocab_size: 49152
+  d_model: 256 #384
+  d_state: 16
+  max_seq_len: 256
+
+quantization:
+  enabled: true
+  target: recurrent_ssm_state
+  state_bits: 8
+
+  fake_quantization: true
+  straight_through_estimator: true
+
+  symmetric: true
+  per_channel: true
+
+training:
+  enabled: true
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1000
+
+  learning_rate: 0.0002
+  min_learning_rate: 0.00002
+  warmup_ratio: 0.05
+
+  weight_decay: 0.05
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  log_every: 10
+
+budget:
+  type: adaptation_token
+  tokens_per_step: 8192
+  training_tokens: 8192000
+
+validation:
+  enabled: true
+  eval_every: 100
+  eval_batches: 20
+
+checkpoint:
+  save_steps: [250, 500, 750, 1000]
+
+evaluation:
+  enabled: true
+  fixed_data: true
+  cache_path: data/evaluation/fineweb_eval_256.pt
+  batch_size: 2
+  eval_batches: 50
+
+  collect:
+    quality: true
+    quantization: true
+    state_memory: true
+    compression_ratio: true
+    throughput: true
+    latency: true
+    memory: true
