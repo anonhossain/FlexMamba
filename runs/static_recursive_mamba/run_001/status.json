@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s02",
+  "technique": "static_recursive_mamba",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_003\\checkpoints\\step_0000001.pt",
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\evaluation.json"
+}

@@ -3,12 +3,14 @@ from pathlib import Path
 
 import torch
 
-from src.models.recursive_mamba_16m import (
-    RecursiveMambaModelConfig,
-    RecursiveMambaCausalLM,
+from src.models.recursion_wise_state_model import (
+    RecursionWiseStateModelConfig,
+    RecursionWiseStateCausalLM,
 )
 
-from src.evaluation.recursive_mamba_16m_eval import evaluate_recursive_mamba
+from src.evaluation.recursion_wise_state_eval import (
+    evaluate_recursion_wise_state,
+)
 
 from src.training.common_16m import (
     PROJECT_ROOT,
@@ -26,7 +28,7 @@ from src.training.common_16m import (
 )
 
 
-CONFIG_PATH = "src/configs/techniques/s02_static_recursive_mamba.yaml"
+CONFIG_PATH = "src/configs/techniques/s03_recursion_wise_state.yaml"
 
 
 def resolve_path(path):
@@ -49,11 +51,10 @@ def checkpoint_from_run(run_dir):
         if checkpoint.exists():
             return checkpoint
 
-    checkpoint_dir = run_dir / "checkpoints"
-    checkpoints = sorted(checkpoint_dir.glob("step_*.pt"))
+    checkpoints = sorted((run_dir / "checkpoints").glob("step_*.pt"))
 
     if not checkpoints:
-        raise FileNotFoundError(f"No checkpoint found in {checkpoint_dir}")
+        raise FileNotFoundError(f"No checkpoint found in {run_dir}")
 
     return checkpoints[-1]
 
@@ -63,26 +64,26 @@ def find_parent_checkpoint(cfg, parent_run_dir=None):
     if parent_run_dir is not None:
         return checkpoint_from_run(parent_run_dir)
 
-    if cfg["parent"]["technique"] != "mamba":
-        raise ValueError("S02 parent must be Mamba.")
+    if cfg["parent"]["technique"] != "static_recursive_mamba":
+        raise ValueError("S03 parent must be static_recursive_mamba.")
 
     runs_root = Path(cfg["experiment"].get("runs_root", "runs"))
 
     if not runs_root.is_absolute():
         runs_root = PROJECT_ROOT / runs_root
 
-    technique_dir = runs_root / "mamba"
+    technique_dir = runs_root / "static_recursive_mamba"
     selected_run = cfg["parent"].get("selected_run", "auto")
 
     if selected_run == "auto":
 
-        run_dirs = sorted(
+        runs = sorted(
             technique_dir.glob("run_*"),
             key=lambda path: int(path.name.split("_")[-1]),
             reverse=True,
         )
 
-        for run_dir in run_dirs:
+        for run_dir in runs:
 
             status_path = run_dir / "status.json"
 
@@ -100,22 +101,23 @@ def find_parent_checkpoint(cfg, parent_run_dir=None):
             except FileNotFoundError:
                 continue
 
-        raise FileNotFoundError("No completed Mamba run found.")
+        raise FileNotFoundError("No completed S02 run found.")
 
-    if isinstance(selected_run, int):
-        run_name = f"run_{selected_run:03d}"
-    else:
-        run_name = str(selected_run)
+    run_name = (
+        f"run_{selected_run:03d}"
+        if isinstance(selected_run, int)
+        else str(selected_run)
+    )
 
-        if not run_name.startswith("run_"):
-            run_name = f"run_{int(run_name):03d}"
+    if not run_name.startswith("run_"):
+        run_name = f"run_{int(run_name):03d}"
 
     return checkpoint_from_run(technique_dir / run_name)
 
 
-def initialize_from_mamba(model, checkpoint_path, strategy):
+def initialize_from_parent(model, checkpoint_path):
 
-    print(f"\nLoading Mamba parent:\n{checkpoint_path}")
+    print(f"\nLoading Static Recursive Mamba parent:\n{checkpoint_path}")
 
     checkpoint = torch.load(
         checkpoint_path,
@@ -123,23 +125,21 @@ def initialize_from_mamba(model, checkpoint_path, strategy):
         weights_only=False,
     )
 
-    if "config" not in checkpoint:
-        raise KeyError("Parent checkpoint contains no config.")
-
-    if "model_state_dict" not in checkpoint:
-        raise KeyError("Parent checkpoint contains no model_state_dict.")
-
     parent_cfg = checkpoint["config"]
     parent_type = parent_cfg.get("technique", {}).get("model_type")
 
-    if parent_type != "mamba":
-        raise ValueError(f"Expected Mamba parent, received {parent_type}")
+    if parent_type != "recursive_mamba":
+        raise ValueError(f"Expected recursive_mamba parent, received {parent_type}")
 
     parent_model = parent_cfg["model"]
 
     compatibility = [
         "vocab_size",
         "d_model",
+        "input_layers",
+        "shared_middle_layers",
+        "num_recursions",
+        "output_layers",
         "d_state",
         "expand",
         "d_conv",
@@ -157,25 +157,12 @@ def initialize_from_mamba(model, checkpoint_path, strategy):
                 f"{parent_value} != {child_value}"
             )
 
-    report = model.load_mamba_parent_state_dict(
-        parent_state=checkpoint["model_state_dict"],
-        parent_n_layers=parent_model["n_layers"],
-        strategy=strategy,
+    return model.load_parent_state_dict(
+        checkpoint["model_state_dict"]
     )
 
-    parent_params = checkpoint.get("parameter_report", {}).get("total_parameters")
-    child_params = model.parameter_report()["total_parameters"]
 
-    report["parent_parameter_count"] = parent_params
-    report["child_parameter_count"] = child_params
-
-    if parent_params:
-        report["parameter_reduction"] = 1 - (child_params / parent_params)
-
-    return report
-
-
-def train_recursive_mamba(
+def train_recursion_wise_state(
     config_path=CONFIG_PATH,
     parent_run_dir=None,
     steps=None,
@@ -183,11 +170,8 @@ def train_recursive_mamba(
 
     cfg = load_config(config_path)
 
-    if cfg["technique"]["model_type"] != "recursive_mamba":
-        raise ValueError("S02 requires model_type='recursive_mamba'.")
-
-    if cfg["initialization"]["mode"] != "warm_start":
-        raise ValueError("S02 requires warm_start.")
+    if cfg["technique"]["model_type"] != "recursion_wise_state_mamba":
+        raise ValueError("S03 requires model_type='recursion_wise_state_mamba'.")
 
     set_seed(cfg["experiment"]["seed"])
     device = choose_device()
@@ -198,28 +182,23 @@ def train_recursive_mamba(
 
     parent_checkpoint = find_parent_checkpoint(cfg, parent_run_dir)
 
-    model_cfg = RecursiveMambaModelConfig(**cfg["model"])
-    model = RecursiveMambaCausalLM(model_cfg)
+    model_cfg = RecursionWiseStateModelConfig(**cfg["model"])
 
-    init_report = initialize_from_mamba(
+    model = RecursionWiseStateCausalLM(
+        model_cfg,
+        cfg["state"],
+    )
+
+    init_report = initialize_from_parent(
         model,
         parent_checkpoint,
-        cfg["initialization"]["strategy"],
     )
 
     print("\nInitialization:")
     print(f"Strategy: {init_report['strategy']}")
-    print(f"Parent layers: {init_report['parent_layers']}")
     print(f"Physical layers: {init_report['physical_layers']}")
     print(f"Effective layers: {init_report['effective_layers']}")
-
-    if "parameter_reduction" in init_report:
-        print(f"Parameter reduction: {init_report['parameter_reduction'] * 100:.2f}%")
-
-    print("\nLayer mapping:")
-
-    for target, sources in init_report["layer_mapping"].items():
-        print(f"Child layer {target} <- Parent {sources}")
+    print(f"State banks: {model_cfg.num_recursions}")
 
     model = model.to(device)
 
@@ -234,7 +213,7 @@ def train_recursive_mamba(
     optimizer = build_optimizer(model, cfg["training"])
     scheduler = build_scheduler(optimizer, cfg["training"], max_steps)
 
-    run_dir = create_run_dir(cfg, "static_recursive_mamba")
+    run_dir = create_run_dir(cfg, "recursion_wise_state")
 
     cfg["runtime"] = {
         "parent_checkpoint": str(parent_checkpoint),
@@ -248,8 +227,8 @@ def train_recursive_mamba(
         run_dir / "status.json",
         {
             "status": "running",
-            "stage": "s02",
-            "technique": "static_recursive_mamba",
+            "stage": "s03",
+            "technique": "recursion_wise_state",
             "parent_checkpoint": str(parent_checkpoint),
         },
     )
@@ -273,22 +252,21 @@ def train_recursive_mamba(
 
         save_json(run_dir / "run_summary.json", summary)
 
+        evaluation = evaluate_recursion_wise_state(summary)
+
         save_json(
             run_dir / "status.json",
             {
                 "status": "completed",
-                "stage": "s02",
-                "technique": "static_recursive_mamba",
+                "stage": "s03",
+                "technique": "recursion_wise_state",
                 "parent_checkpoint": str(parent_checkpoint),
                 "final_checkpoint": summary["final_checkpoint"],
+                "evaluation": str(run_dir / "evaluation.json"),
             },
         )
 
-        print("\nStatic Recursive Mamba training completed.")
-        print(f"Run: {run_dir}")
-        print(f"Checkpoint: {summary['final_checkpoint']}")
-
-        return summary
+        return summary, evaluation
 
     except Exception as error:
 
@@ -296,8 +274,8 @@ def train_recursive_mamba(
             run_dir / "status.json",
             {
                 "status": "failed",
-                "stage": "s02",
-                "technique": "static_recursive_mamba",
+                "stage": "s03",
+                "technique": "recursion_wise_state",
                 "parent_checkpoint": str(parent_checkpoint),
                 "error": str(error),
             },
@@ -306,42 +284,27 @@ def train_recursive_mamba(
         raise
 
 
-def run_recursive_mamba_16m(parent_run_dir=None, steps=None):
+def run_recursion_wise_state(parent_run_dir=None, steps=None):
 
     print("\n" + "=" * 60)
-    print("S02 — STATIC RECURSIVE MAMBA 16M")
+    print("S03 — RECURSION-WISE STATE")
     print("=" * 60)
 
-    summary = train_recursive_mamba(
+    summary, evaluation = train_recursion_wise_state(
         parent_run_dir=parent_run_dir,
         steps=steps,
     )
 
-    evaluation = evaluate_recursive_mamba(summary)
-
-    run_dir = Path(summary["run_dir"])
-
-    save_json(
-        run_dir / "status.json",
-        {
-            "status": "completed",
-            "stage": "s02",
-            "technique": "static_recursive_mamba",
-            "parent_checkpoint": summary["parent_checkpoint"],
-            "checkpoint": summary["final_checkpoint"],
-            "evaluation": str(run_dir / "evaluation.json"),
-        },
-    )
-
     print("\n" + "=" * 60)
-    print("S02 STATIC RECURSIVE MAMBA COMPLETED")
+    print("S03 RECURSION-WISE STATE COMPLETED")
     print("=" * 60)
 
-    print(f"Run: {run_dir}")
+    print(f"Run: {summary['run_dir']}")
     print(f"Parent: {summary['parent_checkpoint']}")
     print(f"Checkpoint: {summary['final_checkpoint']}")
     print(f"NLL: {evaluation['quality']['nll']:.4f}")
     print(f"PPL: {evaluation['quality']['perplexity']:.2f}")
+    print(f"State banks: {evaluation['state']['state_banks']}")
 
     return {
         "training": summary,

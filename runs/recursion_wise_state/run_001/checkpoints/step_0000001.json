@@ -1,0 +1,11 @@
+{
+  "step": 1,
+  "parameter_report": {
+    "total_parameters": 14335232,
+    "trainable_parameters": 14335232,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 1752320
+  },
+  "evaluation": null,
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_001\\checkpoints\\step_0000001.pt"
+}
