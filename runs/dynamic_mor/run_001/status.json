@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "stage": "s04",
+  "technique": "dynamic_mor",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_001\\checkpoints\\step_0000001.pt",
+  "error": "'LinearAttentionLayer' object has no attribute 'keys'"
+}
