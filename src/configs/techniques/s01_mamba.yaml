@@ -1,0 +1,112 @@
+technique:
+  stage: 1
+  name: mamba
+  model_type: mamba
+  experiment_type: training
+
+inherits: mor
+
+parent:
+  technique: mor
+  selected_run: auto
+
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+  debug: true
+
+initialization:
+  mode: warm_start
+  strategy: mor_compatible_transfer
+
+
+# ============================================================
+# MODEL
+# ============================================================
+
+model:
+  vocab_size: 49152
+  d_model: 256
+
+  n_layers: 8
+
+  d_state: 16
+  expand: 2
+  d_conv: 4
+
+  max_seq_len: 256
+
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-5
+
+
+# ============================================================
+# DATA
+# ============================================================
+
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+
+  validation_docs: 2000
+  shuffle_buffer: 5000
+
+
+# ============================================================
+# TRAINING
+# ============================================================
+
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+
+  max_steps: 1
+
+  learning_rate: 0.001
+  min_learning_rate: 0.0001
+  warmup_ratio: 0.10
+
+  beta1: 0.9
+  beta2: 0.95
+
+  weight_decay: 0.10
+  grad_clip: 1.0
+
+  log_every: 1
+
+
+# ============================================================
+# VALIDATION
+# ============================================================
+
+validation:
+  enabled: true
+  eval_every: 1
+  eval_batches: 1
+
+
+# ============================================================
+# CHECKPOINT
+# ============================================================
+
+checkpoint:
+  save_steps:
+    - 1
+
+
+# ============================================================
+# EVALUATION
+# ============================================================
+
+evaluation:
+  enabled: true
+  batch_size: 2
+  eval_batches: 1
+  run_benchmarks: false

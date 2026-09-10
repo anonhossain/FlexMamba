@@ -1,0 +1,156 @@
+technique:
+  stage: 1
+  name: mamba
+  model_type: mamba
+  experiment_type: training
+inherits: mor
+parent:
+  technique: mor
+  selected_run: auto
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+  debug: true
+initialization:
+  mode: warm_start
+  strategy: mor_compatible_transfer
+model:
+  vocab_size: 49152
+  d_model: 256
+  n_layers: 8
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 256
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-05
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1
+  learning_rate: 0.001
+  min_learning_rate: 0.0001
+  warmup_ratio: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.1
+  grad_clip: 1.0
+  log_every: 1
+validation:
+  enabled: true
+  eval_every: 1
+  eval_batches: 1
+checkpoint:
+  save_steps:
+  - 1
+evaluation:
+  enabled: true
+  batch_size: 2
+  eval_batches: 1
+  run_benchmarks: false
+runtime:
+  parent_checkpoint: C:\files\FlexMamba\runs\mor\run_001\checkpoints\step_0000001.pt
+  parent_run_dir: null
+  initialization_report:
+    strategy: mor_compatible_transfer
+    transferred_tensors:
+    - model.backbone.embeddings.weight
+    - model.lm_head.weight
+    - model.backbone.norm_f.weight
+    transferred_parameter_count: 12583168
+    total_parameter_count: 16087296
+    transferred_parameter_fraction: 0.7821804236087905
+    new_parameter_count: 3504128
+    missing_keys:
+    - model.backbone.layers.0.norm.weight
+    - model.backbone.layers.0.mixer.A_log
+    - model.backbone.layers.0.mixer.D
+    - model.backbone.layers.0.mixer.conv1d.weight
+    - model.backbone.layers.0.mixer.conv1d.bias
+    - model.backbone.layers.0.mixer.in_proj.weight
+    - model.backbone.layers.0.mixer.x_proj.weight
+    - model.backbone.layers.0.mixer.dt_proj.weight
+    - model.backbone.layers.0.mixer.dt_proj.bias
+    - model.backbone.layers.0.mixer.out_proj.weight
+    - model.backbone.layers.1.norm.weight
+    - model.backbone.layers.1.mixer.A_log
+    - model.backbone.layers.1.mixer.D
+    - model.backbone.layers.1.mixer.conv1d.weight
+    - model.backbone.layers.1.mixer.conv1d.bias
+    - model.backbone.layers.1.mixer.in_proj.weight
+    - model.backbone.layers.1.mixer.x_proj.weight
+    - model.backbone.layers.1.mixer.dt_proj.weight
+    - model.backbone.layers.1.mixer.dt_proj.bias
+    - model.backbone.layers.1.mixer.out_proj.weight
+    - model.backbone.layers.2.norm.weight
+    - model.backbone.layers.2.mixer.A_log
+    - model.backbone.layers.2.mixer.D
+    - model.backbone.layers.2.mixer.conv1d.weight
+    - model.backbone.layers.2.mixer.conv1d.bias
+    - model.backbone.layers.2.mixer.in_proj.weight
+    - model.backbone.layers.2.mixer.x_proj.weight
+    - model.backbone.layers.2.mixer.dt_proj.weight
+    - model.backbone.layers.2.mixer.dt_proj.bias
+    - model.backbone.layers.2.mixer.out_proj.weight
+    - model.backbone.layers.3.norm.weight
+    - model.backbone.layers.3.mixer.A_log
+    - model.backbone.layers.3.mixer.D
+    - model.backbone.layers.3.mixer.conv1d.weight
+    - model.backbone.layers.3.mixer.conv1d.bias
+    - model.backbone.layers.3.mixer.in_proj.weight
+    - model.backbone.layers.3.mixer.x_proj.weight
+    - model.backbone.layers.3.mixer.dt_proj.weight
+    - model.backbone.layers.3.mixer.dt_proj.bias
+    - model.backbone.layers.3.mixer.out_proj.weight
+    - model.backbone.layers.4.norm.weight
+    - model.backbone.layers.4.mixer.A_log
+    - model.backbone.layers.4.mixer.D
+    - model.backbone.layers.4.mixer.conv1d.weight
+    - model.backbone.layers.4.mixer.conv1d.bias
+    - model.backbone.layers.4.mixer.in_proj.weight
+    - model.backbone.layers.4.mixer.x_proj.weight
+    - model.backbone.layers.4.mixer.dt_proj.weight
+    - model.backbone.layers.4.mixer.dt_proj.bias
+    - model.backbone.layers.4.mixer.out_proj.weight
+    - model.backbone.layers.5.norm.weight
+    - model.backbone.layers.5.mixer.A_log
+    - model.backbone.layers.5.mixer.D
+    - model.backbone.layers.5.mixer.conv1d.weight
+    - model.backbone.layers.5.mixer.conv1d.bias
+    - model.backbone.layers.5.mixer.in_proj.weight
+    - model.backbone.layers.5.mixer.x_proj.weight
+    - model.backbone.layers.5.mixer.dt_proj.weight
+    - model.backbone.layers.5.mixer.dt_proj.bias
+    - model.backbone.layers.5.mixer.out_proj.weight
+    - model.backbone.layers.6.norm.weight
+    - model.backbone.layers.6.mixer.A_log
+    - model.backbone.layers.6.mixer.D
+    - model.backbone.layers.6.mixer.conv1d.weight
+    - model.backbone.layers.6.mixer.conv1d.bias
+    - model.backbone.layers.6.mixer.in_proj.weight
+    - model.backbone.layers.6.mixer.x_proj.weight
+    - model.backbone.layers.6.mixer.dt_proj.weight
+    - model.backbone.layers.6.mixer.dt_proj.bias
+    - model.backbone.layers.6.mixer.out_proj.weight
+    - model.backbone.layers.7.norm.weight
+    - model.backbone.layers.7.mixer.A_log
+    - model.backbone.layers.7.mixer.D
+    - model.backbone.layers.7.mixer.conv1d.weight
+    - model.backbone.layers.7.mixer.conv1d.bias
+    - model.backbone.layers.7.mixer.in_proj.weight
+    - model.backbone.layers.7.mixer.x_proj.weight
+    - model.backbone.layers.7.mixer.dt_proj.weight
+    - model.backbone.layers.7.mixer.dt_proj.bias
+    - model.backbone.layers.7.mixer.out_proj.weight
+    unexpected_keys: []

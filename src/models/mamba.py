@@ -1,4 +1,5 @@
-#src/models/mamba.py
+# src/models/mamba.py
+
 from dataclasses import dataclass
 from typing import Dict
 
@@ -10,6 +11,7 @@ from transformers import (
     MambaConfig as HFMambaConfig,
     MambaForCausalLM,
 )
+
 
 @dataclass
 class MambaModelConfig:
@@ -28,14 +30,8 @@ class MambaModelConfig:
     layer_norm_eps: float = 1e-5
 
 class MambaCausalLM(nn.Module):
-    """
-    Standard Mamba baseline.
-    """
 
-    def __init__(
-        self,
-        config: MambaModelConfig,
-    ):
+    def __init__(self, config: MambaModelConfig):
         super().__init__()
 
         self.cfg = config
@@ -53,9 +49,8 @@ class MambaCausalLM(nn.Module):
             layer_norm_epsilon=config.layer_norm_eps,
             hidden_act="silu",
             tie_word_embeddings=config.tie_word_embeddings,
-            # No recurrent cache needed during pretraining.
             use_cache=False,
-            # Safe development fallback for Mac/MPS.
+            # Safe generic implementation.
             use_mambapy=False,
             use_associative_scan=False,
         )
@@ -63,18 +58,14 @@ class MambaCausalLM(nn.Module):
         self.model = MambaForCausalLM(
             hf_config
         )
-
-    def forward(self,input_ids,labels=None,):
-        """
-        train.py prepares:
-
-            x = tokens[:, :-1]
-            y = tokens[:, 1:]
-
-        Therefore we calculate CE ourselves instead of letting
-        Hugging Face perform another internal causal shift.
-        """
-
+    # ========================================================
+    # FORWARD
+    # ========================================================
+    def forward(
+        self,
+        input_ids,
+        labels=None,
+    ):
         outputs = self.model(
             input_ids=input_ids,
             use_cache=False,
@@ -82,10 +73,10 @@ class MambaCausalLM(nn.Module):
         )
 
         logits = outputs.logits
+
         lm_loss = None
 
         if labels is not None:
-
             lm_loss = F.cross_entropy(
                 logits.reshape(
                     -1,
@@ -94,29 +85,135 @@ class MambaCausalLM(nn.Module):
                 labels.reshape(-1),
             )
 
-        # Compatibility with the current trainer.
-        #
-        # Later we will remove this ambiguous metric and store:
-        #
-        # physical_layers
-        # effective_layers
-        # avg_recursion_depth
-        #
-        # separately.
-        avg_depth = torch.tensor(
-            float(self.cfg.n_layers),
-            device=logits.device,
-        )
-
         return {
             "logits": logits,
             "loss": lm_loss,
             "lm_loss": lm_loss,
         }
+    # ========================================================
+    # LOAD KNOWLEDGE FROM MoR
+    # ========================================================
 
-    def parameter_report(
+    def load_mor_parent_state_dict(
         self,
-    ) -> Dict[str, int]:
+        parent_state,
+        ):
+        target_state = self.state_dict()
+
+        mapping = {
+            "model.backbone.embeddings.weight":
+                "embed_tokens.weight",
+
+            "model.lm_head.weight":
+                "lm_head.weight",
+
+            "model.backbone.norm_f.weight":
+                "final_norm.weight",
+        }
+
+        mapped_state = {}
+
+        # Includes aliases for tied parameters.
+        target_parameters = dict(
+            self.named_parameters(
+                remove_duplicate=False
+            )
+        )
+
+        transferred_parameter_ids = set()
+        transferred_parameter_count = 0
+
+        for target_key, parent_key in mapping.items():
+
+            if parent_key not in parent_state:
+                continue
+
+            if target_key not in target_state:
+                continue
+
+            parent_tensor = parent_state[parent_key]
+            target_tensor = target_state[target_key]
+
+            if parent_tensor.shape != target_tensor.shape:
+                raise ValueError(
+                    f"Incompatible tensor:\n"
+                    f"{parent_key}: {parent_tensor.shape}\n"
+                    f"{target_key}: {target_tensor.shape}"
+                )
+
+            mapped_state[target_key] = (
+                parent_tensor.clone()
+            )
+
+            # Count tied parameters only once.
+            parameter = target_parameters.get(
+                target_key
+            )
+
+            if (
+                parameter is not None
+                and id(parameter)
+                not in transferred_parameter_ids
+            ):
+                transferred_parameter_ids.add(
+                    id(parameter)
+                )
+
+                transferred_parameter_count += (
+                    parameter.numel()
+                )
+
+        if not mapped_state:
+            raise RuntimeError(
+                "No compatible MoR parameters "
+                "were transferred."
+            )
+
+        missing_keys, unexpected_keys = (
+            self.load_state_dict(
+                mapped_state,
+                strict=False,
+            )
+        )
+
+        total_parameters = sum(
+            p.numel()
+            for p in self.parameters()
+        )
+
+        return {
+            "strategy":
+                "mor_compatible_transfer",
+
+            "transferred_tensors":
+                list(mapped_state.keys()),
+
+            "transferred_parameter_count":
+                transferred_parameter_count,
+
+            "total_parameter_count":
+                total_parameters,
+
+            "transferred_parameter_fraction":
+                transferred_parameter_count
+                / total_parameters,
+
+            "new_parameter_count":
+                total_parameters
+                - transferred_parameter_count,
+
+            "missing_keys":
+                list(missing_keys),
+
+            "unexpected_keys":
+                list(unexpected_keys),
+        }
+
+    # ========================================================
+    # REPORTS
+    # ========================================================
+
+    def parameter_report(self) -> Dict[str, int]:
 
         total = sum(
             p.numel()
@@ -145,15 +242,26 @@ class MambaCausalLM(nn.Module):
                 total - embedding,
         }
 
-    def architecture_report(
-        self,
-    ) -> Dict:
+    def architecture_report(self) -> Dict:
 
         return {
             "architecture": "mamba",
+
             "physical_layers":
                 self.cfg.n_layers,
+
             "effective_layers":
                 self.cfg.n_layers,
-            "recursive": False,
+
+            "d_state":
+                self.cfg.d_state,
+
+            "expand":
+                self.cfg.expand,
+
+            "d_conv":
+                self.cfg.d_conv,
+
+            "recursive":
+                False,
         }
