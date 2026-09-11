@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s08",
+  "technique": "turboquant_state",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\turboquant_state\\run_001\\checkpoints\\step_0000000.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\turboquant_state\\run_001\\evaluation.json"
+}

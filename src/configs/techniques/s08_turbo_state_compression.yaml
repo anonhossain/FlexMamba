@@ -1,13 +1,13 @@
 technique:
-  stage: 9
-  name: quantization_aware_tuning
-  model_type: qat_joint_mamba
-  experiment_type: training
+  stage: 8
+  name: turboquant_state
+  model_type: turboquant_mamba
+  experiment_type: compression_evaluation
 
-inherits: turboquant_state
+inherits: grouped_lte
 
 parent:
-  technique: turboquant_state
+  technique: grouped_lte
   selected_run: auto
 
 experiment:
@@ -65,9 +65,11 @@ routing:
 grouped_parameterization:
   enabled: true
   groups: 4
+
   group_input_projection: true
   group_output_projection: true
   group_ssm_projection: true
+
   channel_shuffle: true
 
 lte:
@@ -88,7 +90,6 @@ lte:
   initialize_all_active: true
   initial_logit: 4.0
 
-# Same physical quantizer inherited from S08.
 state_quantization:
   enabled: true
   target: recurrent_ssm_state
@@ -101,23 +102,13 @@ state_quantization:
 
   calibration_method: percentile
   calibration_percentile: 99.9
+  calibration_batches: 1
+  max_samples_per_channel: 16384
 
-# S09-specific QAT behaviour.
-quantization:
-  enabled: true
-  target: recurrent_ssm_state
+  quantize_during_prefill: true
+  quantize_during_decode: true
 
-  state_bits: 8
-
-  fake_quantization: true
-  straight_through_estimator: true
-
-  reuse_parent_quantizer_state: true
-  freeze_quantizer_scales: true
-
-  # No additional quantization loss for now.
-  # LM loss sees fake-quantized recurrent states directly.
-  quantization_loss_coeff: 0.0
+  evaluation_chunk_size: 64
 
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
@@ -127,42 +118,34 @@ data:
   shuffle_buffer: 5000
 
 training:
-  enabled: true
-
+  enabled: false
   batch_size: 2
-  grad_accum_steps: 1
 
-  max_steps: 1
-
-  # Smoke test only. Restore to 256 for real QAT.
-  sequence_tokens: 32
-
-  learning_rate: 0.0002
-  min_learning_rate: 0.00002
-  warmup_ratio: 0.05
-
-  weight_decay: 0.05
-  beta1: 0.9
-  beta2: 0.95
-
-  grad_clip: 1.0
-  log_every: 1
+budget:
+  type: calibration
+  calibration_batches: 1
 
 validation:
   enabled: true
-  eval_every: 1
   eval_batches: 1
-  sequence_tokens: 32
 
 checkpoint:
-  save_steps: [1]
+  save_compression_state: true
 
 evaluation:
   enabled: true
-
   batch_size: 2
   eval_batches: 1
 
-  sequence_tokens: 32
+  chunk_size: 64
 
   run_benchmarks: false
+
+  collect:
+    quality: true
+    perplexity_change: true
+    state_memory: true
+    compression_ratio: true
+    throughput: true
+    latency: true
+    peak_memory: true

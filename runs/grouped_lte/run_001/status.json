@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s07",
+  "technique": "grouped_lte",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_002\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\evaluation.json"
+}

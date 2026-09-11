@@ -1,0 +1,18 @@
+{
+  "step": 1,
+  "parameter_report": {
+    "total_parameters": 13152531,
+    "trainable_parameters": 13152531,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 569619,
+    "lte_router_parameters": 4112,
+    "grouped_projection_parameters": 417792,
+    "dense_projection_equivalent_parameters": 1671168,
+    "grouped_parameter_savings": 1253376,
+    "overall_parameter_reduction": 0.08700431010695821,
+    "width_sensitive_parameters": 248832
+  },
+  "evaluation": null,
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt"
+}
