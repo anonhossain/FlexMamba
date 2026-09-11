@@ -3,267 +3,227 @@ technique:
   name: scaling_study
   model_type: flexmamba
   experiment_type: scaling
-
 inherits: final_joint
-
 parent:
   technique: final_joint
   selected_run: auto
   role: architecture_reference
   load_weights: false
-
 experiment:
   project_name: FlexMamba
   seed: 42
   runs_root: runs
   debug: true
-
+  scale: 16m
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
   tokenizer_name: HuggingFaceTB/SmolLM-135M
-
   validation_docs: 2000
   shuffle_buffer: 5000
   streaming: true
-
 scaling:
   section_title: FlexMamba Scale-Efficiency Analysis
-
-  # Comparable to the unshared/base model capacity.
   target_basis: unrolled_dense_equivalent_parameters
-
   parameter_tolerance_percent: 5
-
-  # Keep the architecture itself fixed and scale width.
   scaling_axis: width
   width_multiple: 64
   minimum_d_model: 128
   maximum_d_model: 8192
-
   preserve_architecture: true
-
-  # Paper-inspired spacing:
-  # 135M -> 360M -> 730M -> 1.7B
   targets:
-    - name: 16m
-      target_parameters: 16000000
-
-    - name: 30m
-      target_parameters: 30000000
-
-    - name: 75m
-      target_parameters: 75000000
-
-    - name: 150m
-      target_parameters: 150000000
-
-    - name: 350m
-      target_parameters: 350000000
-
+  - name: 16m
+    target_parameters: 16000000
+  - name: 30m
+    target_parameters: 30000000
+  - name: 75m
+    target_parameters: 75000000
+  - name: 150m
+    target_parameters: 150000000
+  - name: 350m
+    target_parameters: 350000000
 model_template:
   vocab_size: 49152
-
   d_state: 16
   expand: 2
   d_conv: 4
-
   input_layers: 1
   shared_middle_layers: 2
   output_layers: 1
-
   max_seq_len: 2048
-
   tie_word_embeddings: true
   use_bias: false
   use_conv_bias: true
   residual_in_fp32: true
-  layer_norm_eps: 1.0e-5
-
+  layer_norm_eps: 1.0e-05
 recursion:
   mode: dynamic
-
-  # Paper scaling study fixes recursion count to 3.
   min_recursions: 1
   max_recursions: 3
-
 state:
   mode: recursion_wise
   share_block_weights: true
   share_state_across_recursions: false
   reset_state_between_sequences: true
-
 routing:
   enabled: true
   router_type: token_choice
   hidden_multiplier: 1
-
   temperature: 1.0
   hard_routing: true
   straight_through: true
-
   balance_loss_coeff: 0.01
   z_loss_coeff: 0.001
-
   initialize_to_parent_depth: true
   max_depth_bias: 0.01
-
 grouped_parameterization:
   enabled: true
   groups: 4
-
   group_input_projection: true
   group_output_projection: true
   group_ssm_projection: true
-
   channel_shuffle: true
-
 lte:
   enabled: true
   apply_to: shared_middle
-
   num_bins: 8
   minimum_active_bins: 2
   maximum_active_bins: 8
-
   router_type: sigmoid
   threshold: 0.5
   straight_through: true
-
   efficiency_loss_coeff: 0.01
-  target_active_fraction: 0.50
-
+  target_active_fraction: 0.5
   initialize_all_active: true
   initial_logit: 4.0
-
 state_quantization:
   enabled: true
   target: recurrent_ssm_state
-
   bits: 8
   symmetric: true
   per_channel: true
-
   rotation: randomized_hadamard
-
   calibration_method: percentile
   calibration_percentile: 99.9
   max_samples_per_channel: 16384
-
 quantization:
   enabled: true
   target: recurrent_ssm_state
-
   state_bits: 8
   fake_quantization: true
   straight_through_estimator: true
-
   freeze_quantizer_scales: true
   quantization_loss_coeff: 0.0
-
 initialization:
   mode: from_scratch
-
 calibration:
   enabled: true
   batches: 16
-
 budget:
-  # Paper also studies fixed-data training at 20B tokens.
-  # We use a 1/1000 prototype equivalent.
   protocol: fixed_tokens
-
   paper_reference_tokens: 20000000000
   prototype_scale_factor: 0.001
-
   training_tokens_per_scale: 20000000
-
-  # Stored for later true IsoFLOP experiments.
   paper_iso_flop_budgets:
-    - 2.0e18
-    - 5.0e18
-    - 1.65e19
-
+  - 2.0e18
+  - 5.0e18
+  - 1.65e19
 training:
   enabled: true
-
   micro_batch_size: 1
   global_tokens_per_update: 8192
-
-  sequence_tokens: 2048
-
+  sequence_tokens: 32
   learning_rate: 0.0005
   min_learning_rate: 0.0
-
   scheduler: trapezoid
   warmup_ratio: 0.05
-  cooldown_ratio: 0.20
-
+  cooldown_ratio: 0.2
   beta1: 0.9
   beta2: 0.95
-
-  weight_decay: 0.10
+  weight_decay: 0.1
   grad_clip: 1.0
-
   log_every: 10
-
+  batch_size: 1
+  grad_accum_steps: 1
+  max_steps: 1
 validation:
   enabled: true
-  eval_every: 250
-  eval_batches: 50
-  sequence_tokens: 2048
-
+  eval_every: 1
+  eval_batches: 1
+  sequence_tokens: 32
 evaluation:
   enabled: true
   fixed_data: true
-
   batch_size: 1
   eval_batches: 50
-
   primary_sequence_length: 2048
-
   sequence_lengths:
-    - 128
-    - 256
-    - 512
-    - 1024
-    - 2048
-
+  - 128
+  - 256
+  - 512
+  - 1024
+  - 2048
   collect:
     quality: true
     parameters: true
     active_parameters: true
-
     recursion: true
     routing: true
     sparsity: true
-
     quantization: true
-
     flops: true
     active_flops: true
-
     throughput: true
     latency: true
     memory: true
-
     state_memory: true
     storage: true
-
     scaling_efficiency: true
-
-# Current pipeline validation only.
 smoke:
   enabled: true
-
   targets:
-    - 16m
-
+  - 16m
   max_steps: 1
-
   sequence_tokens: 32
   calibration_batches: 1
   eval_batches: 1
-
   sequence_lengths:
-    - 32
+  - 32
+model:
+  vocab_size: 49152
+  d_model: 256
+  input_layers: 1
+  shared_middle_layers: 2
+  output_layers: 1
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 2048
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-05
+checkpoint:
+  save_steps:
+  - 1
+runtime:
+  scaling_plan:
+    name: 16m
+    target_parameters: 16000000
+    d_model: 256
+    absolute_error: 166195
+    parameter_report:
+      stored_parameters: 13152531
+      physical_dense_equivalent_parameters: 14405907
+      unrolled_dense_equivalent_parameters: 16166195
+      recursive_parameter_savings: 1760288
+      grouped_parameter_savings: 1253376
+      stored_vs_unrolled_fraction: 0.8135823550315953
+      stored_reduction_vs_unrolled: 0.18641764496840474
+    error_percent: 1.03871875
+    within_tolerance: true
+    requested_scale_name: 16m
+    planning_warning: null
+  initialization: from_scratch
+  parent_weights_loaded: false

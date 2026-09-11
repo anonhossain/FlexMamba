@@ -1,0 +1,100 @@
+{
+  "target_basis": "unrolled_dense_equivalent_parameters",
+  "plans": [
+    {
+      "name": "16m",
+      "target_parameters": 16000000,
+      "d_model": 256,
+      "absolute_error": 166195,
+      "parameter_report": {
+        "stored_parameters": 13152531,
+        "physical_dense_equivalent_parameters": 14405907,
+        "unrolled_dense_equivalent_parameters": 16166195,
+        "recursive_parameter_savings": 1760288,
+        "grouped_parameter_savings": 1253376,
+        "stored_vs_unrolled_fraction": 0.8135823550315953,
+        "stored_reduction_vs_unrolled": 0.18641764496840474
+      },
+      "error_percent": 1.03871875,
+      "within_tolerance": true,
+      "requested_scale_name": "16m",
+      "planning_warning": null
+    },
+    {
+      "name": "30m",
+      "target_parameters": 30000000,
+      "d_model": 448,
+      "absolute_error": 2677619,
+      "parameter_report": {
+        "stored_parameters": 23672787,
+        "physical_dense_equivalent_parameters": 27446739,
+        "unrolled_dense_equivalent_parameters": 32677619,
+        "recursive_parameter_savings": 5230880,
+        "grouped_parameter_savings": 3773952,
+        "stored_vs_unrolled_fraction": 0.7244342679924141,
+        "stored_reduction_vs_unrolled": 0.27556573200758594
+      },
+      "error_percent": 8.925396666666666,
+      "within_tolerance": false,
+      "requested_scale_name": "30m",
+      "planning_warning": "Nearest valid FlexMamba configuration differs from 30,000,000 by 8.93%. Using d_model=448 with 32,677,619 unrolled_dense_equivalent_parameters parameters."
+    },
+    {
+      "name": "75m",
+      "target_parameters": 75000000,
+      "d_model": 832,
+      "absolute_error": 1980851,
+      "parameter_report": {
+        "stored_parameters": 46399827,
+        "physical_dense_equivalent_parameters": 59279187,
+        "unrolled_dense_equivalent_parameters": 76980851,
+        "recursive_parameter_savings": 17701664,
+        "grouped_parameter_savings": 12879360,
+        "stored_vs_unrolled_fraction": 0.6027450514933902,
+        "stored_reduction_vs_unrolled": 0.3972549485066098
+      },
+      "error_percent": 2.641134666666667,
+      "within_tolerance": true,
+      "requested_scale_name": "75m",
+      "planning_warning": null
+    },
+    {
+      "name": "150m",
+      "target_parameters": 150000000,
+      "d_model": 1280,
+      "absolute_error": 2322509,
+      "parameter_report": {
+        "stored_parameters": 75756819,
+        "physical_dense_equivalent_parameters": 106108179,
+        "unrolled_dense_equivalent_parameters": 147677491,
+        "recursive_parameter_savings": 41569312,
+        "grouped_parameter_savings": 30351360,
+        "stored_vs_unrolled_fraction": 0.5129882589893134,
+        "stored_reduction_vs_unrolled": 0.48701174101068656
+      },
+      "error_percent": 1.5483393333333333,
+      "within_tolerance": true,
+      "requested_scale_name": "150m",
+      "planning_warning": null
+    },
+    {
+      "name": "350m",
+      "target_parameters": 350000000,
+      "d_model": 2176,
+      "absolute_error": 486195,
+      "parameter_report": {
+        "stored_parameters": 143653011,
+        "physical_dense_equivalent_parameters": 231075987,
+        "unrolled_dense_equivalent_parameters": 350486195,
+        "recursive_parameter_savings": 119410208,
+        "grouped_parameter_savings": 87422976,
+        "stored_vs_unrolled_fraction": 0.40986781519312054,
+        "stored_reduction_vs_unrolled": 0.5901321848068795
+      },
+      "error_percent": 0.13891285714285714,
+      "within_tolerance": true,
+      "requested_scale_name": "350m",
+      "planning_warning": null
+    }
+  ]
+}

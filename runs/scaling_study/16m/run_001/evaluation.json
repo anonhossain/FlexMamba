@@ -1,0 +1,218 @@
+{
+  "identity": {
+    "stage": "s11",
+    "technique": "scaling_study",
+    "scale": "16m",
+    "d_model": 256,
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\scaling_study\\16m\\run_001\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "flexmamba_scaling",
+    "physical_layers": 4,
+    "min_effective_layers": 4,
+    "max_effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "output_layers": 1,
+    "min_recursions": 1,
+    "max_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "recursion_wise_state": true,
+    "dense_routing_fallback": true,
+    "grouped_parameterization": true,
+    "groups": 4,
+    "group_input_projection": true,
+    "group_ssm_projection": true,
+    "group_output_projection": true,
+    "channel_shuffle": true,
+    "lte_adaptive_width": true,
+    "lte_apply_to": "shared_middle",
+    "lte_layer_indices": [
+      1,
+      2
+    ],
+    "lte_num_bins": 8,
+    "lte_minimum_active_bins": 2,
+    "lte_maximum_active_bins": 8,
+    "lte_target_active_fraction": 0.5,
+    "lte_dense_compute_fallback": true,
+    "quantization_aware_tuning": true,
+    "state_quantization_target": "recurrent_ssm_state",
+    "state_quantization_bits": 8,
+    "fake_quantization": true,
+    "straight_through_estimator": true,
+    "quantizer_scales_frozen": true,
+    "quantization_applied_per_token": true,
+    "qat_is_turboquant_extension": true,
+    "final_joint": true,
+    "dynamic_recursive_depth": true,
+    "recurrent_state_quantization": true,
+    "quantization_aware_training": true,
+    "joint_optimization": true,
+    "new_architecture_mechanism": false,
+    "scaling_study": true,
+    "scaling_axis": "d_model",
+    "from_scratch_scaling": true
+  },
+  "parameters": {
+    "total_parameters": 13152531,
+    "trainable_parameters": 13152531,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 569619,
+    "lte_router_parameters": 4112,
+    "grouped_projection_parameters": 417792,
+    "dense_projection_equivalent_parameters": 1671168,
+    "grouped_parameter_savings": 1253376,
+    "overall_parameter_reduction": 0.08700431010695821,
+    "width_sensitive_parameters": 248832,
+    "qat_trainable_parameters_added": 0,
+    "state_quantizer_parameters": 0,
+    "state_quantizer_count": 6,
+    "state_quantization_bits": 8,
+    "final_joint_parameters_added": 0
+  },
+  "scale_parameters": {
+    "stored_parameters": 13152531,
+    "physical_dense_equivalent_parameters": 14405907,
+    "unrolled_dense_equivalent_parameters": 16166195,
+    "recursive_parameter_savings": 1760288,
+    "grouped_parameter_savings": 1253376,
+    "stored_vs_unrolled_fraction": 0.8135823550315953,
+    "stored_reduction_vs_unrolled": 0.18641764496840474
+  },
+  "grouping": {
+    "enabled": true,
+    "groups": 4,
+    "channel_shuffle": true,
+    "grouped_projection_count": 12,
+    "dense_projection_parameters": 1671168,
+    "grouped_projection_parameters": 417792,
+    "projection_parameter_reduction": 0.75,
+    "parameter_savings": 1253376,
+    "grouped_model_parameters": 13152531,
+    "dense_combined_equivalent_parameters": 14405907,
+    "overall_parameter_reduction": 0.08700431010695821
+  },
+  "active_parameters": {
+    "stored_parameters": 13152531,
+    "width_sensitive_parameters": 248832,
+    "fixed_parameters": 12903699,
+    "active_width_fraction": 1.0,
+    "theoretical_active_parameters": 13152531.0,
+    "theoretical_active_parameter_fraction": 1.0,
+    "note": "Grouping reduces stored parameters. LTE changes token-dependent active width. Current LTE implementation still uses dense kernels."
+  },
+  "compression": {
+    "bits": 8,
+    "full_precision_recurrent_mb": 0.1875,
+    "quantized_recurrent_mb": 0.046875,
+    "conv_state_mb": 0.046875,
+    "full_state_total_mb": 0.234375,
+    "compressed_state_total_mb": 0.105560302734375,
+    "recurrent_compression_ratio": 4.0,
+    "total_state_compression_ratio": 2.220294882914137,
+    "total_state_memory_reduction": 0.549609375,
+    "physical_int8_storage_realized": true,
+    "qat_forward_uses_fake_quantization": true
+  },
+  "quality": {
+    "nll": 16.061613082885742,
+    "perplexity": 9450829.589691043,
+    "bits_per_token": 23.172009543356555,
+    "token_accuracy": 0.0,
+    "top_5_token_accuracy": 0.0
+  },
+  "routing": {
+    "average_recursion_depth": 3.0,
+    "depth_counts": {
+      "1": 0,
+      "2": 0,
+      "3": 32
+    },
+    "depth_fractions": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 1.0
+    }
+  },
+  "lte": {
+    "average_active_bins": 8.0,
+    "active_fraction": 1.0
+  },
+  "quantization": {
+    "mode": "quantized",
+    "mse": 5.965332591429939e-09,
+    "mae": 1.0620345259818956e-05,
+    "clip_fraction": 0.0062745412190755205
+  },
+  "efficiency": {
+    "evaluation_tokens": 32,
+    "forward_seconds": 0.1553864000015892,
+    "tokens_per_second": 205.93822882615675,
+    "milliseconds_per_token": 4.855825000049663,
+    "peak_memory_mb": null
+  },
+  "sequence_length_results": {
+    "32": {
+      "quality": {
+        "nll": 16.061613082885742,
+        "perplexity": 9450829.589691043,
+        "bits_per_token": 23.172009543356555,
+        "token_accuracy": 0.0,
+        "top_5_token_accuracy": 0.0
+      },
+      "routing": {
+        "average_recursion_depth": 3.0,
+        "depth_counts": {
+          "1": 0,
+          "2": 0,
+          "3": 32
+        },
+        "depth_fractions": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 1.0
+        }
+      },
+      "lte": {
+        "average_active_bins": 8.0,
+        "active_fraction": 1.0
+      },
+      "quantization": {
+        "mode": "quantized",
+        "mse": 5.965332591429939e-09,
+        "mae": 1.0620345259818956e-05,
+        "clip_fraction": 0.0062745412190755205
+      },
+      "efficiency": {
+        "evaluation_tokens": 32,
+        "forward_seconds": 0.1553864000015892,
+        "tokens_per_second": 205.93822882615675,
+        "milliseconds_per_token": 4.855825000049663,
+        "peak_memory_mb": null
+      }
+    }
+  },
+  "quantization_gap": {
+    "float_perplexity": 9451586.713146372,
+    "quantized_perplexity": 9450829.589691043,
+    "relative_ppl_change": -8.010543396652871e-05
+  },
+  "flops_proxy": {
+    "type": "parameter_based_theoretical_proxy",
+    "dense_forward_flops_per_token": 32332390,
+    "depth_fraction": 1.0,
+    "width_fraction": 1.0,
+    "theoretical_active_flops_per_token": 32332390.0,
+    "warning": "This is not hardware-profiler measured FLOPs. Dynamic routing and LTE currently use dense fallback execution."
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 32,
+    "training_seconds": 8.938512300010188
+  }
+}

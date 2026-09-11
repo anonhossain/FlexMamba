@@ -1,0 +1,7 @@
+{
+  "status": "completed",
+  "stage": "s11",
+  "technique": "scaling_study",
+  "scale": "16m",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\scaling_study\\16m\\run_001\\checkpoints\\step_0000001.pt"
+}

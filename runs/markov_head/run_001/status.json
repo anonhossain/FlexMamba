@@ -1,0 +1,7 @@
+{
+  "status": "completed",
+  "stage": "s12",
+  "technique": "markov_head",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\markov_head\\run_001\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\markov_head\\run_001\\evaluation.json"
+}

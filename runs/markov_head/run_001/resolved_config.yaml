@@ -3,21 +3,17 @@ technique:
   name: markov_head
   model_type: flexmamba_markov
   experiment_type: speculative_generation
-
 inherits: final_joint
-
 parent:
   technique: final_joint
   selected_run: auto
   checkpoint_step: final
-
 experiment:
   project_name: FlexMamba
   scale: 16m
   seed: 42
   runs_root: runs
   debug: true
-
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
@@ -25,144 +21,101 @@ data:
   validation_docs: 2000
   shuffle_buffer: 5000
   streaming: true
-
 markov_head:
   enabled: true
-
-  # DSpark main setting
   block_size: 7
   maximum_block_size: 7
-
-  # Parallel drafter
   draft_layers: 5
   draft_heads: 4
   draft_ffn_multiplier: 2
   dropout: 0.0
-
-  # FlexMamba adaptation:
-  # DFlash uses features from several target layers.
-  # We use the frozen final FlexMamba hidden state.
   target_feature_source: final_hidden
-
   share_target_input_embeddings: true
   share_target_output_head: true
   freeze_target: true
-
-  # Paper default is 256.
-  # 32 is scaled down for our 16M target.
   markov_type: vanilla
   markov_rank: 32
-
   confidence_head:
     enabled: true
     use_markov_embedding: true
-
-  # Official DeepSpec weighting
   loss_decay_gamma: 4.0
-
-  ce_loss_coeff: 0.10
-  tv_loss_coeff: 0.90
-  confidence_loss_coeff: 1.00
-
-  # Paper uses many anchors on long 4K sequences.
-  # Our sequence is only 256.
+  ce_loss_coeff: 0.1
+  tv_loss_coeff: 0.9
+  confidence_loss_coeff: 1.0
   anchors_per_sequence: 8
-
   target_state_mode: quantized
-
 speculative_decoding:
   enabled: true
-
   acceptance_method: rejection_sampling
   lossless: true
-
   temperature: 1.0
-
-  # Offline DSpark evaluation disables the scheduler
-  # to isolate draft quality.
   confidence_scheduler:
     enabled: false
-
 training:
   enabled: true
-
   batch_size: 2
   grad_accum_steps: 16
   max_steps: 1000
-
   sequence_tokens: 256
-
-  # Official DeepSpec value
   learning_rate: 0.0006
   min_learning_rate: 0.0
   warmup_ratio: 0.04
-
   weight_decay: 0.0
   beta1: 0.9
   beta2: 0.95
-
   grad_clip: 1.0
   log_every: 10
-
 budget:
   type: head_training
   tokens_per_step: 8192
   training_tokens: 8192000
-
 validation:
   enabled: true
   eval_every: 100
   eval_batches: 20
-
 checkpoint:
-  save_steps: [250, 500, 750, 1000]
-
+  save_steps:
+  - 250
+  - 500
+  - 750
+  - 1000
 evaluation:
   enabled: true
   fixed_data: true
   cache_path: data/evaluation/fineweb_eval_256.pt
-
   batch_size: 1
   eval_batches: 20
-
   generation:
-    # Must remain inside the current 256-token S10 context.
     prompt_length: 64
     generation_length: 64
-
     temperature: 1.0
     block_size: 7
-
   greedy_equivalence_check: true
-
   collect:
     baseline_decode_tokens_per_second: true
     speculative_decode_tokens_per_second: true
-
     acceptance_rate: true
     accepted_length: true
     accepted_tokens_per_draft: true
     rejected_tokens: true
-
     draft_latency: true
     verification_latency: true
-
     confidence: true
     speedup_ratio: true
     peak_memory: true
-
     quality_equivalence: true
-
-# Pipeline validation only.
 smoke:
   enabled: true
-
   max_steps: 1
   grad_accum_steps: 1
-
   sequence_tokens: 64
   anchors_per_sequence: 2
-
   eval_batches: 1
   prompt_length: 32
   generation_length: 16
+runtime:
+  parent_checkpoint: C:\files\FlexMamba\runs\final_joint\run_001\checkpoints\step_0000001.pt
+  parent_model_type: flexmamba
+  target_frozen: true
+  sequence_tokens: 64
+  anchors_per_sequence: 2

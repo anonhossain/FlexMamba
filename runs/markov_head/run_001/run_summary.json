@@ -1,0 +1,62 @@
+{
+  "technique": "markov_head",
+  "scale": "16m",
+  "run": "run_001",
+  "run_dir": "C:\\files\\FlexMamba\\runs\\markov_head\\run_001",
+  "completed_steps": 1,
+  "final_training_loss": 2.247537851333618,
+  "tokens_per_step": 128,
+  "training_tokens": 128,
+  "training_seconds": 8.86967580000055,
+  "seconds_per_step": 8.86967580000055,
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_001\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\markov_head\\run_001\\checkpoints\\step_0000001.pt",
+  "validation_history": [
+    {
+      "loss": 2.3453030586242676,
+      "ce_loss": 10.688176155090332,
+      "tv_loss": 0.563534140586853,
+      "confidence_loss": 0.7693047523498535,
+      "confidence_mae": 0.1646060347557068,
+      "tau_probabilistic": 3.2974205017089844,
+      "step": 1
+    }
+  ],
+  "final_validation": {
+    "loss": 2.3453030586242676,
+    "ce_loss": 10.688176155090332,
+    "tv_loss": 0.563534140586853,
+    "confidence_loss": 0.7693047523498535,
+    "confidence_mae": 0.1646060347557068,
+    "tau_probabilistic": 3.2974205017089844,
+    "step": 1
+  },
+  "parameter_report": {
+    "target_parameters": 13152531,
+    "target_trainable_parameters": 0,
+    "adapter_trainable_parameters": 5849377,
+    "parallel_drafter_parameters": 2703360,
+    "markov_head_parameters": 3145728,
+    "confidence_head_parameters": 289,
+    "combined_parameters": 19001908,
+    "adapter_fraction_of_target": 0.44473394512432624,
+    "markov_rank": 32
+  },
+  "architecture_report": {
+    "architecture": "flexmamba_markov_speculator",
+    "target_architecture": "flexmamba",
+    "target_frozen": true,
+    "parallel_drafter": true,
+    "semi_autoregressive": true,
+    "markov_head": true,
+    "markov_type": "first_order_low_rank",
+    "markov_rank": 32,
+    "confidence_head": true,
+    "block_size": 7,
+    "verification": "standard_speculative_rejection_sampling",
+    "lossless_verification": true,
+    "target_feature_source": "final_hidden",
+    "dspark_exact_backbone_reproduction": false,
+    "dspark_inspired_flexmamba_adaptation": true
+  }
+}

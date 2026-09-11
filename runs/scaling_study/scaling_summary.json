@@ -1,0 +1,30 @@
+{
+  "section": "FlexMamba Scale-Efficiency Analysis",
+  "target_basis": "unrolled_dense_equivalent_parameters",
+  "budget": {
+    "protocol": "fixed_tokens",
+    "paper_reference_tokens": 20000000000,
+    "prototype_scale_factor": 0.001,
+    "training_tokens_per_scale": 20000000,
+    "paper_iso_flop_budgets": [
+      "2.0e18",
+      "5.0e18",
+      "1.65e19"
+    ]
+  },
+  "results": [
+    {
+      "scale": "16m",
+      "d_model": 256,
+      "base_equivalent_parameters": 16166195,
+      "stored_parameters": 13152531,
+      "stored_reduction": 0.18641764496840474,
+      "nll": 16.061613082885742,
+      "perplexity": 9450829.589691043,
+      "average_recursion": 3.0,
+      "active_width": 1.0,
+      "tokens_per_second": 205.93822882615675,
+      "state_memory_reduction": 0.549609375
+    }
+  ]
+}
