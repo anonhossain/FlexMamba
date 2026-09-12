@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s01",
+  "technique": "mamba",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_003\\checkpoints\\step_0000001.pt",
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_004\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\mamba\\run_004\\evaluation.json"
+}

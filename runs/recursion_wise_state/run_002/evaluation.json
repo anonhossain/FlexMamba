@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "technique": "recursion_wise_state",
+    "model_type": "recursion_wise_state_mamba",
+    "scale": "16m",
+    "run": "run_002",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_002\\checkpoints\\step_0000001.pt",
+    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_002\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "recursion_wise_state_mamba",
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "num_recursions": 3,
+    "output_layers": 1,
+    "recursive": true,
+    "dynamic_routing": false,
+    "recursion_wise_state": true,
+    "vocab_size": 49152,
+    "d_model": 256,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 14335232,
+    "trainable_parameters": 14335232,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 1752320
+  },
+  "initialization": {
+    "strategy": "copy_parent_weights",
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "num_recursions": 3
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 8192,
+    "final_training_loss": 10.219886422157288,
+    "training_seconds": 300.5266784999985,
+    "training_tokens_per_second": 27.258811233958518,
+    "validation_history": [
+      {
+        "nll": 10.38366985321045,
+        "perplexity": 32327.380810034632,
+        "tokens": 512,
+        "step": 1
+      }
+    ]
+  },
+  "recursion": {
+    "mode": "static",
+    "num_recursions": 3,
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "average_recursion_depth": 3.0
+  },
+  "state": {
+    "mode": "recursion_wise",
+    "state_banks": 3,
+    "share_block_weights": true,
+    "share_state_across_recursions": false,
+    "reset_state_between_sequences": true,
+    "ssm_state_elements": 98304,
+    "conv_state_elements": 24576,
+    "theoretical_shared_state_memory_mb": 0.46875
+  },
+  "quality": {
+    "validation_loss": 10.38366985321045,
+    "nll": 10.38366985321045,
+    "perplexity": 32327.380810034632,
+    "bits_per_token": 14.980469003454946,
+    "token_accuracy": 0.025390625,
+    "top_5_token_accuracy": 0.06640625
+  },
+  "efficiency": {
+    "evaluation_tokens": 512,
+    "forward_seconds": 0.2747242999903392,
+    "tokens_per_second": 1863.686612425638,
+    "milliseconds_per_token": 0.5365708984186313,
+    "peak_memory_mb": null
+  },
+  "storage": {
+    "model_weight_memory_mb": 54.6845703125,
+    "checkpoint_size_mb": 164.10548877716064
+  },
+  "benchmarks": null,
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_length": 256
+  }
+}

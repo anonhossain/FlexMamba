@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "stage": "s12",
+    "technique": "markov_head",
+    "model_type": "flexmamba_markov",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\markov_head\\run_002\\checkpoints\\step_0000001.pt",
+    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_002\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "flexmamba_markov_speculator",
+    "target_architecture": "flexmamba",
+    "target_frozen": true,
+    "parallel_drafter": true,
+    "semi_autoregressive": true,
+    "markov_head": true,
+    "markov_type": "first_order_low_rank",
+    "markov_rank": 32,
+    "confidence_head": true,
+    "block_size": 7,
+    "verification": "standard_speculative_rejection_sampling",
+    "lossless_verification": true,
+    "target_feature_source": "final_hidden",
+    "dspark_exact_backbone_reproduction": false,
+    "dspark_inspired_flexmamba_adaptation": true
+  },
+  "parameters": {
+    "target_parameters": 13152531,
+    "target_trainable_parameters": 0,
+    "adapter_trainable_parameters": 5849377,
+    "parallel_drafter_parameters": 2703360,
+    "markov_head_parameters": 3145728,
+    "confidence_head_parameters": 289,
+    "combined_parameters": 19001908,
+    "adapter_fraction_of_target": 0.44473394512432624,
+    "markov_rank": 32
+  },
+  "baseline": {
+    "generated_tokens": 16,
+    "seconds": 3.0630002999969292,
+    "tokens_per_second": 5.223636445617077
+  },
+  "speculative": {
+    "generated_tokens": 16,
+    "seconds": 2.7949242999602575,
+    "tokens_per_second": 5.724663097396775,
+    "rounds": 7,
+    "proposed_draft_tokens": 39,
+    "accepted_draft_tokens": 10,
+    "draft_acceptance_rate": 0.2564102564102564,
+    "accepted_tokens_per_draft": 1.4285714285714286,
+    "accepted_length_tau": 2.4285714285714284,
+    "rejected_draft_tokens": 29,
+    "draft_seconds": 1.3604908999695908,
+    "verification_seconds": 1.4344333999906667,
+    "average_draft_latency_ms": 194.3558428527987,
+    "average_verification_latency_ms": 204.9190571415238
+  },
+  "speedup_ratio": 1.0959152990442294,
+  "peak_memory_mb": null,
+  "quality_equivalence": {
+    "verification_algorithm": "standard speculative rejection sampling",
+    "target_distribution_preserved_by_algorithm": true,
+    "greedy_sequence_match": true,
+    "greedy_match_rate": 1.0,
+    "note": "Sampling-mode outputs are not expected to be token-identical because baseline and speculative decoding consume random draws differently. The rejection-sampling correction preserves the target distribution."
+  },
+  "evaluation_setup": {
+    "eval_batches": 1,
+    "prompt_length": 32,
+    "generation_length": 16,
+    "temperature": 1.0,
+    "block_size": 7
+  },
+  "limitations": {
+    "production_dspark_backbone": false,
+    "target_feature_source": "final_hidden",
+    "hardware_aware_scheduler": false,
+    "incremental_target_cache": false,
+    "wall_clock_speedup_is_prototype_only": true,
+    "note": "FlexMamba currently recomputes the target prefix to recover anchor features and does not use a production incremental serving engine. Acceptance metrics are meaningful; CPU wall-clock speedup is not directly comparable with DSpark production results."
+  }
+}

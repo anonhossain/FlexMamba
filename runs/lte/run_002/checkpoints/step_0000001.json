@@ -1,0 +1,14 @@
+{
+  "step": 1,
+  "parameter_report": {
+    "total_parameters": 14405907,
+    "trainable_parameters": 14405907,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 1822995,
+    "lte_router_parameters": 4112,
+    "width_sensitive_parameters": 875520
+  },
+  "evaluation": null,
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\lte\\run_002\\checkpoints\\step_0000001.pt"
+}

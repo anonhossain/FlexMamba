@@ -1,0 +1,79 @@
+technique:
+  stage: 3
+  name: recursion_wise_state
+  model_type: recursion_wise_state_mamba
+  experiment_type: training
+inherits: static_recursive_mamba
+parent:
+  technique: static_recursive_mamba
+  selected_run: auto
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+  debug: true
+initialization:
+  mode: warm_start
+  strategy: copy_parent_weights
+model:
+  vocab_size: 49152
+  d_model: 256
+  input_layers: 1
+  shared_middle_layers: 2
+  num_recursions: 3
+  output_layers: 1
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 256
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-05
+state:
+  mode: recursion_wise
+  share_block_weights: true
+  share_state_across_recursions: false
+  reset_state_between_sequences: true
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1
+  learning_rate: 0.001
+  min_learning_rate: 0.0001
+  warmup_ratio: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.1
+  grad_clip: 1.0
+  log_every: 1
+validation:
+  enabled: true
+  eval_every: 1
+  eval_batches: 1
+checkpoint:
+  save_steps:
+  - 1
+evaluation:
+  enabled: true
+  batch_size: 2
+  eval_batches: 1
+  run_benchmarks: false
+runtime:
+  parent_checkpoint: C:\files\FlexMamba\runs\static_recursive_mamba\run_002\checkpoints\step_0000001.pt
+  parent_run_dir: null
+  initialization_report:
+    strategy: copy_parent_weights
+    missing_keys: []
+    unexpected_keys: []
+    physical_layers: 4
+    effective_layers: 8
+    num_recursions: 3

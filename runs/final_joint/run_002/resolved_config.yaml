@@ -1,0 +1,154 @@
+technique:
+  stage: 10
+  name: final_joint
+  model_type: flexmamba
+  experiment_type: training
+inherits: quantization_aware_tuning
+parent:
+  technique: quantization_aware_tuning
+  selected_run: auto
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+  debug: true
+initialization:
+  mode: warm_start
+  strategy: load_parent
+model:
+  vocab_size: 49152
+  d_model: 256
+  input_layers: 1
+  shared_middle_layers: 2
+  output_layers: 1
+  d_state: 16
+  expand: 2
+  d_conv: 4
+  max_seq_len: 256
+  tie_word_embeddings: true
+  use_bias: false
+  use_conv_bias: true
+  residual_in_fp32: true
+  layer_norm_eps: 1.0e-05
+recursion:
+  mode: dynamic
+  min_recursions: 1
+  max_recursions: 3
+state:
+  mode: recursion_wise
+  share_block_weights: true
+  share_state_across_recursions: false
+  reset_state_between_sequences: true
+routing:
+  enabled: true
+  router_type: token_choice
+  hidden_multiplier: 1
+  temperature: 1.0
+  hard_routing: true
+  straight_through: true
+  balance_loss_coeff: 0.01
+  z_loss_coeff: 0.001
+  initialize_to_parent_depth: true
+  max_depth_bias: 0.01
+grouped_parameterization:
+  enabled: true
+  groups: 4
+  group_input_projection: true
+  group_output_projection: true
+  group_ssm_projection: true
+  channel_shuffle: true
+lte:
+  enabled: true
+  apply_to: shared_middle
+  num_bins: 8
+  minimum_active_bins: 2
+  maximum_active_bins: 8
+  router_type: sigmoid
+  threshold: 0.5
+  straight_through: true
+  efficiency_loss_coeff: 0.01
+  target_active_fraction: 0.5
+  initialize_all_active: true
+  initial_logit: 4.0
+state_quantization:
+  enabled: true
+  target: recurrent_ssm_state
+  bits: 8
+  symmetric: true
+  per_channel: true
+  rotation: randomized_hadamard
+  calibration_method: percentile
+  calibration_percentile: 99.9
+quantization:
+  enabled: true
+  target: recurrent_ssm_state
+  state_bits: 8
+  fake_quantization: true
+  straight_through_estimator: true
+  reuse_parent_quantizer_state: true
+  freeze_quantizer_scales: true
+  quantization_loss_coeff: 0.0
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+  streaming: true
+training:
+  enabled: true
+  batch_size: 2
+  grad_accum_steps: 1
+  max_steps: 1
+  sequence_tokens: 32
+  learning_rate: 0.0005
+  min_learning_rate: 5.0e-05
+  warmup_ratio: 0.1
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  log_every: 1
+validation:
+  enabled: true
+  eval_every: 1
+  eval_batches: 1
+  sequence_tokens: 32
+checkpoint:
+  save_steps:
+  - 1
+evaluation:
+  enabled: true
+  batch_size: 2
+  eval_batches: 1
+  sequence_tokens: 32
+  run_benchmarks: false
+  collect:
+    quality: true
+    architecture: true
+    parameters: true
+    active_parameters: true
+    recursion: true
+    routing: true
+    sparsity: true
+    quantization: true
+    flops: true
+    active_flops: true
+    throughput: true
+    latency: true
+    memory: true
+    state_memory: true
+    storage: true
+runtime:
+  parent_checkpoint: C:\files\FlexMamba\runs\quantization_aware_tuning\run_002\checkpoints\step_0000001.pt
+  parent_run_dir: null
+  initialization_report:
+    strategy: load_parent
+    parent_model_type: qat_joint_mamba
+    transferred_parameter_count: 13152531
+    new_trainable_parameters: 0
+    total_parameter_count: 13152531
+    transferred_parameter_fraction: 1.0
+    quantizer_count: 6
+    quantizer_state_transferred: true

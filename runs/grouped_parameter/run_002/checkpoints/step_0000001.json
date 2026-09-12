@@ -1,0 +1,17 @@
+{
+  "step": 1,
+  "parameter_report": {
+    "total_parameters": 13148419,
+    "trainable_parameters": 13148419,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 565507,
+    "grouped_projection_parameters": 417792,
+    "dense_parent_equivalent_parameters": 14401795,
+    "parameter_savings": 1253376,
+    "overall_parameter_reduction": 0.08702915157450859,
+    "non_embedding_parameter_reduction": 0.6890910520357825
+  },
+  "evaluation": null,
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_parameter\\run_002\\checkpoints\\step_0000001.pt"
+}

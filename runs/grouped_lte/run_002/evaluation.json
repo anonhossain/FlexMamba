@@ -1,0 +1,204 @@
+{
+  "identity": {
+    "technique": "grouped_lte",
+    "model_type": "grouped_lte_dynamic_mamba",
+    "scale": "16m",
+    "run": "run_002",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_002\\checkpoints\\step_0000001.pt",
+    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_003\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "grouped_lte_dynamic_mamba",
+    "physical_layers": 4,
+    "min_effective_layers": 4,
+    "max_effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "output_layers": 1,
+    "min_recursions": 1,
+    "max_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "recursion_wise_state": true,
+    "dense_routing_fallback": true,
+    "grouped_parameterization": true,
+    "groups": 4,
+    "group_input_projection": true,
+    "group_ssm_projection": true,
+    "group_output_projection": true,
+    "channel_shuffle": true,
+    "lte_adaptive_width": true,
+    "lte_apply_to": "shared_middle",
+    "lte_layer_indices": [
+      1,
+      2
+    ],
+    "lte_num_bins": 8,
+    "lte_minimum_active_bins": 2,
+    "lte_maximum_active_bins": 8,
+    "lte_target_active_fraction": 0.5,
+    "lte_dense_compute_fallback": true,
+    "vocab_size": 49152,
+    "d_model": 256,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 13152531,
+    "trainable_parameters": 13152531,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 569619,
+    "lte_router_parameters": 4112,
+    "grouped_projection_parameters": 417792,
+    "dense_projection_equivalent_parameters": 1671168,
+    "grouped_parameter_savings": 1253376,
+    "overall_parameter_reduction": 0.08700431010695821,
+    "width_sensitive_parameters": 248832
+  },
+  "grouping": {
+    "enabled": true,
+    "groups": 4,
+    "channel_shuffle": true,
+    "grouped_projection_count": 12,
+    "dense_projection_parameters": 1671168,
+    "grouped_projection_parameters": 417792,
+    "projection_parameter_reduction": 0.75,
+    "parameter_savings": 1253376,
+    "grouped_model_parameters": 13152531,
+    "dense_combined_equivalent_parameters": 14405907,
+    "overall_parameter_reduction": 0.08700431010695821
+  },
+  "active_parameters": {
+    "stored_parameters": 13152531,
+    "width_sensitive_parameters": 248832,
+    "fixed_parameters": 12903699,
+    "active_width_fraction": 1.0,
+    "theoretical_active_parameters": 13152531.0,
+    "theoretical_active_parameter_fraction": 1.0,
+    "note": "Grouping reduces stored parameters. LTE changes token-dependent active width. Current LTE implementation still uses dense kernels."
+  },
+  "initialization": {
+    "strategy": "initialize_combined_from_parent",
+    "groups": 4,
+    "source_parent_parameters": 14401795,
+    "directly_copied_parameter_count": 12730627,
+    "grouped_parameters_initialized_from_parent": 417792,
+    "new_lte_router_parameters": 4112,
+    "child_parameter_count": 13152531,
+    "parent_derived_parameter_count": 13148419,
+    "parent_derived_fraction": 0.9996873605544059,
+    "grouped_parameter_savings": 1253376,
+    "dense_combined_equivalent_parameters": 14405907,
+    "stored_parameter_reduction_fraction": 0.08700431010695821,
+    "unexpected_keys": []
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 8192,
+    "final_training_loss": 10.62570321559906,
+    "training_seconds": 317.6650190000073,
+    "training_tokens_per_second": 25.78817153298145,
+    "validation_history": [
+      {
+        "nll": 10.634366989135742,
+        "perplexity": 41538.12624371353,
+        "tokens": 512,
+        "step": 1
+      }
+    ]
+  },
+  "state": {
+    "mode": "recursion_wise",
+    "state_banks": 3,
+    "share_block_weights": true,
+    "share_state_across_recursions": false,
+    "reset_state_between_sequences": true,
+    "used_shared_state_memory_mb": 0.46875,
+    "allocated_cache_memory_mb": 0.9375
+  },
+  "routing": {
+    "router_type": "token_choice",
+    "average_recursion_depth": 3.0,
+    "depth_counts": {
+      "1": 0,
+      "2": 0,
+      "3": 512
+    },
+    "depth_fractions": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 1.0
+    },
+    "active_fraction_by_recursion": {
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0
+    },
+    "average_effective_layers": 8.0,
+    "average_router_entropy": 1.098576307296753,
+    "theoretical_recursive_compute_fraction": 1.0,
+    "routing_compute_savings_realized": false
+  },
+  "lte": {
+    "num_bins": 8,
+    "minimum_active_bins": 2,
+    "maximum_active_bins": 8,
+    "target_active_fraction": 0.5,
+    "average_active_bins": 8.0,
+    "active_fraction": 1.0,
+    "soft_active_fraction": 0.9819846153259277,
+    "theoretical_width_reduction": 0.0,
+    "average_efficiency_loss": 0.2323092222213745,
+    "per_layer_active_fraction": {
+      "1": 1.0,
+      "2": 1.0
+    },
+    "dense_compute_fallback": true,
+    "sparse_compute_savings_realized": false
+  },
+  "compute": {
+    "recursive_core_depth_fraction": 1.0,
+    "recursive_core_width_fraction": 1.0,
+    "theoretical_joint_recursive_width_fraction": 1.0,
+    "theoretical_joint_recursive_width_reduction": 0.0,
+    "realized_sparse_kernel": false,
+    "note": "Grouped parameter storage reduction is real. LTE width and Dynamic MoR depth reductions are currently theoretical compute reductions because the prototype still executes dense Mamba operations.",
+    "grouped_projection_parameter_fraction": 0.25,
+    "grouped_projection_theoretical_reduction": 0.75,
+    "joint_depth_width_fraction": 1.0,
+    "joint_depth_width_reduction": 0.0,
+    "grouped_parameter_reduction_realized": true,
+    "lte_sparse_compute_realized": false,
+    "dynamic_depth_sparse_compute_realized": false
+  },
+  "quality": {
+    "validation_loss": 10.634366989135742,
+    "nll": 10.634366989135742,
+    "perplexity": 41538.12624371353,
+    "bits_per_token": 15.342148518219433,
+    "token_accuracy": 0.0,
+    "top_5_token_accuracy": 0.009765625
+  },
+  "efficiency": {
+    "evaluation_tokens": 512,
+    "forward_seconds": 0.3033548000094015,
+    "tokens_per_second": 1687.7926440726574,
+    "milliseconds_per_token": 0.5924898437683623,
+    "peak_memory_mb": null
+  },
+  "storage": {
+    "model_weight_memory_mb": 50.17292404174805,
+    "checkpoint_size_mb": 150.59558582305908
+  },
+  "benchmarks": null,
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_length": 256
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "step": 1,
+  "parameter_report": {
+    "total_parameters": 14401795,
+    "trainable_parameters": 14401795,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 1818883
+  },
+  "evaluation": null,
+  "checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_003\\checkpoints\\step_0000001.pt"
+}

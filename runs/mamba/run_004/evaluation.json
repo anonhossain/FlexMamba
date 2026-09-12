@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "technique": "mamba",
+    "scale": "16m",
+    "run": "run_004",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_004\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "mamba",
+    "physical_layers": 8,
+    "effective_layers": 8,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "recursive": false,
+    "vocab_size": 49152,
+    "d_model": 256,
+    "n_layers": 8,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 16087296,
+    "trainable_parameters": 16087296,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 3504384
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 8192,
+    "final_training_loss": 10.847524464130402,
+    "training_seconds": 340.3118231999979,
+    "training_tokens_per_second": 24.072040527330262,
+    "validation_history": [
+      {
+        "nll": 10.740558624267578,
+        "perplexity": 46191.84859972581,
+        "tokens": 512,
+        "step": 1
+      }
+    ]
+  },
+  "quality": {
+    "validation_loss": 10.740558624267578,
+    "nll": 10.740558624267578,
+    "perplexity": 46191.84859972581,
+    "bits_per_token": 15.495350663608022,
+    "token_accuracy": 0.0,
+    "top_5_token_accuracy": 0.0
+  },
+  "efficiency": {
+    "evaluation_tokens": 512,
+    "forward_seconds": 0.282434100023238,
+    "tokens_per_second": 1812.8122629593024,
+    "milliseconds_per_token": 0.5516291016078867,
+    "peak_memory_mb": null
+  },
+  "storage": {
+    "model_weight_memory_mb": 61.3681640625,
+    "checkpoint_size_mb": 184.20567798614502
+  },
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_length": 256,
+    "same_validation_split": true
+  }
+}

@@ -23,7 +23,7 @@
       "perplexity": 9450829.589691043,
       "average_recursion": 3.0,
       "active_width": 1.0,
-      "tokens_per_second": 205.93822882615675,
+      "tokens_per_second": 226.002745896718,
       "state_memory_reduction": 0.549609375
     }
   ]

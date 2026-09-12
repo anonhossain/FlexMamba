@@ -1,0 +1,291 @@
+{
+  "identity": {
+    "technique": "final_joint",
+    "model_type": "flexmamba",
+    "scale": "16m",
+    "run": "run_002",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_002\\checkpoints\\step_0000001.pt",
+    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_002\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "flexmamba",
+    "physical_layers": 4,
+    "min_effective_layers": 4,
+    "max_effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "output_layers": 1,
+    "min_recursions": 1,
+    "max_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "recursion_wise_state": true,
+    "dense_routing_fallback": true,
+    "grouped_parameterization": true,
+    "groups": 4,
+    "group_input_projection": true,
+    "group_ssm_projection": true,
+    "group_output_projection": true,
+    "channel_shuffle": true,
+    "lte_adaptive_width": true,
+    "lte_apply_to": "shared_middle",
+    "lte_layer_indices": [
+      1,
+      2
+    ],
+    "lte_num_bins": 8,
+    "lte_minimum_active_bins": 2,
+    "lte_maximum_active_bins": 8,
+    "lte_target_active_fraction": 0.5,
+    "lte_dense_compute_fallback": true,
+    "quantization_aware_tuning": true,
+    "state_quantization_target": "recurrent_ssm_state",
+    "state_quantization_bits": 8,
+    "fake_quantization": true,
+    "straight_through_estimator": true,
+    "quantizer_scales_frozen": true,
+    "quantization_applied_per_token": true,
+    "qat_is_turboquant_extension": true,
+    "final_joint": true,
+    "dynamic_recursive_depth": true,
+    "recurrent_state_quantization": true,
+    "quantization_aware_training": true,
+    "joint_optimization": true,
+    "new_architecture_mechanism": false
+  },
+  "parameters": {
+    "total_parameters": 13152531,
+    "trainable_parameters": 13152531,
+    "embedding_parameters": 12582912,
+    "router_parameters": 66563,
+    "non_embedding_parameters": 569619,
+    "lte_router_parameters": 4112,
+    "grouped_projection_parameters": 417792,
+    "dense_projection_equivalent_parameters": 1671168,
+    "grouped_parameter_savings": 1253376,
+    "overall_parameter_reduction": 0.08700431010695821,
+    "width_sensitive_parameters": 248832,
+    "qat_trainable_parameters_added": 0,
+    "state_quantizer_parameters": 0,
+    "state_quantizer_count": 6,
+    "state_quantization_bits": 8,
+    "final_joint_parameters_added": 0
+  },
+  "grouping": {
+    "enabled": true,
+    "groups": 4,
+    "channel_shuffle": true,
+    "grouped_projection_count": 12,
+    "dense_projection_parameters": 1671168,
+    "grouped_projection_parameters": 417792,
+    "projection_parameter_reduction": 0.75,
+    "parameter_savings": 1253376,
+    "grouped_model_parameters": 13152531,
+    "dense_combined_equivalent_parameters": 14405907,
+    "overall_parameter_reduction": 0.08700431010695821
+  },
+  "active_parameters": {
+    "stored_parameters": 13152531,
+    "width_sensitive_parameters": 248832,
+    "fixed_parameters": 12903699,
+    "active_width_fraction": 1.0,
+    "theoretical_active_parameters": 13152531.0,
+    "theoretical_active_parameter_fraction": 1.0,
+    "note": "Grouping reduces stored parameters. LTE changes token-dependent active width. Current LTE implementation still uses dense kernels."
+  },
+  "compression": {
+    "bits": 8,
+    "full_precision_recurrent_mb": 0.375,
+    "quantized_recurrent_mb": 0.09375,
+    "conv_state_mb": 0.09375,
+    "full_state_total_mb": 0.46875,
+    "compressed_state_total_mb": 0.199310302734375,
+    "recurrent_compression_ratio": 4.0,
+    "total_state_compression_ratio": 2.3518603582912263,
+    "total_state_memory_reduction": 0.5748046875,
+    "physical_int8_storage_realized": true,
+    "qat_forward_uses_fake_quantization": true
+  },
+  "parent_quantized": {
+    "quality": {
+      "nll": 10.65628719329834,
+      "perplexity": 42458.70320822818,
+      "bits_per_token": 15.373772688060086,
+      "token_accuracy": 0.0,
+      "top_5_token_accuracy": 0.0
+    },
+    "routing": {
+      "average_recursion_depth": 3.0,
+      "depth_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 64
+      },
+      "depth_fractions": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0
+      }
+    },
+    "lte": {
+      "average_active_bins": 8.0,
+      "active_fraction": 1.0
+    },
+    "quantization": {
+      "mode": "quantized",
+      "mse": 4.387985064063623e-11,
+      "mae": 1.2295429897927572e-06,
+      "clip_fraction": 0.0017979939778645833
+    },
+    "efficiency": {
+      "evaluation_tokens": 64,
+      "forward_seconds": 0.1957029000041075,
+      "tokens_per_second": 327.0263240792893,
+      "milliseconds_per_token": 3.0578578125641798,
+      "peak_memory_mb": null
+    }
+  },
+  "final_float": {
+    "quality": {
+      "nll": 10.65262222290039,
+      "perplexity": 42303.37812261574,
+      "bits_per_token": 15.36848525344196,
+      "token_accuracy": 0.0,
+      "top_5_token_accuracy": 0.0
+    },
+    "routing": {
+      "average_recursion_depth": 3.0,
+      "depth_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 64
+      },
+      "depth_fractions": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0
+      }
+    },
+    "lte": {
+      "average_active_bins": 8.0,
+      "active_fraction": 1.0
+    },
+    "quantization": {
+      "mode": "float",
+      "mse": 0.0,
+      "mae": 0.0,
+      "clip_fraction": 0.0
+    },
+    "efficiency": {
+      "evaluation_tokens": 64,
+      "forward_seconds": 0.049147199984872714,
+      "tokens_per_second": 1302.2105027285158,
+      "milliseconds_per_token": 0.7679249997636362,
+      "peak_memory_mb": null
+    }
+  },
+  "final_quantized": {
+    "quality": {
+      "nll": 10.652623176574707,
+      "perplexity": 42303.418466280185,
+      "bits_per_token": 15.368486629303167,
+      "token_accuracy": 0.0,
+      "top_5_token_accuracy": 0.0
+    },
+    "routing": {
+      "average_recursion_depth": 3.0,
+      "depth_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 64
+      },
+      "depth_fractions": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0
+      }
+    },
+    "lte": {
+      "average_active_bins": 8.0,
+      "active_fraction": 1.0
+    },
+    "quantization": {
+      "mode": "quantized",
+      "mse": 4.54675246913191e-11,
+      "mae": 1.2342512881365526e-06,
+      "clip_fraction": 0.001812299092610677
+    },
+    "efficiency": {
+      "evaluation_tokens": 64,
+      "forward_seconds": 0.18222019998938777,
+      "tokens_per_second": 351.2234099387843,
+      "milliseconds_per_token": 2.847190624834184,
+      "peak_memory_mb": null
+    }
+  },
+  "quality": {
+    "nll": 10.652623176574707,
+    "perplexity": 42303.418466280185,
+    "bits_per_token": 15.368486629303167,
+    "token_accuracy": 0.0,
+    "top_5_token_accuracy": 0.0
+  },
+  "routing": {
+    "average_recursion_depth": 3.0,
+    "depth_counts": {
+      "1": 0,
+      "2": 0,
+      "3": 64
+    },
+    "depth_fractions": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 1.0
+    }
+  },
+  "lte": {
+    "average_active_bins": 8.0,
+    "active_fraction": 1.0
+  },
+  "quantization": {
+    "mode": "quantized",
+    "mse": 4.54675246913191e-11,
+    "mae": 1.2342512881365526e-06,
+    "clip_fraction": 0.001812299092610677
+  },
+  "efficiency": {
+    "evaluation_tokens": 64,
+    "forward_seconds": 0.18222019998938777,
+    "tokens_per_second": 351.2234099387843,
+    "milliseconds_per_token": 2.847190624834184,
+    "peak_memory_mb": null
+  },
+  "quality_change": {
+    "parent_ppl": 42458.70320822818,
+    "final_ppl": 42303.418466280185,
+    "absolute_improvement": 155.28474194799492,
+    "relative_improvement": 0.003657312405101951,
+    "float_vs_quantized_ppl_gap": 0.04034366444830084,
+    "relative_quantization_gap": 9.53674771110839e-07
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 64,
+    "final_training_loss": 9.848393440246582,
+    "training_seconds": 7.966033600008814
+  },
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_tokens": 32
+  },
+  "limitations": {
+    "dynamic_depth_compute_realized": false,
+    "lte_sparse_compute_realized": false,
+    "grouped_parameter_storage_realized": true,
+    "int8_state_storage_target": true,
+    "note": "Dynamic recursion and LTE activity are measured, but the generic prototype still executes dense Mamba computation. Grouped parameter reduction and INT8 recurrent-state storage are the physically realized efficiency mechanisms."
+  }
+}

@@ -6,7 +6,7 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from models.static_recursive_mamba import (
+from src.models.static_recursive_mamba import (
     RecursiveMambaModelConfig,
     RecursiveMambaCausalLM,
 )

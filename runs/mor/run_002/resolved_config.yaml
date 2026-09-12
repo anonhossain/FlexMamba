@@ -1,0 +1,64 @@
+technique:
+  stage: 0
+  name: mor
+  model_type: mor
+  experiment_type: training
+inherits: null
+parent:
+  technique: null
+  selected_run: null
+  checkpoint_step: null
+experiment:
+  project_name: FlexMamba
+  scale: 16m
+  seed: 42
+  runs_root: runs
+  debug: true
+initialization:
+  mode: scratch
+model:
+  vocab_size: 49152
+  d_model: 256
+  n_heads: 4
+  n_kv_heads: 2
+  d_ff: 768
+  n_shared_layers: 3
+  num_recursions: 3
+  max_seq_len: 256
+  rope_theta: 10000.0
+  rms_norm_eps: 1.0e-05
+  router_type: token_choice
+  router_hidden_mult: 1
+  router_balance_coeff: 0.01
+  router_z_loss_coeff: 0.001
+  tie_embeddings: true
+data:
+  dataset_name: HuggingFaceFW/fineweb-edu
+  dataset_config: sample-10BT
+  tokenizer_name: HuggingFaceTB/SmolLM-135M
+  validation_docs: 2000
+  shuffle_buffer: 5000
+training:
+  batch_size: 2
+  grad_accum_steps: 16
+  max_steps: 1
+  learning_rate: 0.001
+  min_learning_rate: 0.0001
+  warmup_ratio: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  weight_decay: 0.1
+  grad_clip: 1.0
+  log_every: 1
+validation:
+  enabled: true
+  eval_every: 1
+  eval_batches: 1
+checkpoint:
+  save_steps:
+  - 1
+evaluation:
+  enabled: true
+  batch_size: 2
+  eval_batches: 1
+  run_benchmarks: true

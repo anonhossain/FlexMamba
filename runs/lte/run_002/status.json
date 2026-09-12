@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s06",
+  "technique": "lte",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_003\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\lte\\run_002\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\lte\\run_002\\evaluation.json"
+}

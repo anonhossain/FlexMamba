@@ -1,0 +1,6 @@
+{
+  "status": "completed",
+  "technique": "mor",
+  "scale": "16m",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_002\\checkpoints\\step_0000001.pt"
+}

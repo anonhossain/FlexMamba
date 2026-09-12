@@ -1,0 +1,110 @@
+{
+  "identity": {
+    "technique": "static_recursive_mamba",
+    "model_type": "recursive_mamba",
+    "scale": "16m",
+    "run": "run_002",
+    "checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_002\\checkpoints\\step_0000001.pt",
+    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_004\\checkpoints\\step_0000001.pt",
+    "device": "cpu"
+  },
+  "architecture": {
+    "architecture": "static_recursive_mamba",
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "num_recursions": 3,
+    "output_layers": 1,
+    "recursive": true,
+    "dynamic_routing": false,
+    "vocab_size": 49152,
+    "d_model": 256,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 14335232,
+    "trainable_parameters": 14335232,
+    "embedding_parameters": 12582912,
+    "non_embedding_parameters": 1752320
+  },
+  "initialization": {
+    "strategy": "cycle_average",
+    "parent_layers": 8,
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "layer_mapping": {
+      "0": [
+        0
+      ],
+      "1": [
+        1,
+        3,
+        5
+      ],
+      "2": [
+        2,
+        4,
+        6
+      ],
+      "3": [
+        7
+      ]
+    },
+    "mapped_tensor_count": 43,
+    "unexpected_keys": [],
+    "parent_parameter_count": 16087296,
+    "child_parameter_count": 14335232,
+    "parameter_reduction": 0.10890978819560482
+  },
+  "training": {
+    "completed_steps": 1,
+    "training_tokens": 8192,
+    "final_training_loss": 10.740280330181122,
+    "training_seconds": 312.395886000013,
+    "training_tokens_per_second": 26.223136626068307,
+    "validation_history": [
+      {
+        "nll": 10.610504150390625,
+        "perplexity": 40558.641754555225,
+        "tokens": 512,
+        "step": 1
+      }
+    ]
+  },
+  "recursion": {
+    "mode": "static",
+    "num_recursions": 3,
+    "physical_layers": 4,
+    "effective_layers": 8,
+    "average_recursion_depth": 3.0
+  },
+  "quality": {
+    "validation_loss": 10.610504150390625,
+    "nll": 10.610504150390625,
+    "perplexity": 40558.641754555225,
+    "bits_per_token": 15.30772171910032,
+    "token_accuracy": 0.001953125,
+    "top_5_token_accuracy": 0.021484375
+  },
+  "efficiency": {
+    "evaluation_tokens": 512,
+    "forward_seconds": 0.2683264999941457,
+    "tokens_per_second": 1908.1231261585074,
+    "milliseconds_per_token": 0.5240751953010658,
+    "peak_memory_mb": null
+  },
+  "storage": {
+    "model_weight_memory_mb": 54.6845703125,
+    "checkpoint_size_mb": 164.10548877716064
+  },
+  "benchmarks": null,
+  "evaluation_setup": {
+    "evaluation_batches": 1,
+    "batch_size": 2,
+    "sequence_length": 256
+  }
+}

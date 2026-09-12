@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "stage": "s10",
+  "technique": "final_joint",
+  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_002\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_002\\checkpoints\\step_0000001.pt",
+  "evaluation": "C:\\files\\FlexMamba\\runs\\final_joint\\run_002\\evaluation.json"
+}
