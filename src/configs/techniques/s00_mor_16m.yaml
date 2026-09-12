@@ -4,19 +4,23 @@ technique:
   model_type: mor
   experiment_type: training
 
+
 inherits: null
+
 
 parent:
   technique: null
   selected_run: null
   checkpoint_step: null
 
+
 experiment:
   project_name: FlexMamba
-  scale: 16m
+  scale: 30m
   seed: 42
   runs_root: runs
-  debug: true
+  debug: false
+
 
 initialization:
   mode: scratch
@@ -28,16 +32,18 @@ initialization:
 
 model:
   vocab_size: 49152
-  d_model: 256
 
-  n_heads: 4
+  d_model: 448
+
+  n_heads: 8
   n_kv_heads: 2
-  d_ff: 768
+  d_ff: 1344
 
   n_shared_layers: 3
   num_recursions: 3
 
   max_seq_len: 256
+
   rope_theta: 10000.0
   rms_norm_eps: 1.0e-5
 
@@ -63,20 +69,22 @@ data:
   validation_docs: 2000
   shuffle_buffer: 5000
 
+  streaming: true
+
 
 # ============================================================
 # TRAINING
 # ============================================================
 
 training:
-  batch_size: 2
-  grad_accum_steps: 16
+  batch_size: 1
+  grad_accum_steps: 8
 
-  max_steps: 1
+  max_steps: 500
 
-  learning_rate: 0.001
-  min_learning_rate: 0.0001
-  warmup_ratio: 0.10
+  learning_rate: 0.0005
+  min_learning_rate: 0.00005
+  warmup_ratio: 0.05
 
   beta1: 0.9
   beta2: 0.95
@@ -84,7 +92,18 @@ training:
   weight_decay: 0.10
   grad_clip: 1.0
 
-  log_every: 1
+  log_every: 10
+
+
+# ============================================================
+# BUDGET
+# ============================================================
+
+budget:
+  type: fixed_steps
+
+  tokens_per_step: 2048
+  training_tokens: 1024000
 
 
 # ============================================================
@@ -94,8 +113,8 @@ training:
 validation:
   enabled: true
 
-  eval_every: 1
-  eval_batches: 1
+  eval_every: 100
+  eval_batches: 5
 
 
 # ============================================================
@@ -104,7 +123,9 @@ validation:
 
 checkpoint:
   save_steps:
-    - 1
+    - 100
+    - 250
+    - 500
 
 
 # ============================================================
@@ -114,6 +135,7 @@ checkpoint:
 evaluation:
   enabled: true
 
-  batch_size: 2
-  eval_batches: 1
-  run_benchmarks: true
+  batch_size: 1
+  eval_batches: 5
+
+  run_benchmarks: false

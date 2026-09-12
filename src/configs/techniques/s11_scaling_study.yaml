@@ -4,62 +4,71 @@ technique:
   model_type: flexmamba
   experiment_type: scaling
 
+
 inherits: final_joint
+
 
 parent:
   technique: final_joint
   selected_run: auto
+
+  # S11 uses S10 only as an architecture reference.
   role: architecture_reference
   load_weights: false
+
 
 experiment:
   project_name: FlexMamba
   seed: 42
   runs_root: runs
-  debug: true
+  debug: false
+
+
+# ============================================================
+# DATA
+# ============================================================
 
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
+
   tokenizer_name: HuggingFaceTB/SmolLM-135M
 
   validation_docs: 2000
   shuffle_buffer: 5000
+
   streaming: true
+
+
+# ============================================================
+# SCALING STUDY
+# ============================================================
 
 scaling:
   section_title: FlexMamba Scale-Efficiency Analysis
 
-  # Comparable to the unshared/base model capacity.
   target_basis: unrolled_dense_equivalent_parameters
 
   parameter_tolerance_percent: 5
 
-  # Keep the architecture itself fixed and scale width.
   scaling_axis: width
   width_multiple: 64
+
   minimum_d_model: 128
   maximum_d_model: 8192
 
   preserve_architecture: true
 
-  # Paper-inspired spacing:
-  # 135M -> 360M -> 730M -> 1.7B
+  # Mac pilot:
+  # evaluate only the ~30M scale.
   targets:
-    - name: 16m
-      target_parameters: 16000000
-
     - name: 30m
       target_parameters: 30000000
 
-    - name: 75m
-      target_parameters: 75000000
 
-    - name: 150m
-      target_parameters: 150000000
-
-    - name: 350m
-      target_parameters: 350000000
+# ============================================================
+# MODEL TEMPLATE
+# ============================================================
 
 model_template:
   vocab_size: 49152
@@ -72,33 +81,54 @@ model_template:
   shared_middle_layers: 2
   output_layers: 1
 
-  max_seq_len: 2048
+  # Mac pilot context.
+  max_seq_len: 256
 
   tie_word_embeddings: true
+
   use_bias: false
   use_conv_bias: true
+
   residual_in_fp32: true
   layer_norm_eps: 1.0e-5
+
+
+# ============================================================
+# DYNAMIC RECURSION
+# ============================================================
 
 recursion:
   mode: dynamic
 
-  # Paper scaling study fixes recursion count to 3.
   min_recursions: 1
   max_recursions: 3
 
+
+# ============================================================
+# RECURSION-WISE STATE
+# ============================================================
+
 state:
   mode: recursion_wise
+
   share_block_weights: true
   share_state_across_recursions: false
+
   reset_state_between_sequences: true
+
+
+# ============================================================
+# ROUTING
+# ============================================================
 
 routing:
   enabled: true
+
   router_type: token_choice
   hidden_multiplier: 1
 
   temperature: 1.0
+
   hard_routing: true
   straight_through: true
 
@@ -108,8 +138,14 @@ routing:
   initialize_to_parent_depth: true
   max_depth_bias: 0.01
 
+
+# ============================================================
+# GROUPED PARAMETERIZATION
+# ============================================================
+
 grouped_parameterization:
   enabled: true
+
   groups: 4
 
   group_input_projection: true
@@ -118,16 +154,24 @@ grouped_parameterization:
 
   channel_shuffle: true
 
+
+# ============================================================
+# LTE ADAPTIVE WIDTH
+# ============================================================
+
 lte:
   enabled: true
+
   apply_to: shared_middle
 
   num_bins: 8
+
   minimum_active_bins: 2
   maximum_active_bins: 8
 
   router_type: sigmoid
   threshold: 0.5
+
   straight_through: true
 
   efficiency_loss_coeff: 0.01
@@ -136,11 +180,18 @@ lte:
   initialize_all_active: true
   initial_logit: 4.0
 
+
+# ============================================================
+# RECURRENT-STATE QUANTIZATION
+# ============================================================
+
 state_quantization:
   enabled: true
+
   target: recurrent_ssm_state
 
   bits: 8
+
   symmetric: true
   per_channel: true
 
@@ -148,29 +199,55 @@ state_quantization:
 
   calibration_method: percentile
   calibration_percentile: 99.9
+
   max_samples_per_channel: 16384
+
+
+# ============================================================
+# QUANTIZATION-AWARE TRAINING
+# ============================================================
 
 quantization:
   enabled: true
+
   target: recurrent_ssm_state
 
   state_bits: 8
+
   fake_quantization: true
   straight_through_estimator: true
 
   freeze_quantizer_scales: true
+
   quantization_loss_coeff: 0.0
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
 
 initialization:
   mode: from_scratch
 
+
+# ============================================================
+# CALIBRATION
+# ============================================================
+
 calibration:
   enabled: true
-  batches: 16
+
+  batches: 4
+
+
+# ============================================================
+# FULL-SCALE BUDGET
+#
+# These settings are retained for later experiments.
+# The Mac pilot below uses the smoke section instead.
+# ============================================================
 
 budget:
-  # Paper also studies fixed-data training at 20B tokens.
-  # We use a 1/1000 prototype equivalent.
   protocol: fixed_tokens
 
   paper_reference_tokens: 20000000000
@@ -178,24 +255,31 @@ budget:
 
   training_tokens_per_scale: 20000000
 
-  # Stored for later true IsoFLOP experiments.
   paper_iso_flop_budgets:
     - 2.0e18
     - 5.0e18
     - 1.65e19
 
+
+# ============================================================
+# FULL TRAINING SETTINGS
+#
+# Not used while smoke.enabled = true.
+# ============================================================
+
 training:
   enabled: true
 
   micro_batch_size: 1
-  global_tokens_per_update: 8192
+  global_tokens_per_update: 1024
 
-  sequence_tokens: 2048
+  sequence_tokens: 128
 
-  learning_rate: 0.0005
+  learning_rate: 0.0003
   min_learning_rate: 0.0
 
   scheduler: trapezoid
+
   warmup_ratio: 0.05
   cooldown_ratio: 0.20
 
@@ -207,30 +291,42 @@ training:
 
   log_every: 10
 
+
+# ============================================================
+# VALIDATION
+# ============================================================
+
 validation:
   enabled: true
-  eval_every: 250
-  eval_batches: 50
-  sequence_tokens: 2048
+
+  eval_every: 50
+  eval_batches: 5
+
+  sequence_tokens: 128
+
+
+# ============================================================
+# EVALUATION
+# ============================================================
 
 evaluation:
   enabled: true
+
   fixed_data: true
 
   batch_size: 1
-  eval_batches: 50
+  eval_batches: 5
 
-  primary_sequence_length: 2048
+  primary_sequence_length: 128
 
   sequence_lengths:
+    - 64
     - 128
     - 256
-    - 512
-    - 1024
-    - 2048
 
   collect:
     quality: true
+
     parameters: true
     active_parameters: true
 
@@ -252,18 +348,23 @@ evaluation:
 
     scaling_efficiency: true
 
-# Current pipeline validation only.
+
+# ============================================================
+# MAC 30M DIAGNOSTIC RUN
+# ============================================================
+
 smoke:
   enabled: true
 
   targets:
-    - 16m
+    - 30m
 
-  max_steps: 1
+  max_steps: 10
 
-  sequence_tokens: 32
-  calibration_batches: 1
-  eval_batches: 1
+  sequence_tokens: 128
+
+  calibration_batches: 2
+  eval_batches: 2
 
   sequence_lengths:
-    - 32
+    - 128

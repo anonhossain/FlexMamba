@@ -1,88 +1,155 @@
 technique:
   stage: 0
-  name: mamba_16m_debug
+  name: mamba_30m_debug
   model_type: mamba
   experiment_type: pipeline_debug
 
+
 inherits: mor
+
 
 parent:
   technique: mor
   selected_run: null
   checkpoint_step: null
 
+
 experiment:
   project_name: FlexMamba
-  scale: 16m
+  scale: 30m
   seed: 42
   runs_root: runs
+  debug: true
+
+
+# ============================================================
+# DATA
+# ============================================================
 
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
+
   tokenizer_name: HuggingFaceTB/SmolLM-135M
+
   validation_docs: 2000
   shuffle_buffer: 5000
+
   streaming: true
+
+
+# ============================================================
+# MODEL
+# ============================================================
 
 model:
   vocab_size: 49152
-  d_model: 256
+
+  d_model: 448
   n_layers: 8
+
   d_state: 16
   expand: 2
   d_conv: 4
+
   max_seq_len: 256
 
   tie_word_embeddings: true
+
   use_bias: false
   use_conv_bias: true
+
   residual_in_fp32: true
   layer_norm_eps: 1.0e-5
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
 
 initialization:
   mode: scratch
 
-training:
-  batch_size: 2
-  grad_accum_steps: 16
-  max_steps: 1
 
-  learning_rate: 0.001
-  min_learning_rate: 0.0001
+# ============================================================
+# TRAINING
+# ============================================================
+
+training:
+  batch_size: 1
+  grad_accum_steps: 8
+
+  max_steps: 20
+
+  learning_rate: 0.0005
+  min_learning_rate: 0.00005
   warmup_ratio: 0.10
 
   weight_decay: 0.10
+
   beta1: 0.9
   beta2: 0.95
+
   grad_clip: 1.0
 
   log_every: 1
 
+
+# ============================================================
+# BUDGET
+# ============================================================
+
 budget:
   type: debug
-  tokens_per_step: 8192
-  training_tokens: 163840
+
+  # 1 batch × 8 accumulation × 256 tokens
+  tokens_per_step: 2048
+
+  # 20 updates × 2048 tokens
+  training_tokens: 40960
+
+
+# ============================================================
+# VALIDATION
+# ============================================================
 
 validation:
   enabled: true
+
   eval_every: 5
   eval_batches: 2
 
+
+# ============================================================
+# CHECKPOINT
+# ============================================================
+
 checkpoint:
-  save_steps: [5,10, 15, 20]
+  save_steps:
+    - 5
+    - 10
+    - 15
+    - 20
+
+
+# ============================================================
+# EVALUATION
+# ============================================================
 
 evaluation:
   enabled: true
+
   fixed_data: true
   cache_path: data/evaluation/fineweb_eval_256.pt
-  batch_size: 2
+
+  batch_size: 1
   eval_batches: 5
 
   collect:
     quality: true
     architecture: true
     parameters: true
+
     throughput: true
     latency: true
     memory: true

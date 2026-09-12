@@ -4,136 +4,234 @@ technique:
   model_type: flexmamba_markov
   experiment_type: speculative_generation
 
+
 inherits: final_joint
+
 
 parent:
   technique: final_joint
   selected_run: auto
   checkpoint_step: final
 
+
 experiment:
   project_name: FlexMamba
-  scale: 16m
+  scale: 30m
   seed: 42
   runs_root: runs
-  debug: true
+  debug: false
+
+
+# ============================================================
+# DATA
+# ============================================================
 
 data:
   dataset_name: HuggingFaceFW/fineweb-edu
   dataset_config: sample-10BT
+
   tokenizer_name: HuggingFaceTB/SmolLM-135M
+
   validation_docs: 2000
   shuffle_buffer: 5000
+
   streaming: true
+
+
+# ============================================================
+# MARKOV / DSPARK-INSPIRED DRAFTER
+# ============================================================
 
 markov_head:
   enabled: true
 
-  # DSpark main setting
+  # Draft block length
   block_size: 7
   maximum_block_size: 7
 
-  # Parallel drafter
-  draft_layers: 5
-  draft_heads: 4
+  # ----------------------------------------------------------
+  # PARALLEL DRAFTER
+  # ----------------------------------------------------------
+
+  # Reduced from 5 layers for the 30M Mac pilot.
+  draft_layers: 2
+
+  # d_model = 448
+  # 448 / 7 = 64 dimensions per attention head.
+  draft_heads: 7
+
   draft_ffn_multiplier: 2
   dropout: 0.0
 
   # FlexMamba adaptation:
-  # DFlash uses features from several target layers.
-  # We use the frozen final FlexMamba hidden state.
+  # use frozen final FlexMamba hidden representation.
   target_feature_source: final_hidden
 
   share_target_input_embeddings: true
   share_target_output_head: true
+
   freeze_target: true
 
-  # Paper default is 256.
-  # 32 is scaled down for our 16M target.
+
+  # ----------------------------------------------------------
+  # MARKOV HEAD
+  # ----------------------------------------------------------
+
   markov_type: vanilla
+
+  # Scaled-down rank appropriate for the prototype.
   markov_rank: 32
+
+
+  # ----------------------------------------------------------
+  # CONFIDENCE HEAD
+  # ----------------------------------------------------------
 
   confidence_head:
     enabled: true
     use_markov_embedding: true
 
-  # Official DeepSpec weighting
+
+  # ----------------------------------------------------------
+  # LOSS
+  # ----------------------------------------------------------
+
   loss_decay_gamma: 4.0
 
   ce_loss_coeff: 0.10
   tv_loss_coeff: 0.90
   confidence_loss_coeff: 1.00
 
-  # Paper uses many anchors on long 4K sequences.
-  # Our sequence is only 256.
-  anchors_per_sequence: 8
+
+  # ----------------------------------------------------------
+  # TRAINING ANCHORS
+  # ----------------------------------------------------------
+
+  anchors_per_sequence: 4
+
+
+  # ----------------------------------------------------------
+  # TARGET STATE
+  # ----------------------------------------------------------
 
   target_state_mode: quantized
+
+
+# ============================================================
+# SPECULATIVE DECODING
+# ============================================================
 
 speculative_decoding:
   enabled: true
 
   acceptance_method: rejection_sampling
+
+  # Preserve target-model distribution.
   lossless: true
 
   temperature: 1.0
 
-  # Offline DSpark evaluation disables the scheduler
-  # to isolate draft quality.
   confidence_scheduler:
     enabled: false
+
+
+# ============================================================
+# TRAINING
+# ============================================================
 
 training:
   enabled: true
 
-  batch_size: 2
-  grad_accum_steps: 16
-  max_steps: 1000
+  batch_size: 1
+  grad_accum_steps: 8
 
-  sequence_tokens: 256
+  max_steps: 300
 
-  # Official DeepSpec value
+  sequence_tokens: 128
+
   learning_rate: 0.0006
   min_learning_rate: 0.0
   warmup_ratio: 0.04
 
   weight_decay: 0.0
+
   beta1: 0.9
   beta2: 0.95
 
   grad_clip: 1.0
+
   log_every: 10
+
+
+# ============================================================
+# TRAINING BUDGET
+# ============================================================
 
 budget:
   type: head_training
-  tokens_per_step: 8192
-  training_tokens: 8192000
+
+  tokens_per_step: 1024
+  training_tokens: 307200
+
+
+# ============================================================
+# VALIDATION
+# ============================================================
 
 validation:
   enabled: true
-  eval_every: 100
-  eval_batches: 20
+
+  eval_every: 50
+  eval_batches: 5
+
+
+# ============================================================
+# CHECKPOINT
+# ============================================================
 
 checkpoint:
-  save_steps: [250, 500, 750, 1000]
+  save_steps:
+    - 100
+    - 200
+    - 300
+
+
+# ============================================================
+# EVALUATION
+# ============================================================
 
 evaluation:
   enabled: true
+
   fixed_data: true
   cache_path: data/evaluation/fineweb_eval_256.pt
 
   batch_size: 1
-  eval_batches: 20
+  eval_batches: 5
+
+
+  # ----------------------------------------------------------
+  # GENERATION
+  # ----------------------------------------------------------
 
   generation:
-    # Must remain inside the current 256-token S10 context.
     prompt_length: 64
     generation_length: 64
 
     temperature: 1.0
     block_size: 7
 
+
+  # ----------------------------------------------------------
+  # CORRECTNESS CHECK
+  # ----------------------------------------------------------
+
   greedy_equivalence_check: true
+
+
+  # ----------------------------------------------------------
+  # METRICS
+  # ----------------------------------------------------------
 
   collect:
     baseline_decode_tokens_per_second: true
@@ -148,21 +246,16 @@ evaluation:
     verification_latency: true
 
     confidence: true
+
     speedup_ratio: true
     peak_memory: true
 
     quality_equivalence: true
 
-# Pipeline validation only.
+
+# ============================================================
+# SMOKE TEST
+# ============================================================
+
 smoke:
-  enabled: true
-
-  max_steps: 1
-  grad_accum_steps: 1
-
-  sequence_tokens: 64
-  anchors_per_sequence: 2
-
-  eval_batches: 1
-  prompt_length: 32
-  generation_length: 16
+  enabled: false

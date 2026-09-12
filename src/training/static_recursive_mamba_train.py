@@ -309,7 +309,7 @@ def train_recursive_mamba(
 def run_static_recursive_mamba(parent_run_dir=None, steps=None):
 
     print("\n" + "=" * 60)
-    print("S02 — STATIC RECURSIVE MAMBA 16M")
+    print("S02 — STATIC RECURSIVE MAMBA 30M")
     print("=" * 60)
 
     summary = train_recursive_mamba(
