@@ -3,12 +3,12 @@ from pathlib import Path
 
 import torch
 
-from src.models.recursive_mamba_16m import (
+from models.static_recursive_mamba import (
     RecursiveMambaModelConfig,
     RecursiveMambaCausalLM,
 )
 
-from src.evaluation.recursive_mamba_16m_eval import evaluate_recursive_mamba
+from evaluation.static_recursive_mamba_eval import evaluate_recursive_mamba
 
 from src.training.common_16m import (
     PROJECT_ROOT,
@@ -306,7 +306,7 @@ def train_recursive_mamba(
         raise
 
 
-def run_recursive_mamba_16m(parent_run_dir=None, steps=None):
+def run_static_recursive_mamba(parent_run_dir=None, steps=None):
 
     print("\n" + "=" * 60)
     print("S02 — STATIC RECURSIVE MAMBA 16M")

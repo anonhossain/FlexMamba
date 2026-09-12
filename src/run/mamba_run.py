@@ -15,7 +15,7 @@ from src.training.common_16m import save_json
 
 CONFIG_PATH = ("src/configs/techniques/s01_mamba.yaml")
 
-def run_mamba_16m(parent_run_dir=None,):
+def run_mamba(parent_run_dir=None,):
 
     print("\n[1/2] Training Mamba 16M...\n")
 
@@ -128,4 +128,4 @@ if __name__ == "__main__":
     # automatically selects latest
     # completed MoR checkpoint.
 
-    run_mamba_16m()
+    run_mamba()

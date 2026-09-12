@@ -16,7 +16,7 @@ from src.training.common_16m import save_json
 CONFIG_PATH = "src/configs/techniques/s00_mor_16m.yaml"
 
 
-def run_mor_16m():
+def run_mor():
     print("=" * 60)
     print("S00 — MoR 16M")
     print("=" * 60)
@@ -93,4 +93,4 @@ def run_mor_16m():
 
 
 if __name__ == "__main__":
-    run_mor_16m()
+    run_mor()

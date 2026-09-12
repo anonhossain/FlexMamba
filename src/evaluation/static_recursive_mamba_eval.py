@@ -6,7 +6,7 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from src.models.recursive_mamba_16m import (
+from models.static_recursive_mamba import (
     RecursiveMambaModelConfig,
     RecursiveMambaCausalLM,
 )
@@ -135,7 +135,7 @@ def run_evaluation(model, batches, device):
     }
 
 
-def evaluate_recursive_mamba(summary):
+def evaluate_static_recursive_mamba(summary):
 
     checkpoint_path = resolve_path(summary["final_checkpoint"])
     run_dir = resolve_path(summary["run_dir"])
