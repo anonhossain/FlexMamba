@@ -1,0 +1,18 @@
+{
+  "step": 200,
+  "parameter_report": {
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384
+  },
+  "evaluation": null,
+  "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/checkpoints/step_0000200.pt"
+}

@@ -1,44 +1,74 @@
 {
   "technique": "final_joint",
-  "scale": "16m",
-  "debug": true,
+  "scale": "30m",
+  "debug": false,
   "run": "run_001",
-  "run_dir": "C:\\files\\FlexMamba\\runs\\final_joint\\run_001",
-  "completed_steps": 1,
-  "sequence_tokens": 32,
-  "tokens_per_step": 64,
-  "training_tokens": 64,
-  "final_training_loss": 9.848393440246582,
-  "training_seconds": 9.039113499995437,
-  "seconds_per_step": 9.039113499995437,
-  "tokens_per_second": 7.080340345326155,
+  "run_dir": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/final_joint/run_001",
+  "completed_steps": 300,
+  "sequence_tokens": 128,
+  "tokens_per_step": 1024,
+  "training_tokens": 307200,
+  "final_training_loss": 6.618309795856476,
+  "training_seconds": 3379.6201774999936,
+  "seconds_per_step": 11.265400591666646,
+  "tokens_per_second": 90.89778846901224,
   "validation_history": [
     {
-      "step": 1,
-      "nll": 10.652623176574707,
-      "perplexity": 42303.418466280185,
-      "state_quantization_mse": 4.5467524655179026e-11
+      "step": 50,
+      "nll": 7.079419708251953,
+      "perplexity": 1187.2793501595547,
+      "state_quantization_mse": 3.308228280686829e-09
+    },
+    {
+      "step": 100,
+      "nll": 7.032074356079102,
+      "perplexity": 1132.3771289685187,
+      "state_quantization_mse": 3.6243005135451216e-09
+    },
+    {
+      "step": 150,
+      "nll": 6.967397594451905,
+      "perplexity": 1061.4568119556677,
+      "state_quantization_mse": 7.23081297158334e-09
+    },
+    {
+      "step": 200,
+      "nll": 6.932553958892822,
+      "perplexity": 1025.1087247692922,
+      "state_quantization_mse": 8.080706490764956e-09
+    },
+    {
+      "step": 250,
+      "nll": 6.907161903381348,
+      "perplexity": 999.4068004116971,
+      "state_quantization_mse": 8.709664038316659e-09
+    },
+    {
+      "step": 300,
+      "nll": 6.889981079101562,
+      "perplexity": 982.3828294766676,
+      "state_quantization_mse": 9.870352149953495e-09
     }
   ],
   "final_validation": {
-    "step": 1,
-    "nll": 10.652623176574707,
-    "perplexity": 42303.418466280185,
-    "state_quantization_mse": 4.5467524655179026e-11
+    "step": 300,
+    "nll": 6.889981079101562,
+    "perplexity": 982.3828294766676,
+    "state_quantization_mse": 9.870352149953495e-09
   },
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_001\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/final_joint/run_001/checkpoints/step_0000300.pt",
   "parameter_report": {
-    "total_parameters": 13152531,
-    "trainable_parameters": 13152531,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 569619,
-    "lte_router_parameters": 4112,
-    "grouped_projection_parameters": 417792,
-    "dense_projection_equivalent_parameters": 1671168,
-    "grouped_parameter_savings": 1253376,
-    "overall_parameter_reduction": 0.08700431010695821,
-    "width_sensitive_parameters": 248832,
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384,
     "qat_trainable_parameters_added": 0,
     "state_quantizer_parameters": 0,
     "state_quantizer_count": 6,
@@ -92,13 +122,13 @@
     "joint_optimization": true,
     "new_architecture_mechanism": false
   },
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_001\\checkpoints\\step_0000001.pt",
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/quantization_aware_tuning/run_001/checkpoints/step_0000150.pt",
   "initialization_report": {
     "strategy": "load_parent",
     "parent_model_type": "qat_joint_mamba",
-    "transferred_parameter_count": 13152531,
+    "transferred_parameter_count": 23672787,
     "new_trainable_parameters": 0,
-    "total_parameter_count": 13152531,
+    "total_parameter_count": 23672787,
     "transferred_parameter_fraction": 1.0,
     "quantizer_count": 6,
     "quantizer_state_transferred": true

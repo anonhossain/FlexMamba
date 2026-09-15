@@ -1,0 +1,92 @@
+{
+  "identity": {
+    "technique": "mamba",
+    "scale": "30m",
+    "run": "run_001",
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mamba/run_001/checkpoints/step_0000500.pt",
+    "device": "mps"
+  },
+  "architecture": {
+    "architecture": "mamba",
+    "physical_layers": 8,
+    "effective_layers": 8,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "recursive": false,
+    "vocab_size": 49152,
+    "d_model": 448,
+    "n_layers": 8,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 32453568,
+    "trainable_parameters": 32453568,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 10433472
+  },
+  "training": {
+    "completed_steps": 500,
+    "training_tokens": 1024000,
+    "final_training_loss": 6.735589802265167,
+    "training_seconds": 10677.645023958,
+    "training_tokens_per_second": 95.90129637222408,
+    "validation_history": [
+      {
+        "nll": 7.508347702026367,
+        "perplexity": 1823.1985853703575,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 7.016518306732178,
+        "perplexity": 1114.8981191191879,
+        "tokens": 1280,
+        "step": 200
+      },
+      {
+        "nll": 6.872223567962647,
+        "perplexity": 965.0921296894178,
+        "tokens": 1280,
+        "step": 300
+      },
+      {
+        "nll": 6.761473846435547,
+        "perplexity": 863.9145353008636,
+        "tokens": 1280,
+        "step": 400
+      },
+      {
+        "nll": 6.729408836364746,
+        "perplexity": 836.6525211851248,
+        "tokens": 1280,
+        "step": 500
+      }
+    ]
+  },
+  "quality": {
+    "validation_loss": 6.729408836364746,
+    "nll": 6.729408836364746,
+    "perplexity": 836.6525211851248,
+    "bits_per_token": 9.70848475633779,
+    "token_accuracy": 0.11328125,
+    "top_5_token_accuracy": 0.25078125
+  },
+  "efficiency": {
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.365774624999176,
+    "tokens_per_second": 3499.4226294480745,
+    "milliseconds_per_token": 0.28576142578060626,
+    "peak_memory_mb": 303.115234375
+  },
+  "storage": {
+    "model_weight_memory_mb": 123.800537109375,
+    "checkpoint_size_mb": 371.50322437286377
+  },
+  "evaluation_setup": {
+    "evaluation_batches": 5,
+    "batch_size": 1,
+    "sequence_length": 256,
+    "same_validation_split": true
+  }
+}

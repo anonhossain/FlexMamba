@@ -2,11 +2,11 @@
   "identity": {
     "technique": "turboquant_state",
     "model_type": "turboquant_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\turboquant_state\\run_001\\checkpoints\\step_0000000.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/turboquant_state/run_001/checkpoints/step_0000000.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/checkpoints/step_0000300.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "turboquant_grouped_lte_dynamic_mamba",
@@ -49,123 +49,123 @@
     "training_required": false
   },
   "parameters": {
-    "total_parameters": 13152531,
-    "trainable_parameters": 13152531,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 569619,
-    "lte_router_parameters": 4112,
-    "grouped_projection_parameters": 417792,
-    "dense_projection_equivalent_parameters": 1671168,
-    "grouped_parameter_savings": 1253376,
-    "overall_parameter_reduction": 0.08700431010695821,
-    "width_sensitive_parameters": 248832,
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384,
     "state_quantization_parameters": 0,
     "state_quantization_bits": 8
   },
   "calibration": {
-    "calibration_batches": 1,
-    "calibration_chunks": 4,
+    "calibration_batches": 8,
+    "calibration_chunks": 32,
     "chunk_size": 64,
     "quantizers": 6,
     "method": "percentile",
     "percentile": 99.9,
-    "average_scale": 3.4022993607626026e-06
+    "average_scale": 0.00010105622580643588
   },
   "compression": {
     "target": "recurrent_ssm_state",
     "bits": 8,
     "original_dtype": "torch.float32",
-    "recurrent_state_elements": 98304,
-    "conv_state_elements": 24576,
-    "full_precision_recurrent_mb": 0.375,
-    "quantized_recurrent_payload_mb": 0.09375,
-    "scale_metadata_mb": 0.01171875,
+    "recurrent_state_elements": 86016,
+    "conv_state_elements": 21504,
+    "full_precision_recurrent_mb": 0.328125,
+    "quantized_recurrent_payload_mb": 0.08203125,
+    "scale_metadata_mb": 0.0205078125,
     "rotation_metadata_mb": 9.1552734375e-05,
-    "conv_state_mb": 0.09375,
-    "full_state_total_mb": 0.46875,
-    "compressed_state_total_mb": 0.199310302734375,
+    "conv_state_mb": 0.08203125,
+    "full_state_total_mb": 0.41015625,
+    "compressed_state_total_mb": 0.184661865234375,
     "recurrent_payload_compression_ratio": 4.0,
-    "total_state_compression_ratio": 2.3518603582912263,
-    "total_state_memory_reduction": 0.5748046875,
+    "total_state_compression_ratio": 2.221120475954388,
+    "total_state_memory_reduction": 0.5497767857142857,
     "conv_state_quantized": false,
     "quantized_storage_realized": true,
     "note": "Only recurrent SSM state is quantized. Convolution state remains full precision."
   },
   "baseline": {
     "quality": {
-      "nll": 10.636948108673096,
-      "perplexity": 41645.47959922731,
-      "bits_per_token": 15.345872286575915,
-      "token_accuracy": 0.0,
-      "top_5_token_accuracy": 0.0078125
+      "nll": 6.869833278656006,
+      "perplexity": 962.7880351152426,
+      "bits_per_token": 9.911074402850987,
+      "token_accuracy": 0.109375,
+      "top_5_token_accuracy": 0.2578125
     },
     "routing": {
       "average_recursion_depth": 3.0,
       "depth_counts": {
         "1": 0,
         "2": 0,
-        "3": 512
+        "3": 1280
       },
       "depth_fractions": {
         "1": 0.0,
         "2": 0.0,
         "3": 1.0
       },
-      "average_router_entropy": 1.0985761880874634
+      "average_router_entropy": 0.8247105121612549
     },
     "lte": {
       "average_active_bins": 8.0,
       "active_fraction": 1.0
     },
     "efficiency": {
-      "evaluation_tokens": 512,
-      "forward_seconds": 0.28843059997598175,
-      "tokens_per_second": 1775.123721417337,
-      "milliseconds_per_token": 0.5633410155780894,
-      "peak_memory_mb": null
+      "evaluation_tokens": 1280,
+      "forward_seconds": 0.7121878740072134,
+      "tokens_per_second": 1797.2785647106307,
+      "milliseconds_per_token": 0.5563967765681355,
+      "peak_memory_mb": 372.369140625
     }
   },
   "quantized": {
     "quality": {
-      "nll": 10.636948108673096,
-      "perplexity": 41645.47959922731,
-      "bits_per_token": 15.345872286575915,
-      "token_accuracy": 0.0,
-      "top_5_token_accuracy": 0.0078125
+      "nll": 6.869833278656006,
+      "perplexity": 962.7880351152426,
+      "bits_per_token": 9.911074402850987,
+      "token_accuracy": 0.109375,
+      "top_5_token_accuracy": 0.2578125
     },
     "routing": {
       "average_recursion_depth": 3.0,
       "depth_counts": {
         "1": 0,
         "2": 0,
-        "3": 512
+        "3": 1280
       },
       "depth_fractions": {
         "1": 0.0,
         "2": 0.0,
         "3": 1.0
       },
-      "average_router_entropy": 1.0985761880874634
+      "average_router_entropy": 0.8247105121612549
     },
     "lte": {
       "average_active_bins": 8.0,
       "active_fraction": 1.0
     },
     "efficiency": {
-      "evaluation_tokens": 512,
-      "forward_seconds": 0.28166189999319613,
-      "tokens_per_second": 1817.7822418025582,
-      "milliseconds_per_token": 0.5501208984242112,
-      "peak_memory_mb": null
+      "evaluation_tokens": 1280,
+      "forward_seconds": 1.2248615400167182,
+      "tokens_per_second": 1045.016075843584,
+      "milliseconds_per_token": 0.9569230781380611,
+      "peak_memory_mb": 372.123046875
     }
   },
   "quality": {
-    "nll": 10.636948108673096,
-    "perplexity": 41645.47959922731,
-    "bits_per_token": 15.345872286575915,
-    "token_accuracy": 0.0,
-    "top_5_token_accuracy": 0.0078125
+    "nll": 6.869833278656006,
+    "perplexity": 962.7880351152426,
+    "bits_per_token": 9.911074402850987,
+    "token_accuracy": 0.109375,
+    "top_5_token_accuracy": 0.2578125
   },
   "quality_change": {
     "nll_change": 0.0,
@@ -177,30 +177,30 @@
     "depth_counts": {
       "1": 0,
       "2": 0,
-      "3": 512
+      "3": 1280
     },
     "depth_fractions": {
       "1": 0.0,
       "2": 0.0,
       "3": 1.0
     },
-    "average_router_entropy": 1.0985761880874634
+    "average_router_entropy": 0.8247105121612549
   },
   "lte": {
     "average_active_bins": 8.0,
     "active_fraction": 1.0
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.28166189999319613,
-    "tokens_per_second": 1817.7822418025582,
-    "milliseconds_per_token": 0.5501208984242112,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 1.2248615400167182,
+    "tokens_per_second": 1045.016075843584,
+    "milliseconds_per_token": 0.9569230781380611,
+    "peak_memory_mb": 372.123046875
   },
-  "throughput_change": 0.024031294196869224,
+  "throughput_change": -0.4185564239387476,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256,
     "chunk_size": 64
   },

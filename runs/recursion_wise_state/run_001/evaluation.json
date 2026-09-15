@@ -2,11 +2,11 @@
   "identity": {
     "technique": "recursion_wise_state",
     "model_type": "recursion_wise_state_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/recursion_wise_state/run_001/checkpoints/step_0000200.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001/checkpoints/step_0000200.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "recursion_wise_state_mamba",
@@ -20,17 +20,17 @@
     "dynamic_routing": false,
     "recursion_wise_state": true,
     "vocab_size": 49152,
-    "d_model": 256,
+    "d_model": 448,
     "d_state": 16,
     "expand": 2,
     "d_conv": 4,
     "max_seq_len": 256
   },
   "parameters": {
-    "total_parameters": 14335232,
-    "trainable_parameters": 14335232,
-    "embedding_parameters": 12582912,
-    "non_embedding_parameters": 1752320
+    "total_parameters": 27237056,
+    "trainable_parameters": 27237056,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 5216960
   },
   "initialization": {
     "strategy": "copy_parent_weights",
@@ -41,17 +41,35 @@
     "num_recursions": 3
   },
   "training": {
-    "completed_steps": 1,
-    "training_tokens": 8192,
-    "final_training_loss": 10.219886422157288,
-    "training_seconds": 266.51893359999667,
-    "training_tokens_per_second": 30.7370282829321,
+    "completed_steps": 200,
+    "training_tokens": 409600,
+    "final_training_loss": 6.445032179355621,
+    "training_seconds": 4374.251504708,
+    "training_tokens_per_second": 93.63887731630159,
     "validation_history": [
       {
-        "nll": 10.38366985321045,
-        "perplexity": 32327.380810034632,
-        "tokens": 512,
-        "step": 1
+        "nll": 6.911106967926026,
+        "perplexity": 1003.3573121339165,
+        "tokens": 1280,
+        "step": 50
+      },
+      {
+        "nll": 6.897565937042236,
+        "perplexity": 989.8623935387537,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 6.865531539916992,
+        "perplexity": 958.6552679425058,
+        "tokens": 1280,
+        "step": 150
+      },
+      {
+        "nll": 6.79930534362793,
+        "perplexity": 897.2238128849472,
+        "tokens": 1280,
+        "step": 200
       }
     ]
   },
@@ -68,33 +86,33 @@
     "share_block_weights": true,
     "share_state_across_recursions": false,
     "reset_state_between_sequences": true,
-    "ssm_state_elements": 98304,
-    "conv_state_elements": 24576,
-    "theoretical_shared_state_memory_mb": 0.46875
+    "ssm_state_elements": 86016,
+    "conv_state_elements": 21504,
+    "theoretical_shared_state_memory_mb": 0.41015625
   },
   "quality": {
-    "validation_loss": 10.38366985321045,
-    "nll": 10.38366985321045,
-    "perplexity": 32327.380810034632,
-    "bits_per_token": 14.980469003454946,
-    "token_accuracy": 0.025390625,
-    "top_5_token_accuracy": 0.06640625
+    "validation_loss": 6.79930534362793,
+    "nll": 6.79930534362793,
+    "perplexity": 897.2238128849472,
+    "bits_per_token": 9.809324100741843,
+    "token_accuracy": 0.1203125,
+    "top_5_token_accuracy": 0.24765625
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.30141059999732533,
-    "tokens_per_second": 1698.6794757866624,
-    "milliseconds_per_token": 0.588692578119776,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.36434250100137433,
+    "tokens_per_second": 3513.177838111101,
+    "milliseconds_per_token": 0.2846425789073237,
+    "peak_memory_mb": 472.05859375
   },
   "storage": {
-    "model_weight_memory_mb": 54.6845703125,
-    "checkpoint_size_mb": 164.10548877716064
+    "model_weight_memory_mb": 103.901123046875,
+    "checkpoint_size_mb": 311.7554521560669
   },
   "benchmarks": null,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256
   }
 }

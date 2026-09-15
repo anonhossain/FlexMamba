@@ -2,7 +2,7 @@
   "status": "completed",
   "stage": "s07",
   "technique": "grouped_lte",
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_002\\checkpoints\\step_0000001.pt",
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt",
-  "evaluation": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\evaluation.json"
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/dynamic_mor/run_001/checkpoints/step_0000300.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/checkpoints/step_0000300.pt",
+  "evaluation": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/evaluation.json"
 }

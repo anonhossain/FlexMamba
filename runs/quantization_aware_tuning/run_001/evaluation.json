@@ -2,11 +2,11 @@
   "identity": {
     "technique": "quantization_aware_tuning",
     "model_type": "qat_joint_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\turboquant_state\\run_001\\checkpoints\\step_0000000.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/quantization_aware_tuning/run_001/checkpoints/step_0000150.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/turboquant_state/run_001/checkpoints/step_0000000.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "qat_joint_mamba",
@@ -50,17 +50,17 @@
     "qat_is_turboquant_extension": true
   },
   "parameters": {
-    "total_parameters": 13152531,
-    "trainable_parameters": 13152531,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 569619,
-    "lte_router_parameters": 4112,
-    "grouped_projection_parameters": 417792,
-    "dense_projection_equivalent_parameters": 1671168,
-    "grouped_parameter_savings": 1253376,
-    "overall_parameter_reduction": 0.08700431010695821,
-    "width_sensitive_parameters": 248832,
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384,
     "qat_trainable_parameters_added": 0,
     "state_quantizer_parameters": 0,
     "state_quantizer_count": 6,
@@ -68,31 +68,31 @@
   },
   "compression": {
     "bits": 8,
-    "full_precision_recurrent_mb": 0.375,
-    "quantized_recurrent_mb": 0.09375,
-    "conv_state_mb": 0.09375,
-    "full_state_total_mb": 0.46875,
-    "compressed_state_total_mb": 0.199310302734375,
+    "full_precision_recurrent_mb": 0.328125,
+    "quantized_recurrent_mb": 0.08203125,
+    "conv_state_mb": 0.08203125,
+    "full_state_total_mb": 0.41015625,
+    "compressed_state_total_mb": 0.184661865234375,
     "recurrent_compression_ratio": 4.0,
-    "total_state_compression_ratio": 2.3518603582912263,
-    "total_state_memory_reduction": 0.5748046875,
+    "total_state_compression_ratio": 2.221120475954388,
+    "total_state_memory_reduction": 0.5497767857142857,
     "physical_int8_storage_realized": true,
     "qat_forward_uses_fake_quantization": true
   },
   "parent_quantized": {
     "quality": {
-      "nll": 10.658129692077637,
-      "perplexity": 42537.0054307829,
-      "bits_per_token": 15.376430851911822,
-      "token_accuracy": 0.0,
-      "top_5_token_accuracy": 0.0
+      "nll": 6.936451053619384,
+      "perplexity": 1029.1114650378236,
+      "bits_per_token": 10.007183536425712,
+      "token_accuracy": 0.0984375,
+      "top_5_token_accuracy": 0.240625
     },
     "routing": {
       "average_recursion_depth": 3.0,
       "depth_counts": {
         "1": 0,
         "2": 0,
-        "3": 64
+        "3": 640
       },
       "depth_fractions": {
         "1": 0.0,
@@ -106,37 +106,37 @@
     },
     "quantization": {
       "mode": "quantized",
-      "mse": 4.342628640165357e-11,
-      "mae": 1.2288702846419142e-06,
-      "clip_fraction": 0.0017948150634765625
+      "mse": 4.3421766486361315e-09,
+      "mae": 2.5697350819444053e-05,
+      "clip_fraction": 0.0017149788992745535
     },
     "efficiency": {
-      "evaluation_tokens": 64,
-      "forward_seconds": 0.1992696000088472,
-      "tokens_per_second": 321.17292350242343,
-      "milliseconds_per_token": 3.1135875001382374,
-      "peak_memory_mb": null
+      "evaluation_tokens": 640,
+      "forward_seconds": 4.971157333995507,
+      "tokens_per_second": 128.7426562871644,
+      "milliseconds_per_token": 7.767433334367979,
+      "peak_memory_mb": 475.81396484375
     }
   },
   "tuned_float": {
     "quality": {
-      "nll": 10.656285285949707,
-      "perplexity": 42458.6222247559,
-      "bits_per_token": 15.373769936337672,
-      "token_accuracy": 0.0,
-      "top_5_token_accuracy": 0.0
+      "nll": 6.949231719970703,
+      "perplexity": 1042.348604859505,
+      "bits_per_token": 10.025622140390015,
+      "token_accuracy": 0.09375,
+      "top_5_token_accuracy": 0.2453125
     },
     "routing": {
-      "average_recursion_depth": 3.0,
+      "average_recursion_depth": 2.996875,
       "depth_counts": {
-        "1": 0,
+        "1": 1,
         "2": 0,
-        "3": 64
+        "3": 639
       },
       "depth_fractions": {
-        "1": 0.0,
+        "1": 0.0015625,
         "2": 0.0,
-        "3": 1.0
+        "3": 0.9984375
       }
     },
     "lte": {
@@ -150,32 +150,32 @@
       "clip_fraction": 0.0
     },
     "efficiency": {
-      "evaluation_tokens": 64,
-      "forward_seconds": 0.05192640000313986,
-      "tokens_per_second": 1232.5137116405158,
-      "milliseconds_per_token": 0.8113500000490603,
-      "peak_memory_mb": null
+      "evaluation_tokens": 640,
+      "forward_seconds": 0.3988043759964057,
+      "tokens_per_second": 1604.7968340391733,
+      "milliseconds_per_token": 0.6231318374943839,
+      "peak_memory_mb": 385.4169921875
     }
   },
   "tuned_quantized": {
     "quality": {
-      "nll": 10.65628719329834,
-      "perplexity": 42458.70320822818,
-      "bits_per_token": 15.373772688060086,
-      "token_accuracy": 0.0,
-      "top_5_token_accuracy": 0.0
+      "nll": 6.9491924285888675,
+      "perplexity": 1042.3076503470509,
+      "bits_per_token": 10.02556545490829,
+      "token_accuracy": 0.09375,
+      "top_5_token_accuracy": 0.2453125
     },
     "routing": {
-      "average_recursion_depth": 3.0,
+      "average_recursion_depth": 2.996875,
       "depth_counts": {
-        "1": 0,
+        "1": 1,
         "2": 0,
-        "3": 64
+        "3": 639
       },
       "depth_fractions": {
-        "1": 0.0,
+        "1": 0.0015625,
         "2": 0.0,
-        "3": 1.0
+        "3": 0.9984375
       }
     },
     "lte": {
@@ -184,48 +184,48 @@
     },
     "quantization": {
       "mode": "quantized",
-      "mse": 4.387985064063623e-11,
-      "mae": 1.2295429897927572e-06,
-      "clip_fraction": 0.0017979939778645833
+      "mse": 3.820081412523827e-09,
+      "mae": 2.4550791825444796e-05,
+      "clip_fraction": 0.0010697319394066221
     },
     "efficiency": {
-      "evaluation_tokens": 64,
-      "forward_seconds": 0.18432479999319185,
-      "tokens_per_second": 347.2131802251454,
-      "milliseconds_per_token": 2.8800749998936226,
-      "peak_memory_mb": null
+      "evaluation_tokens": 640,
+      "forward_seconds": 5.041982709000877,
+      "tokens_per_second": 126.93419175307385,
+      "milliseconds_per_token": 7.87809798281387,
+      "peak_memory_mb": 385.4169921875
     }
   },
   "quality": {
-    "nll": 10.65628719329834,
-    "perplexity": 42458.70320822818,
-    "bits_per_token": 15.373772688060086,
-    "token_accuracy": 0.0,
-    "top_5_token_accuracy": 0.0
+    "nll": 6.9491924285888675,
+    "perplexity": 1042.3076503470509,
+    "bits_per_token": 10.02556545490829,
+    "token_accuracy": 0.09375,
+    "top_5_token_accuracy": 0.2453125
   },
   "quantization": {
     "mode": "quantized",
-    "mse": 4.387985064063623e-11,
-    "mae": 1.2295429897927572e-06,
-    "clip_fraction": 0.0017979939778645833
+    "mse": 3.820081412523827e-09,
+    "mae": 2.4550791825444796e-05,
+    "clip_fraction": 0.0010697319394066221
   },
   "quality_change": {
-    "quantized_vs_float_ppl_change": 0.08098347228224156,
-    "quantized_vs_float_relative_change": 1.9073504517775755e-06,
-    "qat_ppl_improvement_vs_parent": 78.30222255471745,
-    "qat_relative_improvement_vs_parent": 0.0018408024204273725
+    "quantized_vs_float_ppl_change": -0.040954512454163705,
+    "quantized_vs_float_relative_change": -3.929060993916123e-05,
+    "qat_ppl_improvement_vs_parent": -13.196185309227303,
+    "qat_relative_improvement_vs_parent": -0.012822892133207645
   },
   "routing": {
-    "average_recursion_depth": 3.0,
+    "average_recursion_depth": 2.996875,
     "depth_counts": {
-      "1": 0,
+      "1": 1,
       "2": 0,
-      "3": 64
+      "3": 639
     },
     "depth_fractions": {
-      "1": 0.0,
+      "1": 0.0015625,
       "2": 0.0,
-      "3": 1.0
+      "3": 0.9984375
     }
   },
   "lte": {
@@ -233,16 +233,16 @@
     "active_fraction": 1.0
   },
   "efficiency": {
-    "evaluation_tokens": 64,
-    "forward_seconds": 0.18432479999319185,
-    "tokens_per_second": 347.2131802251454,
-    "milliseconds_per_token": 2.8800749998936226,
-    "peak_memory_mb": null
+    "evaluation_tokens": 640,
+    "forward_seconds": 5.041982709000877,
+    "tokens_per_second": 126.93419175307385,
+    "milliseconds_per_token": 7.87809798281387,
+    "peak_memory_mb": 385.4169921875
   },
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
-    "sequence_tokens": 32
+    "evaluation_batches": 5,
+    "batch_size": 1,
+    "sequence_tokens": 128
   },
   "research_note": {
     "turboquant_original_qat": false,

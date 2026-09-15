@@ -1,0 +1,7 @@
+{
+  "status": "completed",
+  "stage": "s11",
+  "technique": "scaling_study",
+  "scale": "30m",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/scaling_study/30m/run_001/checkpoints/step_0000010.pt"
+}

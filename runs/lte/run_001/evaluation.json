@@ -2,11 +2,11 @@
   "identity": {
     "technique": "lte",
     "model_type": "lte_dynamic_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\lte\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_002\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/lte/run_001/checkpoints/step_0000150.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/dynamic_mor/run_001/checkpoints/step_0000300.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "lte_dynamic_mamba",
@@ -35,37 +35,37 @@
     "lte_target_active_fraction": 0.5,
     "lte_dense_compute_fallback": true,
     "vocab_size": 49152,
-    "d_model": 256,
+    "d_model": 448,
     "d_state": 16,
     "expand": 2,
     "d_conv": 4,
     "max_seq_len": 256
   },
   "parameters": {
-    "total_parameters": 14405907,
-    "trainable_parameters": 14405907,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 1822995,
-    "lte_router_parameters": 4112,
-    "width_sensitive_parameters": 875520
+    "total_parameters": 27446739,
+    "trainable_parameters": 27446739,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 5426643,
+    "lte_router_parameters": 7184,
+    "width_sensitive_parameters": 2607360
   },
   "active_parameters": {
-    "stored_parameters": 14405907,
-    "width_sensitive_parameters": 875520,
-    "fixed_parameters": 13530387,
+    "stored_parameters": 27446739,
+    "width_sensitive_parameters": 2607360,
+    "fixed_parameters": 24839379,
     "active_width_fraction": 1.0,
-    "theoretical_active_parameters": 14405907.0,
+    "theoretical_active_parameters": 27446739.0,
     "theoretical_active_parameter_fraction": 1.0,
     "stored_parameter_reduction": 0.0,
     "note": "LTE changes token-dependent active width, not stored model parameter count."
   },
   "initialization": {
     "strategy": "copy_parent_init_lte",
-    "transferred_parameter_count": 14401795,
-    "new_lte_router_parameters": 4112,
-    "total_parameter_count": 14405907,
-    "transferred_parameter_fraction": 0.999714561533682,
+    "transferred_parameter_count": 27439555,
+    "new_lte_router_parameters": 7184,
+    "total_parameter_count": 27446739,
+    "transferred_parameter_fraction": 0.999738256701461,
     "missing_lte_keys": [
       "model.backbone.layers.1.mixer.in_proj.lte_router.weight",
       "model.backbone.layers.1.mixer.in_proj.lte_router.bias",
@@ -75,17 +75,29 @@
     "unexpected_keys": []
   },
   "training": {
-    "completed_steps": 1,
-    "training_tokens": 8192,
-    "final_training_loss": 9.46517789363861,
-    "training_seconds": 266.1869841000007,
-    "training_tokens_per_second": 30.77535901200354,
+    "completed_steps": 150,
+    "training_tokens": 307200,
+    "final_training_loss": 6.371457576751709,
+    "training_seconds": 3225.708329082998,
+    "training_tokens_per_second": 95.2348968535945,
     "validation_history": [
       {
-        "nll": 9.91018295288086,
-        "perplexity": 20134.35729290925,
-        "tokens": 512,
-        "step": 1
+        "nll": 7.02607421875,
+        "perplexity": 1125.6030537004604,
+        "tokens": 1280,
+        "step": 50
+      },
+      {
+        "nll": 6.966772365570068,
+        "perplexity": 1060.7933659244334,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 6.892667770385742,
+        "perplexity": 985.0257376116988,
+        "tokens": 1280,
+        "step": 150
       }
     ]
   },
@@ -95,30 +107,30 @@
     "share_block_weights": true,
     "share_state_across_recursions": false,
     "reset_state_between_sequences": true,
-    "used_shared_state_memory_mb": 0.46875,
-    "allocated_cache_memory_mb": 0.9375
+    "used_shared_state_memory_mb": 0.41015625,
+    "allocated_cache_memory_mb": 0.8203125
   },
   "routing": {
     "router_type": "token_choice",
-    "average_recursion_depth": 2.984375,
+    "average_recursion_depth": 2.99375,
     "depth_counts": {
       "1": 4,
       "2": 0,
-      "3": 508
+      "3": 1276
     },
     "depth_fractions": {
-      "1": 0.0078125,
+      "1": 0.003125,
       "2": 0.0,
-      "3": 0.9921875
+      "3": 0.996875
     },
     "active_fraction_by_recursion": {
       "1": 1.0,
-      "2": 0.9921875,
-      "3": 0.9921875
+      "2": 0.996875,
+      "3": 0.996875
     },
-    "average_effective_layers": 7.96875,
-    "average_router_entropy": 1.0985596179962158,
-    "theoretical_recursive_compute_fraction": 0.9947916666666666,
+    "average_effective_layers": 7.9875,
+    "average_router_entropy": 0.5361282467842102,
+    "theoretical_recursive_compute_fraction": 0.9979166666666667,
     "routing_compute_savings_realized": false
   },
   "lte": {
@@ -128,9 +140,9 @@
     "target_active_fraction": 0.5,
     "average_active_bins": 8.0,
     "active_fraction": 1.0,
-    "soft_active_fraction": 0.9818946719169617,
+    "soft_active_fraction": 0.9716294169425964,
     "theoretical_width_reduction": 0.0,
-    "average_efficiency_loss": 0.23222258687019348,
+    "average_efficiency_loss": 0.22243758141994477,
     "per_layer_active_fraction": {
       "1": 1.0,
       "2": 1.0
@@ -139,36 +151,36 @@
     "sparse_compute_savings_realized": false
   },
   "compute": {
-    "recursive_core_depth_fraction": 0.9947916666666666,
+    "recursive_core_depth_fraction": 0.9979166666666667,
     "recursive_core_width_fraction": 1.0,
-    "theoretical_joint_recursive_width_fraction": 0.9947916666666666,
-    "theoretical_joint_recursive_width_reduction": 0.00520833333333337,
+    "theoretical_joint_recursive_width_fraction": 0.9979166666666667,
+    "theoretical_joint_recursive_width_reduction": 0.002083333333333326,
     "realized_sparse_kernel": false,
     "note": "LTE masks channel contribution but the current generic implementation still performs dense Mamba operations. Width FLOP savings are therefore theoretical."
   },
   "quality": {
-    "validation_loss": 9.91018295288086,
-    "nll": 9.91018295288086,
-    "perplexity": 20134.35729290925,
-    "bits_per_token": 14.29737180042356,
-    "token_accuracy": 0.041015625,
-    "top_5_token_accuracy": 0.134765625
+    "validation_loss": 6.892667770385742,
+    "nll": 6.892667770385742,
+    "perplexity": 985.0257376116988,
+    "bits_per_token": 9.944017610830699,
+    "token_accuracy": 0.12578125,
+    "top_5_token_accuracy": 0.25234375
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.31423820000782143,
-    "tokens_per_second": 1629.337235216012,
-    "milliseconds_per_token": 0.6137464843902762,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.40614166702289367,
+    "tokens_per_second": 3151.6096572476226,
+    "milliseconds_per_token": 0.3172981773616357,
+    "peak_memory_mb": 474.329345703125
   },
   "storage": {
-    "model_weight_memory_mb": 54.95417404174805,
-    "checkpoint_size_mb": 164.92448902130127
+    "model_weight_memory_mb": 104.70100021362305,
+    "checkpoint_size_mb": 314.1652727127075
   },
   "benchmarks": null,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256
   }
 }

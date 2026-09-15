@@ -2,7 +2,7 @@
   "status": "completed",
   "stage": "s03",
   "technique": "recursion_wise_state",
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\checkpoints\\step_0000001.pt",
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_001\\checkpoints\\step_0000001.pt",
-  "evaluation": "C:\\files\\FlexMamba\\runs\\recursion_wise_state\\run_001\\evaluation.json"
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001/checkpoints/step_0000200.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/recursion_wise_state/run_001/checkpoints/step_0000200.pt",
+  "evaluation": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/recursion_wise_state/run_001/evaluation.json"
 }

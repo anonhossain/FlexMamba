@@ -1,0 +1,158 @@
+{
+  "identity": {
+    "technique": "dynamic_mor",
+    "model_type": "dynamic_recursive_mamba",
+    "scale": "30m",
+    "run": "run_001",
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/dynamic_mor/run_001/checkpoints/step_0000300.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/recursion_wise_state/run_001/checkpoints/step_0000200.pt",
+    "device": "mps"
+  },
+  "architecture": {
+    "architecture": "dynamic_mor_mamba",
+    "physical_layers": 4,
+    "min_effective_layers": 4,
+    "max_effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "output_layers": 1,
+    "min_recursions": 1,
+    "max_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "recursion_wise_state": true,
+    "dense_routing_fallback": true,
+    "vocab_size": 49152,
+    "d_model": 448,
+    "d_state": 16,
+    "expand": 2,
+    "d_conv": 4,
+    "max_seq_len": 256
+  },
+  "parameters": {
+    "total_parameters": 27439555,
+    "trainable_parameters": 27439555,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 5419459
+  },
+  "initialization": {
+    "strategy": "copy_parent_init_router",
+    "transferred_parameter_count": 27237056,
+    "new_router_parameter_count": 202499,
+    "total_parameter_count": 27439555,
+    "transferred_parameter_fraction": 0.99262017915378,
+    "missing_router_keys": [
+      "router.0.weight",
+      "router.0.bias",
+      "router.2.weight",
+      "router.2.bias"
+    ],
+    "unexpected_keys": []
+  },
+  "training": {
+    "completed_steps": 300,
+    "training_tokens": 614400,
+    "final_training_loss": 6.616875171661377,
+    "training_seconds": 6483.113812833002,
+    "training_tokens_per_second": 94.76927565020155,
+    "validation_history": [
+      {
+        "nll": 6.992544460296631,
+        "perplexity": 1088.4875689895616,
+        "tokens": 1280,
+        "step": 50
+      },
+      {
+        "nll": 6.925867748260498,
+        "perplexity": 1018.2774948847879,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 6.875010395050049,
+        "perplexity": 967.7854257103259,
+        "tokens": 1280,
+        "step": 150
+      },
+      {
+        "nll": 6.794725227355957,
+        "perplexity": 893.1238198895534,
+        "tokens": 1280,
+        "step": 200
+      },
+      {
+        "nll": 6.775194454193115,
+        "perplexity": 875.8496591152689,
+        "tokens": 1280,
+        "step": 250
+      },
+      {
+        "nll": 6.736067771911621,
+        "perplexity": 842.2423268215744,
+        "tokens": 1280,
+        "step": 300
+      }
+    ]
+  },
+  "state": {
+    "mode": "recursion_wise",
+    "state_banks": 3,
+    "share_block_weights": true,
+    "share_state_across_recursions": false,
+    "reset_state_between_sequences": true,
+    "used_shared_state_memory_mb": 0.41015625,
+    "allocated_cache_memory_mb": 0.8203125
+  },
+  "routing": {
+    "router_type": "token_choice",
+    "average_recursion_depth": 2.41171875,
+    "depth_counts": {
+      "1": 120,
+      "2": 513,
+      "3": 647
+    },
+    "depth_fractions": {
+      "1": 0.09375,
+      "2": 0.40078125,
+      "3": 0.50546875
+    },
+    "active_fraction_by_recursion": {
+      "1": 1.0,
+      "2": 0.90625,
+      "3": 0.50546875
+    },
+    "average_effective_layers": 6.8234375,
+    "average_router_entropy": 0.9912024021148682,
+    "theoretical_recursive_compute_fraction": 0.8039062499999999,
+    "theoretical_recursive_compute_reduction": 0.19609375000000007,
+    "routing_compute_savings_realized": false,
+    "note": "Current dense fallback computes each recursive Mamba cycle before masking token updates."
+  },
+  "quality": {
+    "validation_loss": 6.736067771911621,
+    "nll": 6.736067771911621,
+    "perplexity": 842.2423268215744,
+    "bits_per_token": 9.718091569628864,
+    "token_accuracy": 0.1328125,
+    "top_5_token_accuracy": 0.25703125
+  },
+  "efficiency": {
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.4086429980015964,
+    "tokens_per_second": 3132.3184448519523,
+    "milliseconds_per_token": 0.3192523421887472,
+    "peak_memory_mb": 475.777587890625
+  },
+  "storage": {
+    "model_weight_memory_mb": 104.6735954284668,
+    "checkpoint_size_mb": 314.07782459259033
+  },
+  "benchmarks": null,
+  "evaluation_setup": {
+    "evaluation_batches": 5,
+    "batch_size": 1,
+    "sequence_length": 256
+  }
+}

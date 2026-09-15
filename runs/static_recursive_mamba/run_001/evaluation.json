@@ -2,11 +2,11 @@
   "identity": {
     "technique": "static_recursive_mamba",
     "model_type": "recursive_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_003\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001/checkpoints/step_0000200.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mamba/run_001/checkpoints/step_0000500.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "static_recursive_mamba",
@@ -19,17 +19,17 @@
     "recursive": true,
     "dynamic_routing": false,
     "vocab_size": 49152,
-    "d_model": 256,
+    "d_model": 448,
     "d_state": 16,
     "expand": 2,
     "d_conv": 4,
     "max_seq_len": 256
   },
   "parameters": {
-    "total_parameters": 14335232,
-    "trainable_parameters": 14335232,
-    "embedding_parameters": 12582912,
-    "non_embedding_parameters": 1752320
+    "total_parameters": 27237056,
+    "trainable_parameters": 27237056,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 5216960
   },
   "initialization": {
     "strategy": "cycle_average",
@@ -56,22 +56,40 @@
     },
     "mapped_tensor_count": 43,
     "unexpected_keys": [],
-    "parent_parameter_count": 16087296,
-    "child_parameter_count": 14335232,
-    "parameter_reduction": 0.10890978819560482
+    "parent_parameter_count": 32453568,
+    "child_parameter_count": 27237056,
+    "parameter_reduction": 0.16073770378652974
   },
   "training": {
-    "completed_steps": 1,
-    "training_tokens": 8192,
-    "final_training_loss": 10.740280330181122,
-    "training_seconds": 262.09540689999994,
-    "training_tokens_per_second": 31.255793822917244,
+    "completed_steps": 200,
+    "training_tokens": 409600,
+    "final_training_loss": 6.427042126655579,
+    "training_seconds": 4270.443078499999,
+    "training_tokens_per_second": 95.91510587324647,
     "validation_history": [
       {
-        "nll": 10.610504150390625,
-        "perplexity": 40558.641754555225,
-        "tokens": 512,
-        "step": 1
+        "nll": 6.8439888000488285,
+        "perplexity": 938.2240690364586,
+        "tokens": 1280,
+        "step": 50
+      },
+      {
+        "nll": 6.909669685363769,
+        "perplexity": 1001.9162400274571,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 6.9019543647766115,
+        "perplexity": 994.2158786103655,
+        "tokens": 1280,
+        "step": 150
+      },
+      {
+        "nll": 6.832943248748779,
+        "perplexity": 927.9178904460189,
+        "tokens": 1280,
+        "step": 200
       }
     ]
   },
@@ -83,28 +101,28 @@
     "average_recursion_depth": 3.0
   },
   "quality": {
-    "validation_loss": 10.610504150390625,
-    "nll": 10.610504150390625,
-    "perplexity": 40558.641754555225,
-    "bits_per_token": 15.30772171910032,
-    "token_accuracy": 0.001953125,
-    "top_5_token_accuracy": 0.021484375
+    "validation_loss": 6.832943248748779,
+    "nll": 6.832943248748779,
+    "perplexity": 927.9178904460189,
+    "bits_per_token": 9.857853339645587,
+    "token_accuracy": 0.11953125,
+    "top_5_token_accuracy": 0.2515625
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.2656200000019453,
-    "tokens_per_second": 1927.5656953401487,
-    "milliseconds_per_token": 0.5187890625037994,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.36413949999951,
+    "tokens_per_second": 3515.1363694455627,
+    "milliseconds_per_token": 0.2844839843746172,
+    "peak_memory_mb": 260.81884765625
   },
   "storage": {
-    "model_weight_memory_mb": 54.6845703125,
-    "checkpoint_size_mb": 164.10548877716064
+    "model_weight_memory_mb": 103.901123046875,
+    "checkpoint_size_mb": 311.7554521560669
   },
   "benchmarks": null,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256
   }
 }

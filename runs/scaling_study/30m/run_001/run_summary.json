@@ -1,0 +1,180 @@
+{
+  "technique": "scaling_study",
+  "scale": "30m",
+  "debug": false,
+  "run": "run_001",
+  "run_dir": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/scaling_study/30m/run_001",
+  "completed_steps": 10,
+  "sequence_tokens": 128,
+  "tokens_per_step": 128,
+  "training_tokens": 1280,
+  "final_training_loss": 25.706003189086914,
+  "training_seconds": 31.122724166008993,
+  "seconds_per_step": 3.1122724166008995,
+  "tokens_per_second": 41.12750520078076,
+  "validation_history": [
+    {
+      "step": 1,
+      "nll": 27.80398941040039,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.5722000169695456e-09
+    },
+    {
+      "step": 2,
+      "nll": 27.65024185180664,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.6381341801190614e-09
+    },
+    {
+      "step": 3,
+      "nll": 27.499408721923828,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.703295222087168e-09
+    },
+    {
+      "step": 4,
+      "nll": 27.340280532836914,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.7759871796888534e-09
+    },
+    {
+      "step": 5,
+      "nll": 27.173404693603516,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.8622605608197492e-09
+    },
+    {
+      "step": 6,
+      "nll": 27.002304077148438,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 2.9442728218377194e-09
+    },
+    {
+      "step": 7,
+      "nll": 26.829526901245117,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 3.0324270318772387e-09
+    },
+    {
+      "step": 8,
+      "nll": 26.644229888916016,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 3.1204763594202207e-09
+    },
+    {
+      "step": 9,
+      "nll": 26.45209503173828,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 3.2101916938603737e-09
+    },
+    {
+      "step": 10,
+      "nll": 26.35456657409668,
+      "perplexity": 485165195.4097903,
+      "state_quantization_mse": 3.255739152615147e-09
+    }
+  ],
+  "final_validation": {
+    "step": 10,
+    "nll": 26.35456657409668,
+    "perplexity": 485165195.4097903,
+    "state_quantization_mse": 3.255739152615147e-09
+  },
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/scaling_study/30m/run_001/checkpoints/step_0000010.pt",
+  "parameter_report": {
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384,
+    "qat_trainable_parameters_added": 0,
+    "state_quantizer_parameters": 0,
+    "state_quantizer_count": 6,
+    "state_quantization_bits": 8,
+    "final_joint_parameters_added": 0
+  },
+  "architecture_report": {
+    "architecture": "flexmamba_scaling",
+    "physical_layers": 4,
+    "min_effective_layers": 4,
+    "max_effective_layers": 8,
+    "input_layers": 1,
+    "shared_middle_layers": 2,
+    "output_layers": 1,
+    "min_recursions": 1,
+    "max_recursions": 3,
+    "router_type": "token_choice",
+    "recursive": true,
+    "dynamic_routing": true,
+    "recursion_wise_state": true,
+    "dense_routing_fallback": true,
+    "grouped_parameterization": true,
+    "groups": 4,
+    "group_input_projection": true,
+    "group_ssm_projection": true,
+    "group_output_projection": true,
+    "channel_shuffle": true,
+    "lte_adaptive_width": true,
+    "lte_apply_to": "shared_middle",
+    "lte_layer_indices": [
+      1,
+      2
+    ],
+    "lte_num_bins": 8,
+    "lte_minimum_active_bins": 2,
+    "lte_maximum_active_bins": 8,
+    "lte_target_active_fraction": 0.5,
+    "lte_dense_compute_fallback": true,
+    "quantization_aware_tuning": true,
+    "state_quantization_target": "recurrent_ssm_state",
+    "state_quantization_bits": 8,
+    "fake_quantization": true,
+    "straight_through_estimator": true,
+    "quantizer_scales_frozen": true,
+    "quantization_applied_per_token": true,
+    "qat_is_turboquant_extension": true,
+    "final_joint": true,
+    "dynamic_recursive_depth": true,
+    "recurrent_state_quantization": true,
+    "quantization_aware_training": true,
+    "joint_optimization": true,
+    "new_architecture_mechanism": false,
+    "scaling_study": true,
+    "scaling_axis": "d_model",
+    "from_scratch_scaling": true
+  },
+  "scaling_plan": {
+    "name": "30m",
+    "target_parameters": 30000000,
+    "d_model": 448,
+    "absolute_error": 2677619,
+    "parameter_report": {
+      "stored_parameters": 23672787,
+      "physical_dense_equivalent_parameters": 27446739,
+      "unrolled_dense_equivalent_parameters": 32677619,
+      "recursive_parameter_savings": 5230880,
+      "grouped_parameter_savings": 3773952,
+      "stored_vs_unrolled_fraction": 0.7244342679924141,
+      "stored_reduction_vs_unrolled": 0.27556573200758594
+    },
+    "error_percent": 8.925396666666666,
+    "within_tolerance": false,
+    "requested_scale_name": "30m",
+    "planning_warning": "Nearest valid FlexMamba configuration differs from 30,000,000 by 8.93%. Using d_model=448 with 32,677,619 unrolled_dense_equivalent_parameters parameters."
+  },
+  "scale_parameter_report": {
+    "stored_parameters": 23672787,
+    "physical_dense_equivalent_parameters": 27446739,
+    "unrolled_dense_equivalent_parameters": 32677619,
+    "recursive_parameter_savings": 5230880,
+    "grouped_parameter_savings": 3773952,
+    "stored_vs_unrolled_fraction": 0.7244342679924141,
+    "stored_reduction_vs_unrolled": 0.27556573200758594
+  }
+}

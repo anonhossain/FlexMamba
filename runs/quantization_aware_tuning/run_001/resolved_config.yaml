@@ -9,13 +9,13 @@ parent:
   selected_run: auto
 experiment:
   project_name: FlexMamba
-  scale: 16m
+  scale: 30m
   seed: 42
   runs_root: runs
-  debug: true
+  debug: false
 model:
   vocab_size: 49152
-  d_model: 256
+  d_model: 448
   input_layers: 1
   shared_middle_layers: 2
   output_layers: 1
@@ -92,42 +92,49 @@ data:
   tokenizer_name: HuggingFaceTB/SmolLM-135M
   validation_docs: 2000
   shuffle_buffer: 5000
+  streaming: true
 training:
   enabled: true
-  batch_size: 2
-  grad_accum_steps: 1
-  max_steps: 1
-  sequence_tokens: 32
-  learning_rate: 0.0002
-  min_learning_rate: 2.0e-05
+  batch_size: 1
+  grad_accum_steps: 8
+  max_steps: 150
+  sequence_tokens: 128
+  learning_rate: 0.0001
+  min_learning_rate: 1.0e-05
   warmup_ratio: 0.05
   weight_decay: 0.05
   beta1: 0.9
   beta2: 0.95
   grad_clip: 1.0
-  log_every: 1
+  log_every: 10
+budget:
+  type: fixed_steps
+  tokens_per_step: 1024
+  training_tokens: 153600
 validation:
   enabled: true
-  eval_every: 1
-  eval_batches: 1
-  sequence_tokens: 32
+  eval_every: 50
+  eval_batches: 5
+  sequence_tokens: 128
 checkpoint:
   save_steps:
-  - 1
+  - 50
+  - 100
+  - 150
 evaluation:
   enabled: true
-  batch_size: 2
-  eval_batches: 1
-  sequence_tokens: 32
+  batch_size: 1
+  eval_batches: 5
+  sequence_tokens: 128
   run_benchmarks: false
 runtime:
-  parent_checkpoint: C:\files\FlexMamba\runs\turboquant_state\run_001\checkpoints\step_0000000.pt
+  parent_checkpoint: /Users/raihanrafi/Desktop/Anon/FlexMamba/runs/turboquant_state/run_001/checkpoints/step_0000000.pt
   parent_run_dir: null
   initialization_report:
     strategy: copy_s08_weights_reuse_quantizer_state
-    transferred_parameter_count: 13152531
+    transferred_parameter_count: 23672787
     new_trainable_parameters: 0
-    total_parameter_count: 13152531
+    total_parameter_count: 23672787
     transferred_parameter_fraction: 1.0
     quantizer_count: 6
     quantizer_scales_reused: true

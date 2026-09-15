@@ -2,7 +2,7 @@
   "status": "completed",
   "stage": "s09",
   "technique": "quantization_aware_tuning",
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\turboquant_state\\run_001\\checkpoints\\step_0000000.pt",
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_001\\checkpoints\\step_0000001.pt",
-  "evaluation": "C:\\files\\FlexMamba\\runs\\quantization_aware_tuning\\run_001\\evaluation.json"
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/turboquant_state/run_001/checkpoints/step_0000000.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/quantization_aware_tuning/run_001/checkpoints/step_0000150.pt",
+  "evaluation": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/quantization_aware_tuning/run_001/evaluation.json"
 }

@@ -1,0 +1,11 @@
+{
+  "step": 500,
+  "parameter_report": {
+    "total_parameters": 33566848,
+    "trainable_parameters": 33566848,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 11546752
+  },
+  "evaluation": null,
+  "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mor/run_001/checkpoints/step_0000500.pt"
+}

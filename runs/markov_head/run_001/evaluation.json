@@ -3,9 +3,9 @@
     "stage": "s12",
     "technique": "markov_head",
     "model_type": "flexmamba_markov",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\markov_head\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\final_joint\\run_001\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/markov_head/run_001/checkpoints/step_0000300.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/final_joint/run_001/checkpoints/step_0000300.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "flexmamba_markov_speculator",
@@ -25,39 +25,39 @@
     "dspark_inspired_flexmamba_adaptation": true
   },
   "parameters": {
-    "target_parameters": 13152531,
+    "target_parameters": 23672787,
     "target_trainable_parameters": 0,
-    "adapter_trainable_parameters": 5849377,
-    "parallel_drafter_parameters": 2703360,
+    "adapter_trainable_parameters": 6572065,
+    "parallel_drafter_parameters": 3425856,
     "markov_head_parameters": 3145728,
-    "confidence_head_parameters": 289,
-    "combined_parameters": 19001908,
-    "adapter_fraction_of_target": 0.44473394512432624,
+    "confidence_head_parameters": 481,
+    "combined_parameters": 30244852,
+    "adapter_fraction_of_target": 0.2776210929452455,
     "markov_rank": 32
   },
   "baseline": {
-    "generated_tokens": 16,
-    "seconds": 2.850118799993652,
-    "tokens_per_second": 5.613801080865695
+    "generated_tokens": 320,
+    "seconds": 226.67546779100667,
+    "tokens_per_second": 1.4117098913193287
   },
   "speculative": {
-    "generated_tokens": 16,
-    "seconds": 2.636611499998253,
-    "tokens_per_second": 6.068394983489453,
-    "rounds": 7,
-    "proposed_draft_tokens": 39,
-    "accepted_draft_tokens": 10,
-    "draft_acceptance_rate": 0.2564102564102564,
-    "accepted_tokens_per_draft": 1.4285714285714286,
-    "accepted_length_tau": 2.4285714285714284,
-    "rejected_draft_tokens": 29,
-    "draft_seconds": 1.2919670999835944,
-    "verification_seconds": 1.3446444000146585,
-    "average_draft_latency_ms": 184.56672856908492,
-    "average_verification_latency_ms": 192.0920571449512
+    "generated_tokens": 320,
+    "seconds": 199.26163225912023,
+    "tokens_per_second": 1.6059288302118861,
+    "rounds": 137,
+    "proposed_draft_tokens": 901,
+    "accepted_draft_tokens": 187,
+    "draft_acceptance_rate": 0.20754716981132076,
+    "accepted_tokens_per_draft": 1.364963503649635,
+    "accepted_length_tau": 2.3649635036496353,
+    "rejected_draft_tokens": 714,
+    "draft_seconds": 97.04054687905591,
+    "verification_seconds": 102.22108538006432,
+    "average_draft_latency_ms": 708.325159701138,
+    "average_verification_latency_ms": 746.1393093435352
   },
-  "speedup_ratio": 1.0809779142644036,
-  "peak_memory_mb": null,
+  "speedup_ratio": 1.137577090085448,
+  "peak_memory_mb": 283.585205078125,
   "quality_equivalence": {
     "verification_algorithm": "standard speculative rejection sampling",
     "target_distribution_preserved_by_algorithm": true,
@@ -66,9 +66,9 @@
     "note": "Sampling-mode outputs are not expected to be token-identical because baseline and speculative decoding consume random draws differently. The rejection-sampling correction preserves the target distribution."
   },
   "evaluation_setup": {
-    "eval_batches": 1,
-    "prompt_length": 32,
-    "generation_length": 16,
+    "eval_batches": 5,
+    "prompt_length": 64,
+    "generation_length": 64,
     "temperature": 1.0,
     "block_size": 7
   },

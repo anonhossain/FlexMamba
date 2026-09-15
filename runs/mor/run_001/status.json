@@ -2,7 +2,7 @@
   "status": "completed",
   "stage": "s00",
   "technique": "mor",
-  "scale": "16m",
-  "checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_001\\checkpoints\\step_0000001.pt",
-  "evaluation": "C:\\files\\FlexMamba\\runs\\mor\\run_001\\evaluation.json"
+  "scale": "30m",
+  "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mor/run_001/checkpoints/step_0000500.pt",
+  "evaluation": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mor/run_001/evaluation.json"
 }

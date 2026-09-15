@@ -1,43 +1,73 @@
 {
   "technique": "grouped_lte",
-  "scale": "16m",
-  "debug": true,
+  "scale": "30m",
+  "debug": false,
   "run": "run_001",
-  "run_dir": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001",
-  "completed_steps": 1,
-  "final_training_loss": 10.62570321559906,
-  "tokens_per_step": 8192,
-  "training_tokens": 8192,
-  "training_seconds": 288.99256840000453,
-  "seconds_per_step": 288.99256840000453,
-  "tokens_per_second": 28.346749694480625,
+  "run_dir": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001",
+  "completed_steps": 300,
+  "final_training_loss": 6.8498459458351135,
+  "tokens_per_step": 2048,
+  "training_tokens": 614400,
+  "training_seconds": 6501.259165334006,
+  "seconds_per_step": 21.670863884446685,
+  "tokens_per_second": 94.50476967232775,
   "validation_history": [
     {
-      "nll": 10.634366989135742,
-      "perplexity": 41538.12624371353,
-      "tokens": 512,
-      "step": 1
+      "nll": 7.353716850280762,
+      "perplexity": 1561.9914400777805,
+      "tokens": 1280,
+      "step": 50
+    },
+    {
+      "nll": 7.134347057342529,
+      "perplexity": 1254.3177237754371,
+      "tokens": 1280,
+      "step": 100
+    },
+    {
+      "nll": 6.989837741851806,
+      "perplexity": 1085.5453233212456,
+      "tokens": 1280,
+      "step": 150
+    },
+    {
+      "nll": 6.91450138092041,
+      "perplexity": 1006.7689081394296,
+      "tokens": 1280,
+      "step": 200
+    },
+    {
+      "nll": 6.873893737792969,
+      "perplexity": 966.7053442440451,
+      "tokens": 1280,
+      "step": 250
+    },
+    {
+      "nll": 6.838651847839356,
+      "perplexity": 933.230150025286,
+      "tokens": 1280,
+      "step": 300
     }
   ],
   "final_validation": {
-    "nll": 10.634366989135742,
-    "perplexity": 41538.12624371353,
-    "tokens": 512,
-    "step": 1
+    "nll": 6.838651847839356,
+    "perplexity": 933.230150025286,
+    "tokens": 1280,
+    "step": 300
   },
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_lte\\run_001\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/checkpoints/step_0000300.pt",
   "parameter_report": {
-    "total_parameters": 13152531,
-    "trainable_parameters": 13152531,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 569619,
-    "lte_router_parameters": 4112,
-    "grouped_projection_parameters": 417792,
-    "dense_projection_equivalent_parameters": 1671168,
-    "grouped_parameter_savings": 1253376,
-    "overall_parameter_reduction": 0.08700431010695821,
-    "width_sensitive_parameters": 248832
+    "total_parameters": 23672787,
+    "trainable_parameters": 23672787,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1652691,
+    "lte_router_parameters": 7184,
+    "grouped_projection_parameters": 1257984,
+    "dense_projection_equivalent_parameters": 5031936,
+    "grouped_parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.1375009249732728,
+    "width_sensitive_parameters": 720384
   },
   "architecture_report": {
     "architecture": "grouped_lte_dynamic_mamba",
@@ -72,20 +102,20 @@
     "lte_target_active_fraction": 0.5,
     "lte_dense_compute_fallback": true
   },
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_002\\checkpoints\\step_0000001.pt",
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/dynamic_mor/run_001/checkpoints/step_0000300.pt",
   "initialization_report": {
     "strategy": "initialize_combined_from_parent",
     "groups": 4,
-    "source_parent_parameters": 14401795,
-    "directly_copied_parameter_count": 12730627,
-    "grouped_parameters_initialized_from_parent": 417792,
-    "new_lte_router_parameters": 4112,
-    "child_parameter_count": 13152531,
-    "parent_derived_parameter_count": 13148419,
-    "parent_derived_fraction": 0.9996873605544059,
-    "grouped_parameter_savings": 1253376,
-    "dense_combined_equivalent_parameters": 14405907,
-    "stored_parameter_reduction_fraction": 0.08700431010695821,
+    "source_parent_parameters": 27439555,
+    "directly_copied_parameter_count": 22407619,
+    "grouped_parameters_initialized_from_parent": 1257984,
+    "new_lte_router_parameters": 7184,
+    "child_parameter_count": 23672787,
+    "parent_derived_parameter_count": 23665603,
+    "parent_derived_fraction": 0.9996965291834882,
+    "grouped_parameter_savings": 3773952,
+    "dense_combined_equivalent_parameters": 27446739,
+    "stored_parameter_reduction_fraction": 0.1375009249732728,
     "unexpected_keys": []
   },
   "grouping_report": {
@@ -93,12 +123,12 @@
     "groups": 4,
     "channel_shuffle": true,
     "grouped_projection_count": 12,
-    "dense_projection_parameters": 1671168,
-    "grouped_projection_parameters": 417792,
+    "dense_projection_parameters": 5031936,
+    "grouped_projection_parameters": 1257984,
     "projection_parameter_reduction": 0.75,
-    "parameter_savings": 1253376,
-    "grouped_model_parameters": 13152531,
-    "dense_combined_equivalent_parameters": 14405907,
-    "overall_parameter_reduction": 0.08700431010695821
+    "parameter_savings": 3773952,
+    "grouped_model_parameters": 23672787,
+    "dense_combined_equivalent_parameters": 27446739,
+    "overall_parameter_reduction": 0.1375009249732728
   }
 }

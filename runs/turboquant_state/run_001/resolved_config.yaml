@@ -9,13 +9,13 @@ parent:
   selected_run: auto
 experiment:
   project_name: FlexMamba
-  scale: 16m
+  scale: 30m
   seed: 42
   runs_root: runs
-  debug: true
+  debug: false
 model:
   vocab_size: 49152
-  d_model: 256
+  d_model: 448
   input_layers: 1
   shared_middle_layers: 2
   output_layers: 1
@@ -77,7 +77,7 @@ state_quantization:
   rotation: randomized_hadamard
   calibration_method: percentile
   calibration_percentile: 99.9
-  calibration_batches: 1
+  calibration_batches: 8
   max_samples_per_channel: 16384
   quantize_during_prefill: true
   quantize_during_decode: true
@@ -88,21 +88,22 @@ data:
   tokenizer_name: HuggingFaceTB/SmolLM-135M
   validation_docs: 2000
   shuffle_buffer: 5000
+  streaming: true
 training:
   enabled: false
-  batch_size: 2
+  batch_size: 1
 budget:
   type: calibration
-  calibration_batches: 1
+  calibration_batches: 8
 validation:
   enabled: true
-  eval_batches: 1
+  eval_batches: 5
 checkpoint:
   save_compression_state: true
 evaluation:
   enabled: true
-  batch_size: 2
-  eval_batches: 1
+  batch_size: 1
+  eval_batches: 5
   chunk_size: 64
   run_benchmarks: false
   collect:
@@ -114,11 +115,11 @@ evaluation:
     latency: true
     peak_memory: true
 runtime:
-  parent_checkpoint: C:\files\FlexMamba\runs\grouped_lte\run_001\checkpoints\step_0000001.pt
+  parent_checkpoint: /Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_lte/run_001/checkpoints/step_0000300.pt
   parent_run_dir: null
   initialization_report:
     strategy: copy_parent_add_state_quantization
-    transferred_parameter_count: 13152531
+    transferred_parameter_count: 23672787
     new_trainable_parameters: 0
-    total_parameter_count: 13152531
+    total_parameter_count: 23672787
     transferred_parameter_fraction: 1.0

@@ -1,36 +1,54 @@
 {
   "technique": "static_recursive_mamba",
-  "scale": "16m",
-  "debug": true,
+  "scale": "30m",
+  "debug": false,
   "run": "run_001",
-  "run_dir": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001",
-  "completed_steps": 1,
-  "final_training_loss": 10.740280330181122,
-  "tokens_per_step": 8192,
-  "training_tokens": 8192,
-  "training_seconds": 262.09540689999994,
-  "seconds_per_step": 262.09540689999994,
-  "tokens_per_second": 31.255793822917244,
+  "run_dir": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001",
+  "completed_steps": 200,
+  "final_training_loss": 6.427042126655579,
+  "tokens_per_step": 2048,
+  "training_tokens": 409600,
+  "training_seconds": 4270.443078499999,
+  "seconds_per_step": 21.352215392499993,
+  "tokens_per_second": 95.91510587324647,
   "validation_history": [
     {
-      "nll": 10.610504150390625,
-      "perplexity": 40558.641754555225,
-      "tokens": 512,
-      "step": 1
+      "nll": 6.8439888000488285,
+      "perplexity": 938.2240690364586,
+      "tokens": 1280,
+      "step": 50
+    },
+    {
+      "nll": 6.909669685363769,
+      "perplexity": 1001.9162400274571,
+      "tokens": 1280,
+      "step": 100
+    },
+    {
+      "nll": 6.9019543647766115,
+      "perplexity": 994.2158786103655,
+      "tokens": 1280,
+      "step": 150
+    },
+    {
+      "nll": 6.832943248748779,
+      "perplexity": 927.9178904460189,
+      "tokens": 1280,
+      "step": 200
     }
   ],
   "final_validation": {
-    "nll": 10.610504150390625,
-    "perplexity": 40558.641754555225,
-    "tokens": 512,
-    "step": 1
+    "nll": 6.832943248748779,
+    "perplexity": 927.9178904460189,
+    "tokens": 1280,
+    "step": 200
   },
-  "final_checkpoint": "C:\\files\\FlexMamba\\runs\\static_recursive_mamba\\run_001\\checkpoints\\step_0000001.pt",
+  "final_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001/checkpoints/step_0000200.pt",
   "parameter_report": {
-    "total_parameters": 14335232,
-    "trainable_parameters": 14335232,
-    "embedding_parameters": 12582912,
-    "non_embedding_parameters": 1752320
+    "total_parameters": 27237056,
+    "trainable_parameters": 27237056,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 5216960
   },
   "architecture_report": {
     "architecture": "static_recursive_mamba",
@@ -43,7 +61,7 @@
     "recursive": true,
     "dynamic_routing": false
   },
-  "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\mamba\\run_003\\checkpoints\\step_0000001.pt",
+  "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mamba/run_001/checkpoints/step_0000500.pt",
   "initialization_report": {
     "strategy": "cycle_average",
     "parent_layers": 8,
@@ -69,8 +87,8 @@
     },
     "mapped_tensor_count": 43,
     "unexpected_keys": [],
-    "parent_parameter_count": 16087296,
-    "child_parameter_count": 14335232,
-    "parameter_reduction": 0.10890978819560482
+    "parent_parameter_count": 32453568,
+    "child_parameter_count": 27237056,
+    "parameter_reduction": 0.16073770378652974
   }
 }

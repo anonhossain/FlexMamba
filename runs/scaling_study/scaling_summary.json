@@ -14,17 +14,17 @@
   },
   "results": [
     {
-      "scale": "16m",
-      "d_model": 256,
-      "base_equivalent_parameters": 16166195,
-      "stored_parameters": 13152531,
-      "stored_reduction": 0.18641764496840474,
-      "nll": 16.061613082885742,
-      "perplexity": 9450829.589691043,
+      "scale": "30m",
+      "d_model": 448,
+      "base_equivalent_parameters": 32677619,
+      "stored_parameters": 23672787,
+      "stored_reduction": 0.27556573200758594,
+      "nll": 26.002697944641113,
+      "perplexity": 485165195.4097903,
       "average_recursion": 3.0,
       "active_width": 1.0,
-      "tokens_per_second": 226.002745896718,
-      "state_memory_reduction": 0.549609375
+      "tokens_per_second": 127.53453878842943,
+      "state_memory_reduction": 0.5497767857142857
     }
   ]
 }

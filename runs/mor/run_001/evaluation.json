@@ -2,10 +2,10 @@
   "identity": {
     "technique": "mor",
     "model_type": "mor",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\mor\\run_001\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/mor/run_001/checkpoints/step_0000500.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "mor",
@@ -17,78 +17,102 @@
     "recursive": true,
     "dynamic_routing": true,
     "vocab_size": 49152,
-    "d_model": 256,
-    "n_heads": 4,
+    "d_model": 448,
+    "n_heads": 8,
     "n_kv_heads": 2,
-    "d_ff": 768,
+    "d_ff": 1344,
     "max_seq_len": 256
   },
   "parameters": {
-    "total_parameters": 16518656,
-    "trainable_parameters": 16518656,
-    "embedding_parameters": 12582912,
-    "non_embedding_parameters": 3935744
+    "total_parameters": 33566848,
+    "trainable_parameters": 33566848,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 11546752
   },
   "training": {
-    "completed_steps": 1,
-    "training_tokens": 8192,
-    "final_training_loss": 10.869787871837616,
-    "training_seconds": 16.229565200395882,
-    "training_tokens_per_second": 504.7578230746549,
+    "completed_steps": 500,
+    "training_tokens": 1024000,
+    "final_training_loss": 6.7917580008506775,
+    "training_seconds": 312.046395167,
+    "training_tokens_per_second": 3281.5633055205744,
     "validation_history": [
       {
-        "nll": 10.727991104125977,
-        "perplexity": 45614.96420804016,
-        "tokens": 512,
-        "step": 1
+        "nll": 7.327508354187012,
+        "perplexity": 1521.5857919679152,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 7.021681880950927,
+        "perplexity": 1120.6698669035363,
+        "tokens": 1280,
+        "step": 200
+      },
+      {
+        "nll": 6.880601692199707,
+        "perplexity": 973.2117575827815,
+        "tokens": 1280,
+        "step": 300
+      },
+      {
+        "nll": 6.788199520111084,
+        "perplexity": 887.3145307831658,
+        "tokens": 1280,
+        "step": 400
+      },
+      {
+        "nll": 6.752764701843262,
+        "perplexity": 856.4232474029168,
+        "tokens": 1280,
+        "step": 500
       }
     ]
   },
   "quality": {
-    "validation_loss": 10.727991104125977,
-    "nll": 10.727991104125977,
-    "perplexity": 45614.96420804016,
-    "bits_per_token": 15.477219564623462,
-    "token_accuracy": 0.00390625,
-    "top_5_token_accuracy": 0.0234375
+    "validation_loss": 6.752764701843262,
+    "nll": 6.752764701843262,
+    "perplexity": 856.4232474029168,
+    "bits_per_token": 9.742180147639314,
+    "token_accuracy": 0.11953125,
+    "top_5_token_accuracy": 0.25703125
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.08982049999758601,
-    "tokens_per_second": 5700.257736416078,
-    "milliseconds_per_token": 0.17543066405778518,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.09269991600012872,
+    "tokens_per_second": 13807.995252101658,
+    "milliseconds_per_token": 0.07242180937510057,
+    "peak_memory_mb": 224.861572265625
   },
   "recursion": {
     "configured_max_recursions": 3,
-    "average_recursion_depth": 1.8671875,
+    "average_recursion_depth": 1.9078125,
     "depth_histogram": {
-      "1": 238,
-      "2": 104,
-      "3": 170
+      "1": 440,
+      "2": 518,
+      "3": 322
     },
     "depth_fraction": {
-      "1": 0.46484375,
-      "2": 0.203125,
-      "3": 0.33203125
+      "1": 0.34375,
+      "2": 0.4046875,
+      "3": 0.2515625
     }
   },
   "routing": {
     "router_type": "token_choice",
-    "average_balance_loss": 1.0009183883666992,
-    "average_z_loss": 1.2191381454467773,
+    "average_balance_loss": 1.0176822423934937,
+    "average_z_loss": 0.08504213988780976,
     "router_hidden_mult": 1,
     "router_balance_coeff": 0.01,
     "router_z_loss_coeff": 0.001
   },
   "storage": {
-    "model_weight_memory_mb": 63.013671875,
-    "checkpoint_size_mb": 189.09933185577393
+    "model_weight_memory_mb": 128.04736328125,
+    "checkpoint_size_mb": 384.2007112503052
   },
   "benchmarks": null,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256,
     "same_validation_split": true
   }

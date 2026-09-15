@@ -1,0 +1,11 @@
+{
+  "step": 200,
+  "parameter_report": {
+    "total_parameters": 27237056,
+    "trainable_parameters": 27237056,
+    "embedding_parameters": 22020096,
+    "non_embedding_parameters": 5216960
+  },
+  "evaluation": null,
+  "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/static_recursive_mamba/run_001/checkpoints/step_0000200.pt"
+}

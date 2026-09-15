@@ -2,11 +2,11 @@
   "identity": {
     "technique": "grouped_parameter",
     "model_type": "grouped_dynamic_mamba",
-    "scale": "16m",
+    "scale": "30m",
     "run": "run_001",
-    "checkpoint": "C:\\files\\FlexMamba\\runs\\grouped_parameter\\run_001\\checkpoints\\step_0000001.pt",
-    "parent_checkpoint": "C:\\files\\FlexMamba\\runs\\dynamic_mor\\run_002\\checkpoints\\step_0000001.pt",
-    "device": "cpu"
+    "checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/grouped_parameter/run_001/checkpoints/step_0000150.pt",
+    "parent_checkpoint": "/Users/raihanrafi/Desktop/Anon/FlexMamba/runs/dynamic_mor/run_001/checkpoints/step_0000300.pt",
+    "device": "mps"
   },
   "architecture": {
     "architecture": "grouped_dynamic_mamba",
@@ -30,45 +30,45 @@
     "group_output_projection": true,
     "channel_shuffle": true,
     "vocab_size": 49152,
-    "d_model": 256,
+    "d_model": 448,
     "d_state": 16,
     "expand": 2,
     "d_conv": 4,
     "max_seq_len": 256
   },
   "parameters": {
-    "total_parameters": 13148419,
-    "trainable_parameters": 13148419,
-    "embedding_parameters": 12582912,
-    "router_parameters": 66563,
-    "non_embedding_parameters": 565507,
-    "grouped_projection_parameters": 417792,
-    "dense_parent_equivalent_parameters": 14401795,
-    "parameter_savings": 1253376,
-    "overall_parameter_reduction": 0.08702915157450859,
-    "non_embedding_parameter_reduction": 0.6890910520357825
+    "total_parameters": 23665603,
+    "trainable_parameters": 23665603,
+    "embedding_parameters": 22020096,
+    "router_parameters": 202499,
+    "non_embedding_parameters": 1645507,
+    "grouped_projection_parameters": 1257984,
+    "dense_parent_equivalent_parameters": 27439555,
+    "parameter_savings": 3773952,
+    "overall_parameter_reduction": 0.13753692434152084,
+    "non_embedding_parameter_reduction": 0.6963706155909658
   },
   "parameter_reduction": {
-    "parent_parameters": 14401795,
-    "grouped_parameters": 13148419,
-    "saved_parameters": 1253376,
-    "overall_reduction": 0.08702915157450859,
-    "parent_non_embedding_parameters": 1818883,
-    "grouped_non_embedding_parameters": 565507,
-    "non_embedding_reduction": 0.6890910520357825
+    "parent_parameters": 27439555,
+    "grouped_parameters": 23665603,
+    "saved_parameters": 3773952,
+    "overall_reduction": 0.13753692434152084,
+    "parent_non_embedding_parameters": 5419459,
+    "grouped_non_embedding_parameters": 1645507,
+    "non_embedding_reduction": 0.6963706155909658
   },
   "grouping": {
     "enabled": true,
     "groups": 4,
     "channel_shuffle": true,
     "grouped_projection_count": 12,
-    "dense_projection_parameters": 1671168,
-    "grouped_projection_parameters": 417792,
+    "dense_projection_parameters": 5031936,
+    "grouped_projection_parameters": 1257984,
     "projection_parameter_reduction": 0.75,
-    "parameter_savings": 1253376,
-    "parent_equivalent_parameters": 14401795,
-    "grouped_model_parameters": 13148419,
-    "overall_parameter_reduction": 0.08702915157450859
+    "parameter_savings": 3773952,
+    "parent_equivalent_parameters": 27439555,
+    "grouped_model_parameters": 23665603,
+    "overall_parameter_reduction": 0.13753692434152084
   },
   "compute": {
     "grouped_projection_dense_ratio": 0.25,
@@ -81,28 +81,40 @@
   "initialization": {
     "strategy": "group_parent_projections",
     "groups": 4,
-    "directly_copied_parameter_count": 12730627,
-    "grouped_parameters_initialized_from_parent": 417792,
-    "child_initialized_parameter_count": 13148419,
+    "directly_copied_parameter_count": 22407619,
+    "grouped_parameters_initialized_from_parent": 1257984,
+    "child_initialized_parameter_count": 23665603,
     "child_initialized_fraction": 1.0,
-    "parent_equivalent_parameter_count": 14401795,
-    "child_parameter_count": 13148419,
-    "parameter_savings": 1253376,
-    "parameter_reduction_fraction": 0.08702915157450859,
+    "parent_equivalent_parameter_count": 27439555,
+    "child_parameter_count": 23665603,
+    "parameter_savings": 3773952,
+    "parameter_reduction_fraction": 0.13753692434152084,
     "unexpected_keys": []
   },
   "training": {
-    "completed_steps": 1,
-    "training_tokens": 8192,
-    "final_training_loss": 10.623380064964294,
-    "training_seconds": 260.49428750001243,
-    "training_tokens_per_second": 31.447906511192148,
+    "completed_steps": 150,
+    "training_tokens": 307200,
+    "final_training_loss": 7.0445027351379395,
+    "training_seconds": 3290.8631817919995,
+    "training_tokens_per_second": 93.34936854856359,
     "validation_history": [
       {
-        "nll": 10.634366989135742,
-        "perplexity": 41538.12624371353,
-        "tokens": 512,
-        "step": 1
+        "nll": 7.341343212127685,
+        "perplexity": 1542.7830073759658,
+        "tokens": 1280,
+        "step": 50
+      },
+      {
+        "nll": 7.185330772399903,
+        "perplexity": 1319.9257610894576,
+        "tokens": 1280,
+        "step": 100
+      },
+      {
+        "nll": 7.070440769195557,
+        "perplexity": 1176.6665583384126,
+        "tokens": 1280,
+        "step": 150
       }
     ]
   },
@@ -112,8 +124,8 @@
     "share_block_weights": true,
     "share_state_across_recursions": false,
     "reset_state_between_sequences": true,
-    "used_shared_state_memory_mb": 0.46875,
-    "allocated_cache_memory_mb": 0.9375
+    "used_shared_state_memory_mb": 0.41015625,
+    "allocated_cache_memory_mb": 0.8203125
   },
   "routing": {
     "router_type": "token_choice",
@@ -121,7 +133,7 @@
     "depth_counts": {
       "1": 0,
       "2": 0,
-      "3": 512
+      "3": 1280
     },
     "depth_fractions": {
       "1": 0.0,
@@ -134,35 +146,35 @@
       "3": 1.0
     },
     "average_effective_layers": 8.0,
-    "average_router_entropy": 1.098576307296753,
+    "average_router_entropy": 1.0630889415740967,
     "theoretical_recursive_compute_fraction": 1.0,
     "theoretical_recursive_compute_reduction": 0.0,
     "routing_compute_savings_realized": false,
     "note": "Current dense fallback computes each recursive Mamba cycle before masking token updates."
   },
   "quality": {
-    "validation_loss": 10.634366989135742,
-    "nll": 10.634366989135742,
-    "perplexity": 41538.12624371353,
-    "bits_per_token": 15.342148518219433,
-    "token_accuracy": 0.0,
-    "top_5_token_accuracy": 0.009765625
+    "validation_loss": 7.070440769195557,
+    "nll": 7.070440769195557,
+    "perplexity": 1176.6665583384126,
+    "bits_per_token": 10.200489834617578,
+    "token_accuracy": 0.0984375,
+    "top_5_token_accuracy": 0.23671875
   },
   "efficiency": {
-    "evaluation_tokens": 512,
-    "forward_seconds": 0.2747751999995671,
-    "tokens_per_second": 1863.3413787008674,
-    "milliseconds_per_token": 0.5366703124991545,
-    "peak_memory_mb": null
+    "evaluation_tokens": 1280,
+    "forward_seconds": 0.4087807919968327,
+    "tokens_per_second": 3131.262586354394,
+    "milliseconds_per_token": 0.31935999374752555,
+    "peak_memory_mb": 409.265869140625
   },
   "storage": {
-    "model_weight_memory_mb": 50.1572380065918,
-    "checkpoint_size_mb": 150.54335498809814
+    "model_weight_memory_mb": 90.2771110534668,
+    "checkpoint_size_mb": 270.9034013748169
   },
   "benchmarks": null,
   "evaluation_setup": {
-    "evaluation_batches": 1,
-    "batch_size": 2,
+    "evaluation_batches": 5,
+    "batch_size": 1,
     "sequence_length": 256
   }
 }
